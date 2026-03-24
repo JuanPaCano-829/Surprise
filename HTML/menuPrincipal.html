@@ -92,14 +92,27 @@
 
       <div id="cameraScreen" class="screen">
         <!-- Pantalla cámara -->
-        <div class="image-viewer">
-          <!-- Contenedor de imagen -->
-          <img
-            src="../Assets/pintura.webp"
-            alt="Pintura"
-            class="camera-image"
-          />
-          <!-- Imagen desde Assets -->
+        <div class="carousel-container">
+          <button class="carousel-btn prev-btn" id="prevBtn">&#10094;</button>
+
+          <div class="scene">
+            <div class="carousel" id="carousel">
+              <div class="carousel__cell">
+                <img src="../Assets/pintura.webp" alt="Pintura 1" />
+              </div>
+              <div class="carousel__cell">
+                <img src="../Assets/pintura.webp" alt="Pintura 2" />
+              </div>
+              <div class="carousel__cell">
+                <img src="../Assets/pintura.webp" alt="Pintura 3" />
+              </div>
+              <div class="carousel__cell">
+                <img src="../Assets/pintura.webp" alt="Pintura 4" />
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-btn next-btn" id="nextBtn">&#10095;</button>
         </div>
       </div>
 

@@ -205,3 +205,25 @@ window.addEventListener("load", () => {
 
   scatterParticles(); // Inicia partículas dispersas
 });
+
+// --- LÓGICA DEL CARRUSEL 3D (Cámara) ---
+const carousel = document.getElementById("carousel");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+
+let currentAngle = 0; // Ángulo inicial
+
+function rotateCarousel() {
+  // Aplicamos la rotación en el eje Y y empujamos la caja hacia atrás para que se vea bien centrado
+  carousel.style.transform = `translateZ(-190px) rotateY(${currentAngle}deg)`;
+}
+
+nextBtn.addEventListener("click", () => {
+  currentAngle -= 90; // Restamos 90 grados para girar a la siguiente imagen (como un cubo)
+  rotateCarousel();
+});
+
+prevBtn.addEventListener("click", () => {
+  currentAngle += 90; // Sumamos 90 grados para girar a la imagen anterior
+  rotateCarousel();
+});
