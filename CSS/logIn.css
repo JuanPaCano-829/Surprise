@@ -1,0 +1,290 @@
+* {
+  box-sizing: border-box;
+} /* Hace que padding y border se incluyan dentro del tamaño total de los elementos */
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(
+    circle at center,
+    #262744 0%,
+    #19192c 45%,
+    #131423 100%
+  );
+  overflow: hidden;
+} /* Quita márgenes, usa toda la altura de la pantalla, aplica la fuente y crea el fondo oscuro degradado */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+} /* Centra horizontal y verticalmente la tarjeta principal en toda la pantalla */
+
+.box {
+  position: relative;
+  width: 360px;
+  height: 130px;
+  transition:
+    width 0.45s ease,
+    height 0.45s ease,
+    transform 0.35s ease;
+} /* Define la tarjeta cerrada y anima suavemente su expansión o contracción */
+
+.box.active {
+  width: 430px;
+  height: 540px;
+} /* Cuando la tarjeta tiene la clase active se hace grande y muestra el formulario completo */
+
+.frame {
+  position: absolute;
+  border-radius: 22px;
+  pointer-events: none;
+  transition: all 0.45s ease;
+} /* Crea los marcos decorativos de fondo, redondeados y sin bloquear clics */
+
+.frame-cyan {
+  width: 100%;
+  height: 100%;
+  border: 4px solid #7ef2ff;
+  top: -8px;
+  left: -10px;
+  box-shadow: 0 0 22px rgba(126, 242, 255, 0.25);
+} /* Marco azul con glow suave, levemente desfasado para efecto 3D */
+
+.frame-pink {
+  width: 100%;
+  height: 100%;
+  border: 4px solid #ff4f8b;
+  bottom: -8px;
+  right: -10px;
+  box-shadow: 0 0 22px rgba(255, 79, 139, 0.22);
+} /* Marco rosa con glow suave, desfasado en sentido opuesto */
+
+.box:not(.active) .frame-cyan {
+  transform: translate(-6px, -4px) scale(1.02);
+} /* En estado cerrado el marco azul se separa un poco para que se note el efecto de capas */
+
+.box:not(.active) .frame-pink {
+  transform: translate(8px, 6px) scale(1.02);
+} /* En estado cerrado el marco rosa también se separa para dar profundidad */
+
+.login {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #24253a, #1c1d2f);
+  box-shadow:
+    0 28px 55px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+} /* Caja principal oscura con sombras externas e internas para dar volumen */
+
+.loginBx {
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  border-radius: 18px;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 17, 31, 0.96),
+    rgba(25, 26, 42, 0.98)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.35);
+  position: relative;
+  padding: 26px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} /* Caja interna más oscura donde vive el contenido real del login */
+
+.compact-trigger {
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 79, 139, 0.18),
+    rgba(126, 242, 255, 0.18)
+  );
+  color: #ffffff;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  padding: 22px 30px;
+  cursor: pointer;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.35),
+    inset 0 0 12px rgba(255, 255, 255, 0.04);
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+} /* Botón principal visible al inicio; representa la versión compacta del login */
+
+.compact-trigger:hover {
+  transform: scale(1.03);
+} /* Agranda levemente el botón cerrado al pasar el mouse */
+
+.form-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+} /* El formulario inicia oculto, desplazado y sin interacción mientras la tarjeta está cerrada */
+
+.box.active .form-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+} /* Al abrir la tarjeta el formulario aparece con animación y ya puede recibir clics */
+
+.box.active .compact-trigger {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+  position: absolute;
+} /* Cuando la tarjeta se abre, el botón compacto desaparece para dejar ver el formulario */
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+} /* Alinea el título a la izquierda y el botón de cerrar a la derecha */
+
+.title-row h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.9rem;
+  letter-spacing: 0.18em;
+  text-shadow: 0 0 10px rgba(255, 79, 139, 0.35);
+} /* Estiliza el título LOGIN con espacio entre letras y glow sutil */
+
+.close-btn {
+  border: none;
+  background: transparent;
+  color: #ff6b98;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+} /* Botón para cerrar la tarjeta abierta sin romper el diseño */
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.08);
+} /* Al pasar el mouse por el botón de cerrar se resalta suavemente */
+
+input {
+  width: 100%;
+  height: 58px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.72);
+  outline: none;
+  background: rgba(255, 255, 255, 0.03);
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 0 22px;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+} /* Estilo general de los inputs: redondeados, con borde claro y fondo oscuro translúcido */
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+} /* Hace que el placeholder sea visible pero más suave que el texto real */
+
+input:focus {
+  border-color: #7ef2ff;
+  box-shadow: 0 0 16px rgba(126, 242, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+} /* Resalta el input activo con color azul neón y sombra */
+
+.submit-btn {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a2d;
+  background: linear-gradient(90deg, #7fefff, #9fefff);
+  box-shadow: 0 10px 24px rgba(126, 242, 255, 0.28);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+} /* Botón principal de acceso con color celeste brillante */
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(126, 242, 255, 0.34);
+} /* Eleva levemente el botón y aumenta la sombra al pasar el mouse */
+
+.group {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+} /* Acomoda los links secundarios uno a cada lado y permite salto de línea si hace falta */
+
+.group a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+} /* Estilo general de los enlaces inferiores */
+
+.group a:last-child {
+  color: #ff4f8b;
+  font-weight: 600;
+} /* Resalta el enlace Sign up en rosa para diferenciarlo */
+
+.group a:hover {
+  transform: translateY(-1px);
+} /* Da un pequeño efecto al pasar el mouse por los links */
+
+.message {
+  min-height: 22px;
+  margin: 0;
+  color: #ff8dad;
+  font-size: 0.9rem;
+  text-align: center;
+} /* Reserva espacio para mensajes de error o validación y evita que salte el layout */
+
+@media (max-width: 520px) {
+  .box {
+    width: 320px;
+  }
+  .box.active {
+    width: 94vw;
+    height: 520px;
+  }
+  .title-row h2 {
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+  }
+  .compact-trigger {
+    font-size: 1.25rem;
+    padding: 20px 18px;
+  }
+} /* Ajusta tamaños para pantallas pequeñas sin romper el diseño */

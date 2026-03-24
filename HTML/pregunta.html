@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- Declara que el documento usa HTML5 -->
+<html lang="es">
+  <!-- Indica que el idioma principal del contenido es español -->
+  <head>
+    <!-- Contiene metadatos y enlaces a recursos externos -->
+    <meta charset="UTF-8" />
+    <!-- Permite usar acentos, emojis y caracteres especiales correctamente -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Hace que la página se adapte bien a celulares y pantallas pequeñas -->
+    <title>Pregunta</title>
+    <!-- Texto que aparece en la pestaña del navegador -->
+
+    <link rel="stylesheet" href="../CSS/pregunta.css" />
+    <!-- Conecta este HTML con tu archivo de estilos ubicado en la carpeta CSS -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Carga la fuente Poppins desde Google Fonts -->
+  </head>
+  <body>
+    <div class="question-container">
+      <!-- Contenedor principal de toda la sección: GIF, pregunta y botones -->
+      <img src="../Assets/Teddy.gif" alt="Teddy" class="local-gif" />
+      <!-- Muestra el GIF guardado en Assets con la clase local-gif -->
+
+      <div class="question">¿Estas lista para festejar tu cumpleaños?</div>
+      <!-- Texto principal de la pregunta -->
+
+      <div class="button-container">
+        <!-- Contenedor que agrupa ambos botones -->
+        <button class="btn" id="yesBtn">SIIIIII 🎂</button>
+        <!-- Botón afirmativo con id único para detectarlo en JavaScript -->
+        <button class="btn" id="noBtn">NO 😢</button>
+        <!-- Botón negativo con id único para moverlo al pasar el mouse -->
+      </div>
+    </div>
+
+    <script src="../JavaScript/pregunta.js"></script>
+    <!-- Conecta este HTML con tu archivo JavaScript ubicado en la carpeta JavaScript -->
+  </body>
+</html>

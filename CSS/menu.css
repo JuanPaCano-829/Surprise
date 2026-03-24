@@ -1,0 +1,262 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1f2035;
+  font-family: sans-serif;
+  overflow: hidden;
+  position: relative;
+  color: white;
+} /* Fondo general y centrado */
+
+#particleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+} /* Canvas de partículas detrás de todo */
+
+.container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+  width: 100%;
+} /* Contenedor principal encima del canvas */
+
+.screen {
+  display: none;
+  width: 100%;
+  min-height: 320px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+} /* Oculta pantallas por defecto */
+
+.screen.active {
+  display: flex;
+} /* Muestra solo la pantalla activa */
+
+.search {
+  width: 460px;
+  padding: 16px 24px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  font-size: 22px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  margin-top: 120px; /* 👈 ESTO la baja hacia abajo */
+}
+
+.timeline {
+  position: relative;
+  width: 420px;
+  padding-left: 30px;
+} /* Contenedor de línea del tiempo */
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: #8c7bff;
+  border-radius: 10px;
+} /* Línea vertical */
+
+.timeline-item {
+  position: relative;
+  margin: 30px 0;
+} /* Cada punto de la timeline */
+
+.dot {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  background: #c5b8ff;
+  border-radius: 50%;
+} /* Punto de la timeline */
+
+.content {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 14px 18px;
+  border-radius: 14px;
+  width: 300px;
+} /* Caja de contenido de evento */
+
+.chat-box {
+  width: 500px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+} /* Caja del chat */
+
+.message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 16px;
+} /* Estilo base de mensaje */
+
+.message.received {
+  background: #6d5cff;
+  align-self: flex-start;
+} /* Mensaje recibido */
+
+.message.sent {
+  background: #ffffff;
+  color: #222;
+  align-self: flex-end;
+} /* Mensaje enviado */
+
+.chat-input {
+  width: 500px;
+  margin-top: 12px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+} /* Input para escribir mensajes */
+
+.image-viewer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} /* Contenedor de imagen */
+
+.camera-image {
+  max-width: 460px;
+  max-height: 300px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+} /* Imagen de cámara */
+
+.achievements-list {
+  width: 500px;
+  height: 320px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-right: 8px;
+} /* Lista scrolleable de logros */
+
+.achievement-card {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 18px;
+  border-radius: 16px;
+  border-left: 6px solid #8c7bff;
+} /* Tarjeta simple de logro */
+
+.navigation {
+  width: 560px;
+  height: 95px;
+  background: #fff;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 22px;
+  z-index: 3;
+} /* Barra de navegación */
+
+.navigation ul {
+  display: flex;
+  width: 460px;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+} /* Distribución de iconos */
+
+.navigation ul li {
+  position: relative;
+  list-style: none;
+  width: 90px;
+  height: 90px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} /* Cada botón del menú */
+
+.navigation ul li a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  text-decoration: none;
+} /* Área clickeable */
+
+.navigation ul li a .icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  transition: 0.5s;
+  color: #222;
+  width: 100%;
+  height: 100%;
+} /* Iconos */
+
+.navigation ul li.active a .icon {
+  transform: translateY(-38px);
+} /* Eleva el icono activo */
+
+.indicator {
+  position: absolute;
+  top: -42px;
+  left: 55px;
+  width: 90px;
+  height: 90px;
+  background: #8c7bff;
+  border-radius: 50%;
+  border: 8px solid #1f2035;
+  transition: 0.5s;
+} /* Indicador circular */
+
+.indicator::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -26px;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border-top-right-radius: 24px;
+  box-shadow: 2px -12px 0 0 #1f2035;
+} /* Curva izquierda */
+
+.indicator::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -26px;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border-top-left-radius: 24px;
+  box-shadow: -2px -12px 0 0 #1f2035;
+} /* Curva derecha */

@@ -1,0 +1,149 @@
+<!doctype html>
+<!-- Documento HTML5 -->
+<html lang="es">
+  <!-- Idioma principal -->
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Soporte para caracteres especiales -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Responsive -->
+    <title>Menú Principal</title>
+    <!-- Título de la pestaña -->
+    <link rel="stylesheet" href="../CSS/menu.css" />
+    <!-- Conecta el CSS -->
+  </head>
+  <body>
+    <!-- Inicio del contenido visible -->
+
+    <canvas id="particleCanvas"></canvas>
+    <!-- Canvas donde se dibujan y animan las partículas -->
+
+    <div class="container">
+      <!-- Contenedor principal -->
+
+      <div id="homeScreen" class="screen active">
+        <!-- Pantalla home visible al inicio -->
+        <input
+          type="text"
+          class="search"
+          id="searchInput"
+          placeholder="Buscar..."
+        />
+        <!-- Barra de búsqueda para formar texto con partículas -->
+      </div>
+
+      <div id="calendarScreen" class="screen">
+        <!-- Pantalla calendario -->
+        <div class="timeline">
+          <!-- Línea del tiempo simple -->
+          <div class="timeline-item">
+            <span class="dot"></span>
+            <div class="content">Conocernos</div>
+          </div>
+          <!-- Evento 1 -->
+          <div class="timeline-item">
+            <span class="dot"></span>
+            <div class="content">Primera salida</div>
+          </div>
+          <!-- Evento 2 -->
+          <div class="timeline-item">
+            <span class="dot"></span>
+            <div class="content">Momentos especiales</div>
+          </div>
+          <!-- Evento 3 -->
+          <div class="timeline-item">
+            <span class="dot"></span>
+            <div class="content">Cumpleaños</div>
+          </div>
+          <!-- Evento 4 -->
+        </div>
+      </div>
+
+      <div id="chatScreen" class="screen">
+        <!-- Pantalla chat -->
+        <div class="chat-box" id="chatBox">
+          <!-- Caja donde aparecen mensajes -->
+          <div class="message received">Holiii 💜</div>
+          <!-- Mensaje inicial -->
+          <div class="message received">Escribe algo y presiona Enter</div>
+          <!-- Mensaje inicial -->
+        </div>
+        <input
+          type="text"
+          id="chatInput"
+          class="chat-input"
+          placeholder="Escribe un mensaje y presiona Enter..."
+        />
+        <!-- Input del chat -->
+      </div>
+
+      <div id="cameraScreen" class="screen">
+        <!-- Pantalla cámara -->
+        <div class="image-viewer">
+          <!-- Contenedor de imagen -->
+          <img
+            src="../Assets/pintura.webp"
+            alt="Pintura"
+            class="camera-image"
+          />
+          <!-- Imagen desde Assets -->
+        </div>
+      </div>
+
+      <div id="achievementsScreen" class="screen">
+        <!-- Pantalla logros -->
+        <div class="achievements-list">
+          <!-- Lista scrolleable de logros -->
+          <div class="achievement-card">🏆 Primer logro desbloqueado</div>
+          <!-- Logro 1 -->
+          <div class="achievement-card">🎖️ Mensaje enviado</div>
+          <!-- Logro 2 -->
+          <div class="achievement-card">📅 Evento especial visto</div>
+          <!-- Logro 3 -->
+          <div class="achievement-card">📷 Imagen descubierta</div>
+          <!-- Logro 4 -->
+          <div class="achievement-card">💬 Conversación iniciada</div>
+          <!-- Logro 5 -->
+          <div class="achievement-card">✨ Sorpresa explorada</div>
+          <!-- Logro 6 -->
+          <div class="achievement-card">🎂 Cumple visible</div>
+          <!-- Logro 7 -->
+          <div class="achievement-card">🔥 Explorador experto</div>
+          <!-- Logro 8 -->
+        </div>
+      </div>
+
+      <div class="navigation">
+        <!-- Barra de navegación inferior -->
+        <ul>
+          <!-- Lista de opciones -->
+          <li class="list active" data-screen="homeScreen">
+            <a href="#"><span class="icon">🏠</span></a>
+          </li>
+          <!-- Home -->
+          <li class="list" data-screen="calendarScreen">
+            <a href="#"><span class="icon">📅</span></a>
+          </li>
+          <!-- Calendario -->
+          <li class="list" data-screen="chatScreen">
+            <a href="#"><span class="icon">💬</span></a>
+          </li>
+          <!-- Chat -->
+          <li class="list" data-screen="cameraScreen">
+            <a href="#"><span class="icon">📷</span></a>
+          </li>
+          <!-- Cámara -->
+          <li class="list" data-screen="achievementsScreen">
+            <a href="#"><span class="icon">🏆</span></a>
+          </li>
+          <!-- Logros -->
+        </ul>
+        <div class="indicator"></div>
+        <!-- Indicador visual del botón activo -->
+      </div>
+    </div>
+
+    <script src="../JavaScript/menu.js"></script>
+    <!-- Conecta la lógica JS -->
+  </body>
+</html>
