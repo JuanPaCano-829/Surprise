@@ -227,36 +227,34 @@ body {
 
 .indicator {
   position: absolute;
-  top: -42px;
-  left: 55px;
+  top: -35px; /* Centra perfectamente el recorte verticalmente */
+  left: 55px; /* JS se encarga de mover esto */
   width: 90px;
   height: 90px;
-  background: #8c7bff;
+  background: #1f2035; /* AHORA ES BLANCO: Mismo color que la barra de navegación */
   border-radius: 50%;
-  border: 8px solid #1f2035;
+  border: 2px solid #1f2035; /* BORDE OSCURO: Mismo color que el fondo de la pantalla */
   transition: 0.5s;
-} /* Indicador circular */
+} /* Indicador circular principal */
 
 .indicator::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: -26px;
-  width: 24px;
-  height: 24px;
+  left: -30px; /* Empuja el cuadro exactamente fuera del borde izquierdo */
+  height: 22px;
   background: transparent;
-  border-top-right-radius: 24px;
-  box-shadow: 2px -12px 0 0 #1f2035;
-} /* Curva izquierda */
+  border-top-right-radius: 22px;
+  box-shadow: 1px -18px 0 0 #1f2035; /* Dibuja la curva oscura cóncava */
+} /* Curva de transición izquierda */
 
 .indicator::after {
   content: "";
   position: absolute;
   top: 50%;
-  right: -26px;
-  width: 24px;
-  height: 24px;
+  right: -30px; /* Empuja el cuadro exactamente fuera del borde derecho */
+  height: 22px;
   background: transparent;
-  border-top-left-radius: 24px;
-  box-shadow: -2px -12px 0 0 #1f2035;
-} /* Curva derecha */
+  border-top-left-radius: 22px;
+  box-shadow: -1px -18px 0 0 #1f2035; /* Dibuja la curva oscura cóncava */
+} /* Curva de transición derecha */
