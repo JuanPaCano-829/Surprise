@@ -59,9 +59,38 @@ body {
 
 .timeline {
   position: relative;
-  width: 420px;
-  padding-left: 30px;
-} /* Contenedor de línea del tiempo */
+  width: 460px;
+  padding-left: 35px;
+} /* Contenedor de línea del tiempo ajustado para dar más espacio al contenido */
+
+.timeline-wrapper {
+  max-height: 380px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 20px;
+  width: 500px;
+  display: flex;
+  justify-content: center;
+} /* Contenedor que limita la altura y activa el scroll interno solo para esta pantalla */
+
+.timeline-wrapper::-webkit-scrollbar {
+  width: 6px;
+} /* Define el ancho de la barra de scroll personalizada */
+
+.timeline-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+} /* Pista del scroll sutilmente transparente */
+
+.timeline-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(126, 242, 255, 0.3);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+} /* Control del scroll con color cyan semitransparente para mantener el tema neón */
+
+.timeline-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #7ef2ff;
+} /* El control del scroll brilla más cuando pasas el mouse por encima */
 
 .timeline::before {
   content: "";
@@ -70,31 +99,127 @@ body {
   top: 0;
   width: 4px;
   height: 100%;
-  background: #8c7bff;
+  background: linear-gradient(
+    to bottom,
+    rgba(126, 242, 255, 0),
+    #7ef2ff,
+    #ff4f8b,
+    rgba(255, 79, 139, 0)
+  );
   border-radius: 10px;
-} /* Línea vertical */
+} /* La línea vertical ahora es un haz de luz degradado que usa tus colores cyan y rosa */
 
 .timeline-item {
   position: relative;
-  margin: 30px 0;
-} /* Cada punto de la timeline */
+  margin: 40px 0;
+  cursor: pointer;
+} /* Separa cada evento y cambia el cursor para invitar a la interacción */
 
 .dot {
   position: absolute;
-  left: -28px;
-  top: 4px;
-  width: 16px;
-  height: 16px;
-  background: #c5b8ff;
+  left: -31.5px;
+  top: 15px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-} /* Punto de la timeline */
+  z-index: 2;
+} /* Base del punto de la línea de tiempo re-centrado sobre la nueva línea de luz */
+
+.cyan-glow {
+  background: #7ef2ff;
+  box-shadow:
+    0 0 10px #7ef2ff,
+    0 0 20px rgba(126, 242, 255, 0.6);
+  animation: pulseCyan 2s infinite ease-in-out;
+} /* Punto cyan con luz neón constante y animación de latido */
+
+.pink-glow {
+  background: #ff4f8b;
+  box-shadow:
+    0 0 10px #ff4f8b,
+    0 0 20px rgba(255, 79, 139, 0.6);
+  animation: pulsePink 2s infinite ease-in-out;
+} /* Punto rosa con luz neón constante y animación de latido */
+
+@keyframes pulseCyan {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 10px #7ef2ff,
+      0 0 20px rgba(126, 242, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.25);
+    box-shadow:
+      0 0 15px #7ef2ff,
+      0 0 35px #7ef2ff;
+  }
+} /* Animación que hace crecer sutilmente el punto y la luz cyan (efecto latido) */
+
+@keyframes pulsePink {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 10px #ff4f8b,
+      0 0 20px rgba(255, 79, 139, 0.4);
+  }
+  50% {
+    transform: scale(1.25);
+    box-shadow:
+      0 0 15px #ff4f8b,
+      0 0 35px #ff4f8b;
+  }
+} /* Animación que hace crecer sutilmente el punto y la luz rosa (efecto latido) */
 
 .content {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 14px 18px;
-  border-radius: 14px;
-  width: 300px;
-} /* Caja de contenido de evento */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  padding: 18px 22px;
+  border-radius: 16px;
+  width: 340px;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+} /* Efecto cristal puro: fondo ultra translúcido, desenfoque, borde sutil y volumen con sombras */
+
+.timeline-item:hover .content {
+  transform: translateY(-5px);
+  border-color: rgba(126, 242, 255, 0.4);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+} /* Al pasar el mouse, la tarjeta flota, su borde se ilumina levemente y la sombra crece */
+
+.content .date {
+  display: block;
+  font-size: 0.85rem;
+  color: #ff8dad;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+} /* Estiliza la pequeña fecha en rosa pastel para que destaque del resto del texto */
+
+.content h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.25rem;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+} /* Estiliza el título del evento, quitando márgenes extra y dándole un resplandor sutil */
+
+.content p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.4;
+} /* Estiliza la descripción haciéndola un poco más tenue para dar jerarquía visual */
 
 .chat-box {
   width: 500px;
