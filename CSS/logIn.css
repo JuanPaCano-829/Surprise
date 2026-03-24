@@ -26,12 +26,12 @@ body {
 .box {
   position: relative;
   width: 360px;
-  height: 130px;
+  height: 150px; /* Aumentamos 20px la altura para que el deslizador respire y no se corte */
   transition:
     width 0.45s ease,
     height 0.45s ease,
     transform 0.35s ease;
-} /* Define la tarjeta cerrada y anima suavemente su expansión o contracción */
+}
 
 .box.active {
   width: 430px;
@@ -105,32 +105,95 @@ body {
   align-items: center;
 } /* Caja interna más oscura donde vive el contenido real del login */
 
-.compact-trigger {
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 79, 139, 0.18),
-    rgba(126, 242, 255, 0.18)
-  );
-  color: #ffffff;
-  font-size: 1.55rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  padding: 22px 30px;
-  cursor: pointer;
-  box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.35),
-    inset 0 0 12px rgba(255, 255, 255, 0.04);
+/* --- NUEVOS ESTILOS DEL DESLIZADOR --- */
+.swipe-container {
+  position: absolute; /* Esto lo saca del flujo normal para que el formulario oculto no lo empuje */
+  top: 50%;
+  left: 50%;
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Lo centra perfectamente en medio de la caja */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition:
-    transform 0.25s ease,
-    opacity 0.25s ease;
-} /* Botón principal visible al inicio; representa la versión compacta del login */
+    opacity 0.35s ease,
+    transform 0.35s ease;
+  z-index: 10;
+}
 
-.compact-trigger:hover {
-  transform: scale(1.03);
-} /* Agranda levemente el botón cerrado al pasar el mouse */
+.box.active .swipe-container {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  pointer-events: none;
+}
 
+.swipe-track {
+  position: relative;
+  width: 250px; /* Ajustamos el ancho para que entre perfecto en la caja interior */
+  height: 56px; /* Ajustamos la altura para que no la corte el padding */
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.3),
+    inset 0 0 12px rgba(255, 255, 255, 0.04);
+}
+
+.swipe-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 48px; /* Ajustado proporcionalmente al nuevo tamaño del riel */
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #ff4f8b, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  z-index: 2;
+  box-shadow: 0 0 15px rgba(255, 79, 139, 0.6);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.swipe-handle:active {
+  cursor: grabbing;
+} /* Cambia el cursor a "agarrando" cuando se hace clic */
+
+.swipe-handle:hover {
+  box-shadow:
+    0 0 25px rgba(255, 79, 139, 0.8),
+    0 0 10px #ffffff;
+} /* Brilla un poco más al pasar el mouse por encima */
+
+.lock-icon {
+  font-size: 1.2rem;
+  user-select: none;
+} /* Icono del candado */
+
+.swipe-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+} /* Texto instructivo centrado en el riel */
+
+/* --- ESTILOS DEL FORMULARIO --- */
 .form-content {
   width: 100%;
   display: flex;
@@ -149,13 +212,6 @@ body {
   transform: translateY(0);
   pointer-events: auto;
 } /* Al abrir la tarjeta el formulario aparece con animación y ya puede recibir clics */
-
-.box.active .compact-trigger {
-  opacity: 0;
-  transform: scale(0.9);
-  pointer-events: none;
-  position: absolute;
-} /* Cuando la tarjeta se abre, el botón compacto desaparece para dejar ver el formulario */
 
 .title-row {
   display: flex;
@@ -283,8 +339,7 @@ input:focus {
     font-size: 1.5rem;
     letter-spacing: 0.12em;
   }
-  .compact-trigger {
-    font-size: 1.25rem;
-    padding: 20px 18px;
+  .swipe-track {
+    width: 250px;
   }
 } /* Ajusta tamaños para pantallas pequeñas sin romper el diseño */

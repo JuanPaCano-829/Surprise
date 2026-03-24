@@ -1,7 +1,6 @@
 import { validarLogin } from "../Backend/server.js"; // Importa la función validarLogin desde tu archivo en Backend
 
 const loginCard = document.getElementById("loginCard"); // Guarda una referencia a la tarjeta completa del login para poder abrirla o cerrarla
-const openLoginBtn = document.getElementById("openLoginBtn"); // Guarda el botón visible en el estado compacto para abrir el formulario
 const closeLoginBtn = document.getElementById("closeLoginBtn"); // Guarda el botón que cierra el formulario cuando está abierto
 const loginForm = document.getElementById("loginForm"); // Guarda el formulario para detectar el submit
 const usernameInput = document.getElementById("username"); // Guarda el input de username para leer su valor
@@ -9,6 +8,78 @@ const passwordInput = document.getElementById("password"); // Guarda el input de
 const loginMessage = document.getElementById("loginMessage"); // Guarda el párrafo donde se mostrarán errores o mensajes al usuario
 const signUpLink = document.getElementById("signUpLink"); // Guarda el link de sign up para controlar su comportamiento sin navegar
 
+// --- REFERENCIAS DEL DESLIZADOR ---
+const swipeHandle = document.getElementById("swipeHandle");
+const swipeTrack = document.getElementById("swipeTrack");
+const swipeText = document.getElementById("swipeText");
+
+let isDragging = false;
+let startX;
+let currentTranslate = 0;
+
+const trackWidth = 280; // Ancho total del riel
+const handleWidth = 56; // Ancho del botón + su margen
+const maxSlide = trackWidth - handleWidth; // Máxima distancia que puede recorrer
+const unlockThreshold = maxSlide * 0.85; // Se abre al llegar al 85% del recorrido
+
+// --- EVENTOS DEL DESLIZADOR ---
+swipeHandle.addEventListener("mousedown", dragStart);
+swipeHandle.addEventListener("touchstart", dragStart, { passive: true });
+
+window.addEventListener("mousemove", drag);
+window.addEventListener("touchmove", drag, { passive: false });
+
+window.addEventListener("mouseup", dragEnd);
+window.addEventListener("touchend", dragEnd);
+
+function dragStart(e) {
+  isDragging = true;
+  startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+  swipeHandle.style.transition = "none";
+  swipeText.style.transition = "none";
+} // Detecta el inicio del arrastre
+
+function drag(e) {
+  if (!isDragging) return;
+
+  if (e.type.includes("touch")) {
+    e.preventDefault();
+  }
+
+  const currentPosition = e.type.includes("mouse")
+    ? e.clientX
+    : e.touches[0].clientX;
+  const movement = currentPosition - startX;
+
+  currentTranslate = Math.max(0, Math.min(maxSlide, movement));
+  swipeHandle.style.transform = `translateX(${currentTranslate}px)`;
+  swipeText.style.opacity = 1 - currentTranslate / maxSlide;
+} // Detecta el movimiento mientras se arrastra
+
+function dragEnd() {
+  if (!isDragging) return;
+  isDragging = false;
+
+  swipeHandle.style.transition = "transform 0.3s ease";
+  swipeText.style.transition = "opacity 0.3s ease";
+
+  if (currentTranslate >= unlockThreshold) {
+    // Si llegó al final, abre el login
+    swipeHandle.style.transform = `translateX(${maxSlide}px)`;
+    swipeText.style.opacity = 0;
+
+    setTimeout(() => {
+      openLogin();
+    }, 200);
+  } else {
+    // Si no llegó, regresa al inicio
+    swipeHandle.style.transform = "translateX(0px)";
+    swipeText.style.opacity = 1;
+    currentTranslate = 0;
+  }
+} // Detecta cuando se suelta el arrastre y decide si abre o rebota
+
+// --- FUNCIONES DE APERTURA Y CIERRE ---
 function openLogin() {
   loginCard.classList.add("active"); // Agrega la clase active para abrir visualmente la tarjeta
   setTimeout(() => usernameInput.focus(), 260); // Espera un poco a que termine la animación y pone el cursor en username
@@ -18,9 +89,15 @@ function closeLogin() {
   loginCard.classList.remove("active"); // Quita la clase active para cerrar la tarjeta
   loginMessage.textContent = ""; // Limpia cualquier mensaje anterior
   loginForm.reset(); // Vacía los campos del formulario
-} // Cierra la tarjeta, limpia mensajes y vacía los campos del formulario
 
-openLoginBtn.addEventListener("click", openLogin); // Cuando el usuario hace clic en el botón compacto se abre el login
+  // Resetea el deslizador a su posición original al cerrar
+  setTimeout(() => {
+    swipeHandle.style.transform = "translateX(0px)";
+    swipeText.style.opacity = 1;
+    currentTranslate = 0;
+  }, 400);
+} // Cierra la tarjeta, limpia mensajes, vacía campos y resetea el deslizador
+
 closeLoginBtn.addEventListener("click", closeLogin); // Cuando el usuario hace clic en la X el login vuelve al estado cerrado
 
 loginForm.addEventListener("submit", (event) => {

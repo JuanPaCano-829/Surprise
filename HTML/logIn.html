@@ -1,57 +1,37 @@
-><!doctype html>
-<!-- Declara que el documento usa HTML5 -->
+<!doctype html>
 <html lang="es">
-  <!-- Define el idioma principal de la página -->
   <head>
-    <!-- Inicio de la sección de metadatos -->
     <meta charset="UTF-8" />
-    <!-- Permite usar acentos, ñ, emojis y caracteres especiales -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Hace que el diseño sea responsive en celular y tablet -->
     <title>Log In</title>
-    <!-- Título que aparece en la pestaña del navegador -->
-
     <link rel="stylesheet" href="../CSS/logIn.css" />
-    <!-- Conecta este archivo HTML con su hoja de estilos -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <!-- Optimiza la conexión temprana con Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Optimiza la carga de archivos de fuente desde otro dominio -->
     <link
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Carga la fuente Poppins -->
   </head>
   <body>
-    <!-- Todo lo visible en pantalla empieza aquí -->
-
     <main class="page">
-      <!-- Contenedor general centrado de toda la pantalla -->
       <section class="box" id="loginCard">
-        <!-- Tarjeta principal del login; arranca cerrada y luego se expande con JS -->
-
         <div class="frame frame-cyan"></div>
-        <!-- Marco decorativo azul detrás de la tarjeta -->
         <div class="frame frame-pink"></div>
-        <!-- Marco decorativo rosa detrás de la tarjeta -->
-
         <div class="login">
-          <!-- Contenedor visual interior del login -->
           <div class="loginBx">
-            <!-- Caja interna donde vive el contenido del login -->
-
-            <button class="compact-trigger" id="openLoginBtn" type="button">
-              ↪ LOGIN 💗
-            </button>
-            <!-- Botón visible cuando la caja está cerrada; al hacer clic abre el formulario -->
-
+            <div class="swipe-container" id="swipeContainer">
+              <div class="swipe-track" id="swipeTrack">
+                <div class="swipe-handle" id="swipeHandle">
+                  <span class="lock-icon">🔒</span>
+                </div>
+                <span class="swipe-text" id="swipeText"
+                  >Desliza para abrir 💗</span
+                >
+              </div>
+            </div>
             <form class="form-content" id="loginForm" novalidate>
-              <!-- Formulario principal; novalidate evita los mensajes nativos del navegador para controlar la experiencia con JS -->
               <div class="title-row">
-                <!-- Fila superior con título y botón para cerrar -->
                 <h2>↪ LOGIN 💗</h2>
-                <!-- Título visual del login -->
                 <button
                   class="close-btn"
                   id="closeLoginBtn"
@@ -60,7 +40,6 @@
                 >
                   ✕
                 </button>
-                <!-- Botón para volver a cerrar la tarjeta -->
               </div>
 
               <input
@@ -69,26 +48,18 @@
                 name="username"
                 placeholder="Username"
               />
-              <!-- Campo para el nombre de usuario -->
               <input
                 type="password"
                 id="password"
                 name="password"
                 placeholder="Password"
               />
-              <!-- Campo para la contraseña -->
-
               <button class="submit-btn" type="submit">Sign in</button>
-              <!-- Botón que envía el formulario -->
-
               <div class="group">
-                <!-- Contenedor de links secundarios -->
                 <a href="#" id="signUpLink">Sign up</a>
-                <!-- Link de registro que ahora mostrará un mensaje personalizado -->
               </div>
 
               <p class="message" id="loginMessage"></p>
-              <!-- Zona para mostrar mensajes de error o validación -->
             </form>
           </div>
         </div>
@@ -96,6 +67,5 @@
     </main>
 
     <script type="module" src="../JavaScript/logIn.js"></script>
-    <!-- Conecta este HTML con la lógica de apertura, cierre y redirección -->
   </body>
 </html>
