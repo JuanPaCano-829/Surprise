@@ -1,39 +1,24 @@
 <!doctype html>
-<!-- Documento HTML5 -->
 <html lang="es">
-  <!-- Idioma principal -->
   <head>
     <meta charset="UTF-8" />
-    <!-- Soporte para caracteres especiales -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Responsive -->
     <title>Menú Principal</title>
-    <!-- Título de la pestaña -->
     <link rel="stylesheet" href="../CSS/menu.css" />
-    <!-- Conecta el CSS -->
   </head>
   <body>
-    <!-- Inicio del contenido visible -->
-
     <canvas id="particleCanvas"></canvas>
-    <!-- Canvas donde se dibujan y animan las partículas -->
-
     <div class="container">
-      <!-- Contenedor principal -->
-
       <div id="homeScreen" class="screen active">
-        <!-- Pantalla home visible al inicio -->
         <input
           type="text"
           class="search"
           id="searchInput"
           placeholder="Buscar..."
         />
-        <!-- Barra de búsqueda para formar texto con partículas -->
       </div>
 
       <div id="calendarScreen" class="screen">
-        <!-- Pantalla calendario -->
         <div class="timeline-wrapper">
           <div class="timeline">
             <div class="timeline-item">
@@ -73,13 +58,9 @@
       </div>
 
       <div id="chatScreen" class="screen">
-        <!-- Pantalla chat -->
         <div class="chat-box" id="chatBox">
-          <!-- Caja donde aparecen mensajes -->
           <div class="message received">Holiii 💜</div>
-          <!-- Mensaje inicial -->
           <div class="message received">Escribe algo y presiona Enter</div>
-          <!-- Mensaje inicial -->
         </div>
         <input
           type="text"
@@ -87,11 +68,9 @@
           class="chat-input"
           placeholder="Escribe un mensaje y presiona Enter..."
         />
-        <!-- Input del chat -->
       </div>
 
       <div id="cameraScreen" class="screen">
-        <!-- Pantalla cámara -->
         <div class="carousel-container">
           <button class="carousel-btn prev-btn" id="prevBtn">&#10094;</button>
 
@@ -117,59 +96,89 @@
       </div>
 
       <div id="achievementsScreen" class="screen">
-        <!-- Pantalla logros -->
+        <audio
+          id="achievementSound"
+          src="../Assets/steam-achievement.mp3"
+        ></audio>
+
         <div class="achievements-list">
-          <!-- Lista scrolleable de logros -->
-          <div class="achievement-card">🏆 Primer logro desbloqueado</div>
-          <!-- Logro 1 -->
-          <div class="achievement-card">🎖️ Mensaje enviado</div>
-          <!-- Logro 2 -->
-          <div class="achievement-card">📅 Evento especial visto</div>
-          <!-- Logro 3 -->
-          <div class="achievement-card">📷 Imagen descubierta</div>
-          <!-- Logro 4 -->
-          <div class="achievement-card">💬 Conversación iniciada</div>
-          <!-- Logro 5 -->
-          <div class="achievement-card">✨ Sorpresa explorada</div>
-          <!-- Logro 6 -->
-          <div class="achievement-card">🎂 Cumple visible</div>
-          <!-- Logro 7 -->
-          <div class="achievement-card">🔥 Explorador experto</div>
-          <!-- Logro 8 -->
+          <div class="achievement-card">
+            <div class="achievement-header">🏆 Primer logro desbloqueado</div>
+            <div class="achievement-desc">
+              ¡Felicidades! Encontraste esta sección secreta de tu regalo.
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">🎖️ Mensaje enviado</div>
+            <div class="achievement-desc">
+              Te animaste a escribirme tu primer mensaje en nuestro chat
+              privado.
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">📅 Evento especial visto</div>
+            <div class="achievement-desc">
+              Recordaste con cariño uno de los momentos de nuestra línea del
+              tiempo.
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">📷 Imagen descubierta</div>
+            <div class="achievement-desc">
+              Exploraste la galería y viste nuestra obra de arte en 3D.
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">💬 Conversación iniciada</div>
+            <div class="achievement-desc">
+              Hablaste un ratito conmigo a través del simulador.
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">✨ Sorpresa explorada</div>
+            <div class="achievement-desc">
+              Navegaste por todas las pestañas de esta pequeña app hecha para
+              ti.
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">🎂 Cumple visible</div>
+            <div class="achievement-desc">
+              ¡Llegaste al día de tu cumpleaños y respondiste que sí a la
+              fiesta!
+            </div>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-header">🔥 Explorador experto</div>
+            <div class="achievement-desc">
+              Le diste clic a todo lo que se podía hacer clic. ¡Eres increíble!
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="navigation">
-        <!-- Barra de navegación inferior -->
         <ul>
-          <!-- Lista de opciones -->
           <li class="list active" data-screen="homeScreen">
             <a href="#"><span class="icon">🏠</span></a>
           </li>
-          <!-- Home -->
           <li class="list" data-screen="calendarScreen">
             <a href="#"><span class="icon">📅</span></a>
           </li>
-          <!-- Calendario -->
           <li class="list" data-screen="chatScreen">
             <a href="#"><span class="icon">💬</span></a>
           </li>
-          <!-- Chat -->
           <li class="list" data-screen="cameraScreen">
             <a href="#"><span class="icon">📷</span></a>
           </li>
-          <!-- Cámara -->
           <li class="list" data-screen="achievementsScreen">
             <a href="#"><span class="icon">🏆</span></a>
           </li>
-          <!-- Logros -->
         </ul>
         <div class="indicator"></div>
-        <!-- Indicador visual del botón activo -->
       </div>
     </div>
 
     <script src="../JavaScript/menu.js"></script>
-    <!-- Conecta la lógica JS -->
   </body>
 </html>

@@ -30,18 +30,37 @@ body {
   width: 100%;
 } /* Contenedor principal encima del canvas */
 
+/* --- ESTILOS DE LAS PANTALLAS --- */
 .screen {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  height: calc(
+    100% - 100px
+  ); /* Resta el alto de la barra de búsqueda y del menú */
   width: 100%;
-  min-height: 320px;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  top: 50px; /* Abajo de la barra de búsqueda */
+  left: 0;
+  z-index: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+
+  /* Flexbox configurado para que el contenido empiece desde arriba */
+  display: flex;
   flex-direction: column;
-} /* Oculta pantallas por defecto */
+  align-items: center;
+  padding-top: 20px;
+  justify-content: flex-start;
+}
 
 .screen.active {
-  display: flex;
-} /* Muestra solo la pantalla activa */
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+  transform: translateY(0);
+}
 
 .search {
   width: 460px;
@@ -53,8 +72,7 @@ body {
   display: block;
   margin: 0 auto;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-
-  margin-top: 120px; /* 👈 ESTO la baja hacia abajo */
+  margin-top: 120px;
 }
 
 .timeline {
@@ -261,47 +279,82 @@ body {
   font-size: 16px;
 } /* Input para escribir mensajes */
 
-.image-viewer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} /* Contenedor de imagen */
-
-.camera-image {
-  max-width: 460px;
-  max-height: 300px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-} /* Imagen de cámara */
-
+/* --- PANTALLA LOGROS --- */
 .achievements-list {
-  width: 500px;
-  height: 320px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding-right: 8px;
-} /* Lista scrolleable de logros */
+  gap: 15px;
+  padding: 0 20px 20px 20px;
+  overflow-y: auto;
+  width: 90%;
+  max-width: 500px;
+  margin-top: 0;
+}
 
 .achievement-card {
   background: rgba(255, 255, 255, 0.08);
   padding: 18px;
   border-radius: 16px;
   border-left: 6px solid #8c7bff;
-} /* Tarjeta simple de logro */
+  cursor: pointer;
+  transition:
+    all 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
 
+.achievement-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 15px rgba(140, 123, 255, 0.3);
+}
+
+.achievement-header {
+  font-weight: 600;
+  font-size: 16px;
+  color: white;
+  transition: margin-bottom 0.3s ease;
+}
+
+.achievement-desc {
+  max-height: 0;
+  opacity: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease,
+    margin-top 0.3s ease;
+}
+
+.achievement-card.expanded {
+  background: rgba(140, 123, 255, 0.15);
+  border-color: #7ef2ff;
+  box-shadow: 0 0 20px rgba(126, 242, 255, 0.4);
+}
+
+.achievement-card.expanded .achievement-desc {
+  max-height: 100px;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+/* --- BARRA DE NAVEGACIÓN --- */
 .navigation {
   width: 560px;
   height: 95px;
   background: #fff;
-  position: relative;
+  position: absolute; /* Cambiado a absolute para fijarlo abajo del contenedor */
+  bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 22px;
   z-index: 3;
-} /* Barra de navegación */
+}
 
 .navigation ul {
   display: flex;
@@ -309,7 +362,7 @@ body {
   justify-content: space-between;
   padding: 0;
   margin: 0;
-} /* Distribución de iconos */
+}
 
 .navigation ul li {
   position: relative;
@@ -320,7 +373,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-} /* Cada botón del menú */
+}
 
 .navigation ul li a {
   position: relative;
@@ -332,7 +385,7 @@ body {
   height: 100%;
   text-align: center;
   text-decoration: none;
-} /* Área clickeable */
+}
 
 .navigation ul li a .icon {
   position: relative;
@@ -344,45 +397,45 @@ body {
   color: #222;
   width: 100%;
   height: 100%;
-} /* Iconos */
+}
 
 .navigation ul li.active a .icon {
   transform: translateY(-38px);
-} /* Eleva el icono activo */
+}
 
 .indicator {
   position: absolute;
-  top: -35px; /* Centra perfectamente el recorte verticalmente */
-  left: 55px; /* JS se encarga de mover esto */
+  top: -35px;
+  left: 55px;
   width: 90px;
   height: 90px;
-  background: #1f2035; /* AHORA ES BLANCO: Mismo color que la barra de navegación */
+  background: #1f2035;
   border-radius: 50%;
-  border: 2px solid #1f2035; /* BORDE OSCURO: Mismo color que el fondo de la pantalla */
+  border: 2px solid #1f2035;
   transition: 0.5s;
-} /* Indicador circular principal */
+}
 
 .indicator::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: -30px; /* Empuja el cuadro exactamente fuera del borde izquierdo */
+  left: -30px;
   height: 22px;
   background: transparent;
   border-top-right-radius: 22px;
-  box-shadow: 1px -18px 0 0 #1f2035; /* Dibuja la curva oscura cóncava */
-} /* Curva de transición izquierda */
+  box-shadow: 1px -18px 0 0 #1f2035;
+}
 
 .indicator::after {
   content: "";
   position: absolute;
   top: 50%;
-  right: -30px; /* Empuja el cuadro exactamente fuera del borde derecho */
+  right: -30px;
   height: 22px;
   background: transparent;
   border-top-left-radius: 22px;
-  box-shadow: -1px -18px 0 0 #1f2035; /* Dibuja la curva oscura cóncava */
-} /* Curva de transición derecha */
+  box-shadow: -1px -18px 0 0 #1f2035;
+}
 
 /* --- ESTILOS DEL CARRUSEL 3D (Cámara) --- */
 .carousel-container {
@@ -398,15 +451,15 @@ body {
 .scene {
   width: 380px;
   height: 260px;
-  perspective: 1000px; /* Crea la ilusión de profundidad 3D */
+  perspective: 1000px;
 }
 
 .carousel {
   width: 100%;
   height: 100%;
   position: relative;
-  transform-style: preserve-3d; /* Permite que los hijos existan en un espacio 3D */
-  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animación suave al girar */
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform: translateZ(-190px) rotateY(0deg);
 }
 
@@ -419,7 +472,7 @@ body {
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(126, 242, 255, 0.3); /* Borde cyan tenue */
+  border: 2px solid rgba(126, 242, 255, 0.3);
 }
 
 .carousel__cell img {
@@ -428,7 +481,6 @@ body {
   object-fit: cover;
 }
 
-/* Colocamos cada imagen a 90 grados de diferencia empujándolas hacia afuera */
 .carousel__cell:nth-child(1) {
   transform: rotateY(0deg) translateZ(190px);
 }

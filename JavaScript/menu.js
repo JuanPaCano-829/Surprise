@@ -227,3 +227,25 @@ prevBtn.addEventListener("click", () => {
   currentAngle += 90; // Sumamos 90 grados para girar a la imagen anterior
   rotateCarousel();
 });
+
+// --- LÓGICA DE LOS LOGROS (Expansión y Audio) ---
+const achievementCards = document.querySelectorAll(".achievement-card");
+const achievementSound = document.getElementById("achievementSound");
+
+achievementCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    // 1. Alterna la clase 'expanded' para abrir o cerrar la descripción
+    card.classList.toggle("expanded");
+
+    // 2. Intenta reproducir el sonido si la tarjeta se está abriendo
+    if (card.classList.contains("expanded") && achievementSound) {
+      achievementSound.currentTime = 0; // Regresa el audio al inicio por si le da clics rápidos
+
+      // El método .play() devuelve una promesa. Usamos .catch() para que
+      // si el archivo no existe o el navegador bloquea el audio, la página no se rompa.
+      achievementSound.play().catch((error) => {
+        console.log("Audio no encontrado o bloqueado:", error);
+      });
+    }
+  });
+});
