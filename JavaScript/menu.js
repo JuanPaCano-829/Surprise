@@ -50,9 +50,7 @@ class Particle {
     this.driftY = (Math.random() - 0.5) * 0.35;
     this.alpha = 0.4 + Math.random() * 0.6;
     this.alphaDx = (Math.random() - 0.5) * 0.008;
-    // Si esta partícula forma parte de una letra
     this.inText = false;
-    // Pulso propio cuando está en texto
     this.pulse = 0;
     this.pulseSpeed = 0.04 + Math.random() * 0.04;
   }
@@ -94,10 +92,7 @@ class Particle {
       this.vy *= 0.88;
       this.x += this.vx;
       this.y += this.vy;
-      // Pulso suave cuando está formando la letra
-      if (this.inText) {
-        this.pulse += this.pulseSpeed;
-      }
+      if (this.inText) this.pulse += this.pulseSpeed;
     }
   }
   draw() {
@@ -105,28 +100,25 @@ class Particle {
     if (spaceMode) {
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(170, 150, 255, ${this.alpha})`;
+      ctx.fill();
     } else if (this.inText) {
-      // Partículas en la letra: más grandes, brillantes, con glow
       const pulseFactor = 1 + Math.sin(this.pulse) * 0.25;
       const r = (1.8 + Math.random() * 0.8) * pulseFactor;
-      ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
-      // Color más vivo — alterna entre blanco y cyan según pulso
       const brightness = 0.82 + Math.sin(this.pulse) * 0.18;
+      ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(220, 210, 255, ${brightness})`;
       ctx.fill();
-      // Glow: círculo más grande semitransparente encima
       ctx.beginPath();
       ctx.arc(this.x, this.y, r * 2.2, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(180, 150, 255, ${0.12 + Math.sin(this.pulse) * 0.06})`;
+      ctx.fill();
     } else {
-      // Partículas de fondo en modo texto: pequeñas y tenues
       ctx.arc(this.x, this.y, this.size * 0.6, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(140, 120, 200, 0.25)";
+      ctx.fill();
     }
-    ctx.fill();
   }
 }
-
 function initParticles() {
   particles = [];
   for (let i = 0; i < particleCount; i++) particles.push(new Particle());
@@ -138,12 +130,22 @@ function getTextPoints(text) {
   const offCtx = offCanvas.getContext("2d");
   offCanvas.width = canvas.width;
   offCanvas.height = canvas.height;
-  const fontSize = Math.min(160, Math.max(48, canvas.width / 10));
+
+  // Auto-ajustar font size para que quepa con margen lateral
+  const maxWidth = canvas.width * 0.82;
+  let fontSize = Math.min(110, Math.max(32, canvas.width / 12));
+  offCtx.font = `bold ${fontSize}px Arial`;
+  while (offCtx.measureText(text).width > maxWidth && fontSize > 20) {
+    fontSize -= 2;
+    offCtx.font = `bold ${fontSize}px Arial`;
+  }
+
   offCtx.fillStyle = "white";
   offCtx.textAlign = "center";
   offCtx.textBaseline = "middle";
-  offCtx.font = `bold ${fontSize}px Arial`;
-  offCtx.fillText(text, offCanvas.width / 2, offCanvas.height / 2 - 80);
+  const centerY = canvas.height * 0.38;
+  offCtx.fillText(text, offCanvas.width / 2, centerY);
+
   const imageData = offCtx.getImageData(
     0,
     0,
@@ -175,14 +177,14 @@ function updateTextTargets(text) {
     scatterParticles();
     return;
   }
-  spaceMode = false;
+  spaceMode = false; // salir del modo espacio antes de formar texto
   targetPoints = getTextPoints(cleanText);
   for (let i = 0; i < particles.length; i++) {
     if (i < targetPoints.length) {
       particles[i].tx = targetPoints[i].x;
       particles[i].ty = targetPoints[i].y;
       particles[i].inText = true;
-      particles[i].pulse = Math.random() * Math.PI * 2; // fase aleatoria
+      particles[i].pulse = Math.random() * Math.PI * 2;
     } else {
       particles[i].tx = Math.random() * canvas.width;
       particles[i].ty = Math.random() * canvas.height;
