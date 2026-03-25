@@ -201,7 +201,7 @@ input {
   outline: none;
   background: rgba(255,255,255,0.03);
   color: #fff;
-  font-size: clamp(0.9rem, 3.5vw, 1rem);
+  font-size: max(16px, clamp(0.9rem, 3.5vw, 1rem)); /* min 16px evita el zoom automático en iOS */
   padding: 0 22px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   -webkit-appearance: none;

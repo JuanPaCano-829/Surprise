@@ -27,8 +27,8 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  /* Padding bottom para que el contenido no quede bajo la nav */
-  padding-bottom: 130px;
+  /* Padding bottom para que el contenido no quede bajo la nav + home indicator de iPhone */
+  padding-bottom: calc(130px + env(safe-area-inset-bottom, 0px));
 }
 
 /* ---- PANTALLAS ---- */
@@ -344,11 +344,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 0 16px 130px;
+  padding: 0 16px calc(130px + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
   width: 100%;
   max-width: 500px;
-  max-height: calc(100vh - 140px);
+  /* 100dvh = viewport real sin barra de navegador (iOS Safari fix) */
+  max-height: calc(100dvh - 140px);
+  max-height: calc(100vh - 140px); /* fallback para navegadores viejos */
 }
 
 .achievements-list::-webkit-scrollbar {
@@ -427,15 +429,19 @@ body {
 /* ---- BARRA DE NAVEGACIÓN ---- */
 .navigation {
   width: min(560px, 96vw);
-  height: clamp(70px, 14vw, 95px);
+  /* La altura crece para incluir el espacio del home-indicator de iPhone */
+  height: calc(clamp(70px, 14vw, 95px) + env(safe-area-inset-bottom, 0px));
   background: #fff;
   position: fixed;
-  bottom: clamp(8px, 2vh, 20px);
+  /* En iPhones modernos usamos la zona segura; en otros se mantiene el valor original */
+  bottom: max(clamp(8px, 2vh, 20px), env(safe-area-inset-bottom, 8px));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  /* Empuja el contenido hacia arriba del home indicator */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   border-radius: 22px;
   z-index: 100;
 }
@@ -628,7 +634,7 @@ body {
   justify-content: flex-start;
   align-items: center;
   overflow-y: auto;
-  padding-bottom: 130px;
+  padding-bottom: calc(130px + env(safe-area-inset-bottom, 0px));
 }
 
 .letters-title {
