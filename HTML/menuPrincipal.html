@@ -2,53 +2,39 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Menú Principal</title>
     <link rel="stylesheet" href="../CSS/menu.css" />
   </head>
   <body>
     <canvas id="particleCanvas"></canvas>
     <div class="container">
-      <div id="homeScreen" class="screen active"></div>
-
-      <div id="calendarScreen" class="screen">
-        <div class="timeline-wrapper">
-          <div class="timeline">
-            <div class="timeline-item">
-              <span class="dot cyan-glow"></span>
-              <div class="content">
-                <span class="date">Día, Mes Año</span>
-                <h3>Conocernos</h3>
-                <p>El día que todo comenzó con un simple "hola".</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <span class="dot pink-glow"></span>
-              <div class="content">
-                <span class="date">Día, Mes Año</span>
-                <h3>Primera salida</h3>
-                <p>Esa tarde inolvidable donde no paramos de hablar.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <span class="dot cyan-glow"></span>
-              <div class="content">
-                <span class="date">Día, Mes Año</span>
-                <h3>Momentos especiales</h3>
-                <p>Cada viaje, cada risa y cada aventura juntos.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <span class="dot pink-glow"></span>
-              <div class="content">
-                <span class="date">Día, Mes Año</span>
-                <h3>Cumpleaños</h3>
-                <p>¡Celebrando un año más de tu hermosa vida!</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div id="homeScreen" class="screen active">
+        <p
+          id="homeHint"
+          style="
+            display: none;
+            position: fixed;
+            bottom: calc(
+              clamp(70px, 14vw, 95px) + clamp(8px, 2vh, 20px) + 20px
+            );
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(126, 242, 255, 0.9);
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            letter-spacing: 1px;
+            text-align: center;
+            pointer-events: none;
+            z-index: 50;
+            text-shadow: 0 0 12px rgba(126, 242, 255, 0.5);
+          "
+        ></p>
       </div>
+
+      <div id="calendarScreen" class="screen"></div>
 
       <div id="chatScreen" class="screen">
         <p class="letters-title">💌 Cartas para ti</p>
@@ -305,6 +291,10 @@ Reemplaza esto con tu poema o frase dedicada."
       </div>
     </div>
 
+    <script src="../JavaScript/home.js"></script>
+    <script src="../JavaScript/cartas.js"></script>
+    <script src="../JavaScript/galeria.js"></script>
+    <script src="../JavaScript/juego.js"></script>
     <script src="../JavaScript/menu.js"></script>
   </body>
 </html>
