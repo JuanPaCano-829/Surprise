@@ -6,8 +6,7 @@ const indicator = document.querySelector(".indicator");
 const screens = document.querySelectorAll(".screen");
 const canvas = document.getElementById("particleCanvas");
 const ctx = canvas.getContext("2d");
-const chatInput = document.getElementById("chatInput");
-const chatBox = document.getElementById("chatBox");
+// (chat reemplazado por cartas — no se usa chatInput/chatBox)
 
 // Ciclo automático de frases en Home
 const PHRASES = [
@@ -231,21 +230,98 @@ function activeLink() {
 }
 list.forEach((item) => item.addEventListener("click", activeLink));
 
-chatInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && chatInput.value.trim() !== "") {
-    const message = document.createElement("div");
-    message.classList.add("message", "sent");
-    message.textContent = chatInput.value.trim();
-    chatBox.appendChild(message);
-    sentMessages++;
-    chatInput.value = "";
-    if (sentMessages % 4 === 0) {
-      const sentList = chatBox.querySelectorAll(".message.sent");
-      if (sentList.length > 0) sentList[sentList.length - 1].remove();
-    }
-    chatBox.scrollTop = chatBox.scrollHeight;
+// ── Lógica de cartas selladas ──────────────────────────────────────────
+function initLetters() {
+  const envelopes = document.querySelectorAll(".envelope");
+  if (!envelopes.length) return;
+
+  // Crear overlay
+  let overlay = document.getElementById("letterOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "letterOverlay";
+    overlay.className = "letter-overlay";
+    document.body.appendChild(overlay);
   }
-});
+
+  // Crear modal único en body (evita problemas de position:fixed dentro de transform)
+  let modal = document.getElementById("letterModal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "letterModal";
+    modal.className = "envelope-letter";
+    modal.innerHTML = `
+      <div class="letter-content">
+        <p class="letter-text" id="modalText"></p>
+        <p class="letter-sign" id="modalSign"></p>
+      </div>
+      <button class="letter-close" id="modalClose">Cerrar ✕</button>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  const modalText = document.getElementById("modalText");
+  const modalSign = document.getElementById("modalSign");
+  const modalClose = document.getElementById("modalClose");
+
+  // Colores por índice
+  const colors = [
+    "rgba(255,79,139,0.5)",
+    "rgba(126,242,255,0.5)",
+    "rgba(255,224,102,0.5)",
+    "rgba(168,255,120,0.5)",
+    "rgba(200,150,255,0.5)",
+  ];
+
+  function openLetter(env) {
+    const idx = parseInt(env.getAttribute("data-index"));
+    const text = env.querySelector(".letter-text").textContent;
+    const sign = env.querySelector(".letter-sign").textContent;
+
+    modalText.textContent = text;
+    modalSign.textContent = sign;
+    modal.style.borderColor = colors[idx] || colors[0];
+    modalSign.style.color =
+      idx === 1
+        ? "#7ef2ff"
+        : idx === 2
+          ? "#ffe066"
+          : idx === 3
+            ? "#a8ff78"
+            : idx === 4
+              ? "#c896ff"
+              : "#ff8dad";
+
+    overlay.classList.add("active");
+    modal.style.display = "flex";
+    modal.getBoundingClientRect(); // force reflow
+    modal.classList.add("open");
+  }
+
+  function closeLetter() {
+    modal.classList.remove("open");
+    overlay.classList.remove("active");
+    setTimeout(() => {
+      modal.style.display = "none";
+    }, 380);
+  }
+
+  envelopes.forEach((env) => {
+    const front = env.querySelector(".envelope-front");
+    front.addEventListener("click", () => openLetter(env));
+    front.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      openLetter(env);
+    });
+  });
+
+  modalClose.addEventListener("click", closeLetter);
+  modalClose.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    closeLetter();
+  });
+  overlay.addEventListener("click", closeLetter);
+}
 
 window.addEventListener("load", () => {
   const activeItem = document.querySelector(".list.active");
@@ -257,6 +333,7 @@ window.addEventListener("load", () => {
     indicator.style.left = `${leftPosition}px`;
   }
   buildCalendarGame();
+  initLetters();
   // Esperar 2 frames para que el navegador termine de calcular
   // el tamaño real del viewport antes de iniciar partículas
   requestAnimationFrame(() => {
