@@ -175,28 +175,50 @@ Reemplaza esto con tu poema o frase dedicada."
       </div>
 
       <div id="cameraScreen" class="screen">
-        <div class="carousel-container">
-          <button class="carousel-btn prev-btn" id="prevBtn">&#10094;</button>
+        <div class="gallery-header">
+          <div class="gallery-title-line"></div>
+          <span class="gallery-title">Nuestros Momentos</span>
+          <div class="gallery-title-line"></div>
+        </div>
 
-          <div class="scene">
-            <div class="carousel" id="carousel">
-              <div class="carousel__cell">
-                <img src="../Assets/pintura.webp" alt="Pintura 1" />
+        <div class="polaroid-stage">
+          <button class="gallery-arrow gallery-prev" id="prevBtn">
+            &#8592;
+          </button>
+
+          <div class="polaroid-track" id="polaroidTrack">
+            <div class="polaroid" data-index="0">
+              <div class="polaroid-img-wrap">
+                <img src="../Assets/pintura.webp" alt="Foto 1" />
               </div>
-              <div class="carousel__cell">
-                <img src="../Assets/pintura.webp" alt="Pintura 2" />
+              <p class="polaroid-caption">Pie de foto 1</p>
+            </div>
+            <div class="polaroid" data-index="1">
+              <div class="polaroid-img-wrap">
+                <img src="../Assets/pintura.webp" alt="Foto 2" />
               </div>
-              <div class="carousel__cell">
-                <img src="../Assets/pintura.webp" alt="Pintura 3" />
+              <p class="polaroid-caption">Pie de foto 2</p>
+            </div>
+            <div class="polaroid" data-index="2">
+              <div class="polaroid-img-wrap">
+                <img src="../Assets/pintura.webp" alt="Foto 3" />
               </div>
-              <div class="carousel__cell">
-                <img src="../Assets/pintura.webp" alt="Pintura 4" />
+              <p class="polaroid-caption">Pie de foto 3</p>
+            </div>
+            <div class="polaroid" data-index="3">
+              <div class="polaroid-img-wrap">
+                <img src="../Assets/pintura.webp" alt="Foto 4" />
               </div>
+              <p class="polaroid-caption">Pie de foto 4</p>
             </div>
           </div>
 
-          <button class="carousel-btn next-btn" id="nextBtn">&#10095;</button>
+          <button class="gallery-arrow gallery-next" id="nextBtn">
+            &#8594;
+          </button>
         </div>
+
+        <div class="gallery-dots" id="galleryDots"></div>
       </div>
 
       <div id="achievementsScreen" class="screen">
