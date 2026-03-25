@@ -4,11 +4,22 @@
 const list = document.querySelectorAll(".list");
 const indicator = document.querySelector(".indicator");
 const screens = document.querySelectorAll(".screen");
-const searchInput = document.getElementById("searchInput");
 const canvas = document.getElementById("particleCanvas");
 const ctx = canvas.getContext("2d");
 const chatInput = document.getElementById("chatInput");
 const chatBox = document.getElementById("chatBox");
+
+// Ciclo automático de frases en Home
+const PHRASES = [
+  "¡Feliz cumpleaños!",
+  "¡Eres increíble!",
+  "¡No hay nadie como tú!",
+  "¡Lo estás haciendo genial!"
+];
+const SCATTER_TIME = 3500;  // ms disperso
+const PHRASE_TIME  = 4000;  // ms mostrando frase
+let phraseIndex    = 0;
+let phraseCycleId  = null;
 
 let particles = [];
 let targetPoints = [];
@@ -23,7 +34,6 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", () => {
   resizeCanvas();
-  updateTextTargets(searchInput.value);
 });
 
 class Particle {
@@ -96,10 +106,7 @@ function scatterParticles() {
 
 function updateTextTargets(text) {
   const cleanText = text.trim();
-  if (cleanText === "") {
-    scatterParticles();
-    return;
-  }
+  if (cleanText === "") { scatterParticles(); return; }
   targetPoints = getTextPoints(cleanText);
   for (let i = 0; i < particles.length; i++) {
     if (i < targetPoints.length) {
@@ -110,6 +117,27 @@ function updateTextTargets(text) {
       particles[i].ty = Math.random() * canvas.height;
     }
   }
+}
+
+function runPhraseCycle() {
+  // Paso 1: dispersar
+  scatterParticles();
+  phraseCycleId = setTimeout(() => {
+    // Paso 2: mostrar frase
+    updateTextTargets(PHRASES[phraseIndex]);
+    phraseIndex = (phraseIndex + 1) % PHRASES.length;
+    phraseCycleId = setTimeout(runPhraseCycle, PHRASE_TIME);
+  }, SCATTER_TIME);
+}
+
+function startPhraseCycle() {
+  stopPhraseCycle();
+  phraseIndex = 0;
+  runPhraseCycle();
+}
+
+function stopPhraseCycle() {
+  if (phraseCycleId) { clearTimeout(phraseCycleId); phraseCycleId = null; }
 }
 
 function animate() {
@@ -126,14 +154,15 @@ function animate() {
 }
 animate();
 
-searchInput.addEventListener("input", (e) => updateTextTargets(e.target.value));
-
 function showScreen(screenId) {
   screens.forEach((s) => s.classList.remove("active"));
   document.getElementById(screenId).classList.add("active");
-  if (screenId !== "homeScreen")
+  if (screenId !== "homeScreen") {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-  if (screenId === "homeScreen") updateTextTargets(searchInput.value);
+    stopPhraseCycle();
+  } else {
+    startPhraseCycle();
+  }
 }
 
 function activeLink() {
@@ -171,7 +200,7 @@ window.addEventListener("load", () => {
       indicator.offsetWidth / 2;
     indicator.style.left = `${leftPosition}px`;
   }
-  scatterParticles();
+  startPhraseCycle();
   buildCalendarGame();
 });
 

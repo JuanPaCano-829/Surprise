@@ -42,19 +42,7 @@ body {
 
 .screen.active { display: flex; }
 
-/* ---- HOME — búsqueda con partículas ---- */
-.search {
-  width: min(460px, 90vw);
-  padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px);
-  border-radius: 30px;
-  border: none;
-  outline: none;
-  font-size: clamp(16px, 4vw, 22px);
-  display: block;
-  margin: clamp(60px, 15vh, 120px) auto 0;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  -webkit-appearance: none;
-}
+/* Home screen usa todo el espacio para las partículas */
 
 /* ---- CALENDARIO / JUEGO ---- */
 #calendarScreen {
