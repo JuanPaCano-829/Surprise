@@ -1,0 +1,1079 @@
+/* ==========================================================================
+   Fuentes y Configuración General
+   ========================================================================== */
+@font-face {
+  font-family: "acknowledge_tt_brkregular";
+  src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/acknowtt-webfont.eot");
+  src:
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/acknowtt-webfont.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/acknowtt-webfont.woff")
+      format("woff"),
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/acknowtt-webfont.ttf")
+      format("truetype"),
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/acknowtt-webfont.svg#acknowledge_tt_brkregular")
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+html,
+body,
+.main {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+  background-color: #000;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* ==========================================================================
+   Texto y Botones
+   ========================================================================== */
+h1,
+h2 {
+  margin: 0;
+  font-family: "acknowledge_tt_brkregular", Arial, sans-serif;
+  font-weight: bold;
+  color: #404040;
+}
+
+h1,
+.alpha {
+  color: #fff;
+  font-size: 10px;
+  line-height: 16px;
+  margin-top: 2%;
+  text-transform: uppercase;
+}
+
+@media (min-width: 320px) {
+  h1,
+  .alpha {
+    font-size: 24px;
+    line-height: 20px;
+    margin-top: 5%;
+  }
+}
+@media (min-width: 600px) {
+  h1,
+  .alpha {
+    font-size: 30px;
+    line-height: 32px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #404040;
+  text-decoration: none;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-color: #e6e6e6;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn:hover {
+  background-color: #fff;
+}
+
+/* ==========================================================================
+   Level Select
+   ========================================================================== */
+#levelSelect {
+  overflow: hidden;
+  height: 100%;
+  line-height: 0;
+  background: #000;
+  position: relative;
+  z-index: 100;
+}
+
+.imgWrapper {
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 998px;
+}
+
+#levelSelect.fadeScreen {
+  height: 0px;
+  transition: 1000ms linear;
+}
+
+.marioFlat {
+  position: absolute;
+  width: 8%;
+  top: 20%;
+  left: 8.5%;
+}
+
+.startScreen .marioFlat {
+  animation: flat-mario 1000ms 600ms linear forwards;
+}
+
+.textBox,
+.moveText {
+  padding: 0 2%;
+  background: #9ce8f2;
+  border: 4px solid #000;
+  font-family: "acknowledge_tt_brkregular";
+  letter-spacing: 1px;
+  text-shadow:
+    2px 0 0 #000,
+    -2px 0 0 #000,
+    0 2px 0 #000,
+    0 -2px 0 #000;
+}
+
+.textBox {
+  position: absolute;
+  width: 60%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  margin: -25% 0 0 -30%;
+  overflow: hidden;
+}
+
+.textBox.fade {
+  width: 0;
+  margin: 0;
+  height: 0;
+  border: 0;
+  transition: all 300ms linear;
+}
+
+.startBtn {
+  border: 1px solid #000;
+  background: #fff;
+  text-transform: uppercase;
+  color: #000;
+  margin-top: 10%;
+  font-size: 28px;
+}
+
+.moveText {
+  display: none;
+  position: fixed;
+  right: 40px;
+  top: 10px;
+  padding: 10px 20px 20px;
+  width: 240px;
+  text-align: center;
+  font-size: 24px;
+  line-height: 26px;
+  z-index: 50;
+}
+
+.moveText:after {
+  content: "";
+  width: 0;
+  position: absolute;
+  right: -40px;
+  top: -20px;
+  border-left: 40px solid #000;
+  border-top: 75px solid transparent;
+  border-bottom: 75px solid transparent;
+}
+
+/* ==========================================================================
+   Personajes y Sprites
+   ========================================================================== */
+.mario,
+.goomba,
+.goomba-winged,
+.turtle,
+.mushroom,
+.piranha,
+.fireball,
+.qbox-sprite,
+.coin,
+.racoon-leaf {
+  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/mario-sprite.png")
+    no-repeat;
+}
+
+.main {
+  position: absolute;
+  width: 6000px;
+  background: #9ce8f2
+    url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/12207/bg-level.png")
+    no-repeat 0 bottom;
+}
+
+.mario {
+  width: 50px;
+  height: 58px;
+  position: absolute;
+  z-index: 10;
+  bottom: 29px;
+  left: 10px;
+  transform: scalex(-1);
+  background-position: 0 top;
+}
+
+.goomba {
+  width: 34px;
+  height: 32px;
+  position: absolute;
+  background-position: -2px -696px;
+}
+.goomba.dead {
+  background-position: -46px -696px;
+}
+
+.enemy1 {
+  bottom: 37px;
+  left: 450px;
+}
+.enemy3 {
+  bottom: 37px;
+  left: 1200px;
+}
+.enemy5 {
+  bottom: 74px;
+  left: 1920px;
+}
+.enemy6 {
+  bottom: 74px;
+  left: 2010px;
+}
+
+.turtle {
+  width: 34px;
+  height: 56px;
+  position: absolute;
+  z-index: 10;
+  background-position: -256px -703px;
+}
+.enemy4 {
+  transform: scalex(-1);
+  bottom: 109px;
+  left: 1336px;
+}
+
+.goomba-winged {
+  width: 42px;
+  height: 38px;
+  position: absolute;
+  background-position: -492px -720px;
+}
+.enemy7 {
+  bottom: 74px;
+  left: 2130px;
+}
+
+.mushroom {
+  width: 41px;
+  height: 41px;
+  position: absolute;
+  bottom: 254px;
+  left: 549px;
+  background-position: -200px -700px;
+  opacity: 0;
+}
+
+.piranha {
+  width: 37px;
+  height: 74px;
+  position: absolute;
+  background-position: -108px -690px;
+}
+.enemy2 {
+  bottom: 146px;
+  left: 829px;
+}
+
+.fireball {
+  width: 18px;
+  height: 20px;
+  position: absolute;
+  bottom: 206px;
+  left: 810px;
+  background-position: -164px -701px;
+}
+
+.qbox-sprite {
+  position: absolute;
+  z-index: 4;
+  width: 37px;
+  height: 56px;
+  background-position: -1px -745px;
+  opacity: 0;
+}
+
+.coin {
+  position: absolute;
+  z-index: 2;
+  background-position: -48px -745px;
+  width: 32px;
+  height: 37px;
+  opacity: 0;
+  transform: scalex(0.25);
+}
+.coin-full {
+  opacity: 1;
+  transform: scalex(1);
+}
+
+.racoon-leaf {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-position: -300px -700px;
+  opacity: 0;
+}
+
+/* Posiciones de cajas */
+.qbox {
+  position: absolute;
+  width: 37px;
+}
+.qbox1,
+.qbox2 {
+  bottom: 128px;
+}
+.qbox1 {
+  left: 405px;
+}
+.qbox2 {
+  left: 442px;
+}
+.qbox3,
+.qbox4 {
+  bottom: 239px;
+}
+.qbox3 {
+  left: 516px;
+}
+.qbox4 {
+  left: 553px;
+}
+.qbox5 {
+  bottom: 202px;
+  left: 958px;
+}
+.qbox6 {
+  bottom: 74px;
+  left: 1491px;
+}
+.qbox7 {
+  bottom: 128px;
+  left: 1622px;
+}
+
+/* Posiciones de monedas */
+.coin1 {
+  left: 408px;
+  bottom: 182px;
+}
+.coin2 {
+  left: 440px;
+  bottom: 182px;
+}
+.coin3 {
+  left: 960px;
+  bottom: 262px;
+}
+.coin4 {
+  left: 1624px;
+  bottom: 184px;
+}
+
+/* Monedas grandes (coin-full) */
+.coin5 {
+  left: 1780px;
+  bottom: 74px;
+}
+.coin6 {
+  left: 1820px;
+  bottom: 74px;
+}
+.coin7 {
+  left: 1860px;
+  bottom: 74px;
+}
+.coin8 {
+  left: 1900px;
+  bottom: 74px;
+}
+
+/* ==========================================================================
+   Animaciones activas (startAnim)
+   ========================================================================== */
+
+/* ---- Escenario ---- */
+.startAnim.main {
+  animation: stagemove-first 60s linear 1.2s forwards;
+}
+
+/* ---- Mario ---- */
+.startAnim .mario {
+  animation:
+    mario-run-first 1000ms ease-in 500ms forwards,
+    mario-sprite-walk 200ms step-start 500ms 5,
+    mario-jump-first 600ms linear 1501ms forwards,
+    mario-sprite-jump 600ms step-end 1501ms forwards,
+    mario-run-second 2500ms linear 2500ms forwards,
+    mario-sprite-walk2 200ms step-start 2500ms 12,
+    mario-jump-second 700ms linear 5200ms forwards,
+    mario-sprite-jump2 700ms step-end 5200ms forwards,
+    mario-grow 500ms step-start 6200ms forwards,
+    mario-run-third 3000ms linear 7000ms forwards,
+    mario-sprite-walk3 200ms step-start 7000ms 15,
+    mario-jump-third 600ms linear 10200ms forwards,
+    mario-sprite-jump3 600ms step-end 10200ms forwards,
+    mario-run-fourth 3000ms linear 11200ms forwards,
+    mario-sprite-walk4 200ms step-start 11200ms 15,
+    mario-racoon-change 600ms step-start 14500ms forwards,
+    mario-sprint 2000ms linear 15200ms forwards,
+    mario-flight-sprite 200ms step-start 17300ms 20,
+    mario-flight-pos 4000ms linear 17300ms forwards,
+    mario-jump-seventh 700ms linear 21500ms forwards,
+    mario-sprite-jump7 700ms step-end 21500ms forwards;
+}
+
+/* ---- Monedas ---- */
+.startAnim .coin1 {
+  animation: coinup 300ms ease-in-out 1650ms forwards;
+}
+.startAnim .coin2 {
+  animation: coinup 300ms ease-in-out 1850ms forwards;
+}
+.startAnim .coin3 {
+  animation: coinup 300ms ease-in-out 5600ms forwards;
+}
+.startAnim .coin4 {
+  animation: coinup 300ms ease-in-out 11600ms forwards;
+}
+
+/* ---- Champiñón ---- */
+.startAnim .mushroom {
+  animation: mushroom-appear 500ms ease-in-out 5800ms forwards;
+}
+
+/* ---- Enemigos ---- */
+.startAnim .enemy1 {
+  animation:
+    enemy1 1750ms ease-in-out 0s forwards,
+    goomba-dead 800ms step-start 1750ms forwards;
+}
+.startAnim .enemy2 {
+  animation: piranha-move 2000ms ease-in-out 3500ms infinite alternate;
+}
+.startAnim .enemy3 {
+  animation:
+    enemy3 2000ms ease-in-out 7500ms forwards,
+    goomba-dead 800ms step-start 9500ms forwards;
+}
+.startAnim .enemy4 {
+  animation: turtle-hit-qbox 1000ms ease-in-out 10000ms forwards;
+}
+.startAnim .enemy5 {
+  animation:
+    enemy5 600ms ease-in-out 13000ms forwards,
+    goomba-dead 800ms step-start 13600ms forwards;
+}
+.startAnim .enemy6 {
+  animation:
+    enemy6 600ms ease-in-out 13200ms forwards,
+    goomba-dead 800ms step-start 13800ms forwards;
+}
+.startAnim .enemy7 {
+  animation:
+    enemy-seventh 2000ms ease-in-out 21000ms forwards,
+    enemy-seventh-dead 800ms step-start 22800ms forwards;
+}
+
+/* ---- Fireball ---- */
+.startAnim .fireball {
+  animation: fireball-move 1000ms linear 4000ms forwards;
+}
+
+/* ---- Racoon leaf ---- */
+.startAnim .racoon-leaf {
+  animation: leaf-appear 800ms ease-out 14200ms forwards;
+}
+
+/* ---- Qbox sprites ---- */
+.startAnim .qbox-sprite.qbox1 {
+  animation: qbox-hit 200ms step-start 1600ms forwards;
+}
+.startAnim .qbox-sprite.qbox2 {
+  animation: qbox-hit 200ms step-start 1800ms forwards;
+}
+.startAnim .qbox-sprite.qbox4 {
+  animation: qbox-hit 200ms step-start 5500ms forwards;
+}
+.startAnim .qbox-sprite.qbox5 {
+  animation: qbox-hit 200ms step-start 5500ms forwards;
+}
+.startAnim .qbox-sprite.qbox6 {
+  animation: qbox-hit 200ms step-start 10200ms forwards;
+}
+.startAnim .qbox-sprite.qbox7 {
+  animation: qbox-hit 200ms step-start 11500ms forwards;
+}
+
+/* ==========================================================================
+   @keyframes
+   ========================================================================== */
+
+@keyframes flat-mario {
+  0% {
+    left: 8.5%;
+  }
+  20% {
+    left: 22.5%;
+    top: 20%;
+  }
+  55%,
+  100% {
+    left: 22.5%;
+    top: 1%;
+  }
+}
+
+@keyframes stagemove-first {
+  0% {
+    left: 0;
+  }
+  4% {
+    left: -180px;
+  }
+  8% {
+    left: -820px;
+  }
+  15% {
+    left: -1100px;
+  }
+  22% {
+    left: -1400px;
+  }
+  32% {
+    left: -1700px;
+  }
+  42% {
+    left: -2000px;
+  }
+  55% {
+    left: -2200px;
+  }
+  70% {
+    left: -2400px;
+  }
+  100% {
+    left: -2400px;
+  }
+}
+
+/* --- Mario movimientos --- */
+@keyframes mario-run-first {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 318px;
+  }
+}
+
+@keyframes mario-run-second {
+  0% {
+    left: 445px;
+    bottom: 28px;
+  }
+  100% {
+    left: 900px;
+    bottom: 28px;
+  }
+}
+
+@keyframes mario-run-third {
+  0% {
+    left: 1000px;
+    bottom: 28px;
+  }
+  100% {
+    left: 1300px;
+    bottom: 28px;
+  }
+}
+
+@keyframes mario-run-fourth {
+  0% {
+    left: 1350px;
+    bottom: 28px;
+  }
+  100% {
+    left: 1600px;
+    bottom: 28px;
+  }
+}
+
+@keyframes mario-sprint {
+  0% {
+    left: 1650px;
+    bottom: 28px;
+  }
+  100% {
+    left: 2100px;
+    bottom: 28px;
+  }
+}
+
+@keyframes mario-flight-pos {
+  0% {
+    left: 2100px;
+    bottom: 28px;
+  }
+  20% {
+    left: 2300px;
+    bottom: 200px;
+  }
+  60% {
+    left: 2600px;
+    bottom: 250px;
+  }
+  100% {
+    left: 2900px;
+    bottom: 28px;
+  }
+}
+
+/* --- Sprites de Mario --- */
+@keyframes mario-sprite-walk {
+  0% {
+    background-position: 0 top;
+  }
+  50% {
+    background-position: -63px top;
+  }
+}
+@keyframes mario-sprite-walk2 {
+  0% {
+    background-position: 0 top;
+  }
+  50% {
+    background-position: -63px top;
+  }
+}
+@keyframes mario-sprite-walk3 {
+  0% {
+    background-position: -130px -64px;
+  }
+  50% {
+    background-position: -195px -64px;
+  }
+}
+@keyframes mario-sprite-walk4 {
+  0% {
+    background-position: -130px -64px;
+  }
+  50% {
+    background-position: -195px -64px;
+  }
+}
+
+@keyframes mario-sprite-jump {
+  0% {
+    background-position: -198px top;
+    transform: scalex(-1);
+  }
+  31% {
+    transform: scalex(1);
+  }
+  100% {
+    background-position: 0 top;
+    transform: scalex(-1);
+  }
+}
+@keyframes mario-sprite-jump2 {
+  0% {
+    background-position: -198px top;
+  }
+  100% {
+    background-position: 0 top;
+  }
+}
+@keyframes mario-sprite-jump3 {
+  0% {
+    background-position: -260px -64px;
+  }
+  100% {
+    background-position: -130px -64px;
+  }
+}
+@keyframes mario-sprite-jump7 {
+  0% {
+    background-position: -350px -64px;
+  }
+  100% {
+    background-position: -130px -64px;
+  }
+}
+
+/* --- Saltos de Mario --- */
+@keyframes mario-jump-first {
+  0% {
+    bottom: 30px;
+    left: 330px;
+  }
+  30% {
+    bottom: 110px;
+    left: 390px;
+  }
+  100% {
+    bottom: 28px;
+    left: 445px;
+  }
+}
+
+@keyframes mario-jump-second {
+  0% {
+    bottom: 28px;
+    left: 900px;
+  }
+  40% {
+    bottom: 160px;
+    left: 960px;
+  }
+  100% {
+    bottom: 28px;
+    left: 1000px;
+  }
+}
+
+@keyframes mario-jump-third {
+  0% {
+    bottom: 28px;
+    left: 1300px;
+  }
+  40% {
+    bottom: 160px;
+    left: 1340px;
+  }
+  100% {
+    bottom: 109px;
+    left: 1390px;
+  }
+}
+
+@keyframes mario-jump-qbox {
+  0% {
+    bottom: 109px;
+    left: 1500px;
+  }
+  40% {
+    bottom: 200px;
+    left: 1540px;
+  }
+  100% {
+    bottom: 28px;
+    left: 1600px;
+  }
+}
+
+@keyframes mario-jump-fourth {
+  0% {
+    bottom: 28px;
+    left: 1600px;
+  }
+  50% {
+    bottom: 120px;
+    left: 1640px;
+  }
+  100% {
+    bottom: 28px;
+    left: 1680px;
+  }
+}
+
+@keyframes mario-jump-fifth {
+  0% {
+    bottom: 28px;
+    left: 1700px;
+  }
+  40% {
+    bottom: 160px;
+    left: 1740px;
+  }
+  100% {
+    bottom: 28px;
+    left: 1800px;
+  }
+}
+
+@keyframes mario-jump-sixth {
+  0% {
+    bottom: 28px;
+    left: 1900px;
+  }
+  40% {
+    bottom: 160px;
+    left: 1940px;
+  }
+  100% {
+    bottom: 28px;
+    left: 1980px;
+  }
+}
+
+@keyframes mario-jump-seventh {
+  0% {
+    bottom: 28px;
+    left: 2900px;
+  }
+  40% {
+    bottom: 160px;
+    left: 2940px;
+  }
+  100% {
+    bottom: 28px;
+    left: 2980px;
+  }
+}
+
+/* --- Transformaciones --- */
+@keyframes mario-grow {
+  0% {
+    background-position: 0 top;
+    width: 50px;
+    height: 58px;
+  }
+  33% {
+    background-position: -130px -64px;
+    width: 60px;
+    height: 68px;
+  }
+  66% {
+    background-position: 0 top;
+    width: 50px;
+    height: 58px;
+  }
+  100% {
+    background-position: -130px -64px;
+    width: 60px;
+    height: 68px;
+  }
+}
+
+@keyframes mario-racoon-change {
+  0% {
+    background-position: -130px -64px;
+  }
+  50% {
+    background-position: -350px -64px;
+  }
+  100% {
+    background-position: -350px -64px;
+  }
+}
+
+@keyframes mario-flight-sprite {
+  0% {
+    background-position: -350px -64px;
+  }
+  50% {
+    background-position: -420px -64px;
+  }
+}
+
+/* --- Champiñón --- */
+@keyframes mushroom-appear {
+  0% {
+    bottom: 254px;
+    opacity: 0;
+  }
+  30% {
+    bottom: 290px;
+    opacity: 1;
+  }
+  60% {
+    bottom: 240px;
+    opacity: 1;
+  }
+  100% {
+    bottom: 37px;
+    opacity: 1;
+  }
+}
+
+/* --- Hoja racoon --- */
+@keyframes leaf-appear {
+  0% {
+    bottom: 250px;
+    left: 1650px;
+    opacity: 0;
+  }
+  50% {
+    bottom: 300px;
+    left: 1670px;
+    opacity: 1;
+  }
+  100% {
+    bottom: 37px;
+    left: 1700px;
+    opacity: 1;
+  }
+}
+
+/* --- Monedas --- */
+@keyframes coinup {
+  0% {
+    bottom: 182px;
+    opacity: 0;
+  }
+  50% {
+    bottom: 280px;
+    opacity: 1;
+  }
+  100% {
+    bottom: 182px;
+    opacity: 0;
+  }
+}
+
+/* --- Qbox sprites --- */
+@keyframes qbox-hit {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* --- Enemigos --- */
+@keyframes enemy1 {
+  0% {
+    left: 500px;
+  }
+  100% {
+    left: 410px;
+  }
+}
+
+@keyframes enemy3 {
+  0% {
+    left: 1300px;
+  }
+  100% {
+    left: 1200px;
+  }
+}
+
+@keyframes enemy5 {
+  0% {
+    left: 1990px;
+  }
+  100% {
+    left: 1890px;
+  }
+}
+
+@keyframes enemy6 {
+  0% {
+    left: 2080px;
+  }
+  100% {
+    left: 1980px;
+  }
+}
+
+@keyframes goomba-dead {
+  0%,
+  99% {
+    background-position: -46px -696px;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes turtle-hit-qbox {
+  0% {
+    bottom: 109px;
+    left: 1336px;
+  }
+  50% {
+    bottom: 160px;
+    left: 1360px;
+  }
+  100% {
+    bottom: 109px;
+    left: 1410px;
+  }
+}
+
+@keyframes piranha-move {
+  0% {
+    bottom: 100px;
+  }
+  100% {
+    bottom: 200px;
+  }
+}
+
+@keyframes fireball-move {
+  0% {
+    left: 810px;
+    opacity: 1;
+  }
+  100% {
+    left: 900px;
+    opacity: 0;
+  }
+}
+
+@keyframes enemy-seventh {
+  0% {
+    left: 2200px;
+    bottom: 74px;
+  }
+  60% {
+    left: 2100px;
+    bottom: 140px;
+  }
+  100% {
+    left: 2050px;
+    bottom: 74px;
+  }
+}
+
+@keyframes enemy-seventh-dead {
+  0%,
+  99% {
+    background-position: -46px -696px;
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes flat-mario {
+  0% {
+    left: 8.5%;
+  }
+  20% {
+    left: 22.5%;
+    top: 20%;
+  }
+  55%,
+  100% {
+    left: 22.5%;
+    top: 1%;
+  }
+}
