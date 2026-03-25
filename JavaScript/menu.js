@@ -14,12 +14,12 @@ const PHRASES = [
   "¡Feliz cumpleaños!",
   "¡Eres increíble!",
   "¡No hay nadie como tú!",
-  "¡Lo estás haciendo genial!"
+  "¡Lo estás haciendo genial!",
 ];
-const SCATTER_TIME = 3500;  // ms disperso
-const PHRASE_TIME  = 4000;  // ms mostrando frase
-let phraseIndex    = 0;
-let phraseCycleId  = null;
+const SCATTER_TIME = 3500; // ms disperso
+const PHRASE_TIME = 4000; // ms mostrando frase
+let phraseIndex = 0;
+let phraseCycleId = null;
 
 let particles = [];
 let targetPoints = [];
@@ -28,13 +28,15 @@ const particleColor = "rgba(170, 150, 255, 0.75)";
 let sentMessages = 0;
 
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = document.documentElement.clientWidth || window.innerWidth;
+  canvas.height = document.documentElement.clientHeight || window.innerHeight;
 }
 resizeCanvas();
 window.addEventListener("resize", () => {
   resizeCanvas();
 });
+
+let spaceMode = false; // true = deriva libre tipo espacio
 
 class Particle {
   constructor() {
@@ -42,24 +44,68 @@ class Particle {
     this.y = Math.random() * canvas.height;
     this.tx = this.x;
     this.ty = this.y;
-    this.size = 1.5 + Math.random();
+    // Tamaño variado para simular estrellas cercanas/lejanas
+    this.size = 0.5 + Math.random() * 2.2;
     this.vx = 0;
     this.vy = 0;
+    // Velocidad de deriva espacial propia (aleatoria y suave)
+    this.driftX = (Math.random() - 0.5) * 0.35;
+    this.driftY = (Math.random() - 0.5) * 0.35;
+    // Brillo pulsante
+    this.alpha = 0.4 + Math.random() * 0.6;
+    this.alphaDx = (Math.random() - 0.5) * 0.008;
   }
   update() {
-    const dx = this.tx - this.x,
-      dy = this.ty - this.y;
-    this.vx += dx * 0.015;
-    this.vy += dy * 0.015;
-    this.vx *= 0.88;
-    this.vy *= 0.88;
-    this.x += this.vx;
-    this.y += this.vy;
+    if (spaceMode) {
+      // Movimiento libre: deriva suave + rebote en bordes
+      this.x += this.driftX;
+      this.y += this.driftY;
+      if (this.x < 0) {
+        this.x = 0;
+        this.driftX *= -1;
+      }
+      if (this.x > canvas.width) {
+        this.x = canvas.width;
+        this.driftX *= -1;
+      }
+      if (this.y < 0) {
+        this.y = 0;
+        this.driftY *= -1;
+      }
+      if (this.y > canvas.height) {
+        this.y = canvas.height;
+        this.driftY *= -1;
+      }
+      // Pulso de brillo
+      this.alpha += this.alphaDx;
+      if (this.alpha > 1) {
+        this.alpha = 1;
+        this.alphaDx *= -1;
+      }
+      if (this.alpha < 0.1) {
+        this.alpha = 0.1;
+        this.alphaDx *= -1;
+      }
+    } else {
+      // Modo texto: ir al destino
+      const dx = this.tx - this.x;
+      const dy = this.ty - this.y;
+      this.vx += dx * 0.015;
+      this.vy += dy * 0.015;
+      this.vx *= 0.88;
+      this.vy *= 0.88;
+      this.x += this.vx;
+      this.y += this.vy;
+    }
   }
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = particleColor;
+    if (spaceMode) {
+      ctx.fillStyle = `rgba(170, 150, 255, ${this.alpha})`;
+    } else {
+      ctx.fillStyle = particleColor;
+    }
     ctx.fill();
   }
 }
@@ -98,15 +144,21 @@ function getTextPoints(text) {
 }
 
 function scatterParticles() {
+  spaceMode = true;
+  // Asignar nuevas velocidades de deriva suaves a cada partícula
   for (let i = 0; i < particles.length; i++) {
-    particles[i].tx = Math.random() * canvas.width;
-    particles[i].ty = Math.random() * canvas.height;
+    particles[i].driftX = (Math.random() - 0.5) * 0.35;
+    particles[i].driftY = (Math.random() - 0.5) * 0.35;
   }
 }
 
 function updateTextTargets(text) {
   const cleanText = text.trim();
-  if (cleanText === "") { scatterParticles(); return; }
+  if (cleanText === "") {
+    scatterParticles();
+    return;
+  }
+  spaceMode = false; // salir del modo espacio antes de formar texto
   targetPoints = getTextPoints(cleanText);
   for (let i = 0; i < particles.length; i++) {
     if (i < targetPoints.length) {
@@ -137,7 +189,10 @@ function startPhraseCycle() {
 }
 
 function stopPhraseCycle() {
-  if (phraseCycleId) { clearTimeout(phraseCycleId); phraseCycleId = null; }
+  if (phraseCycleId) {
+    clearTimeout(phraseCycleId);
+    phraseCycleId = null;
+  }
 }
 
 function animate() {
@@ -161,6 +216,7 @@ function showScreen(screenId) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stopPhraseCycle();
   } else {
+    resizeCanvas();
     startPhraseCycle();
   }
 }
@@ -200,8 +256,15 @@ window.addEventListener("load", () => {
       indicator.offsetWidth / 2;
     indicator.style.left = `${leftPosition}px`;
   }
-  startPhraseCycle();
   buildCalendarGame();
+  // Esperar 2 frames para que el navegador termine de calcular
+  // el tamaño real del viewport antes de iniciar partículas
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      resizeCanvas();
+      startPhraseCycle();
+    });
+  });
 });
 
 // Carrusel
