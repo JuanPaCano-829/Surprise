@@ -21,21 +21,30 @@ function resizeCanvas() {
   canvas.height = window.innerHeight;
 }
 resizeCanvas();
-window.addEventListener("resize", () => { resizeCanvas(); updateTextTargets(searchInput.value); });
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  updateTextTargets(searchInput.value);
+});
 
 class Particle {
   constructor() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.tx = this.x; this.ty = this.y;
+    this.tx = this.x;
+    this.ty = this.y;
     this.size = 1.5 + Math.random();
-    this.vx = 0; this.vy = 0;
+    this.vx = 0;
+    this.vy = 0;
   }
   update() {
-    const dx = this.tx - this.x, dy = this.ty - this.y;
-    this.vx += dx * 0.015; this.vy += dy * 0.015;
-    this.vx *= 0.88; this.vy *= 0.88;
-    this.x += this.vx; this.y += this.vy;
+    const dx = this.tx - this.x,
+      dy = this.ty - this.y;
+    this.vx += dx * 0.015;
+    this.vy += dy * 0.015;
+    this.vx *= 0.88;
+    this.vy *= 0.88;
+    this.x += this.vx;
+    this.y += this.vy;
   }
   draw() {
     ctx.beginPath();
@@ -45,19 +54,31 @@ class Particle {
   }
 }
 
-function initParticles() { particles = []; for (let i = 0; i < particleCount; i++) particles.push(new Particle()); }
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+}
 initParticles();
 
 function getTextPoints(text) {
   const offCanvas = document.createElement("canvas");
   const offCtx = offCanvas.getContext("2d");
-  offCanvas.width = canvas.width; offCanvas.height = canvas.height;
+  offCanvas.width = canvas.width;
+  offCanvas.height = canvas.height;
   const fontSize = Math.min(160, Math.max(48, canvas.width / 10));
-  offCtx.fillStyle = "white"; offCtx.textAlign = "center"; offCtx.textBaseline = "middle";
+  offCtx.fillStyle = "white";
+  offCtx.textAlign = "center";
+  offCtx.textBaseline = "middle";
   offCtx.font = `bold ${fontSize}px Arial`;
   offCtx.fillText(text, offCanvas.width / 2, offCanvas.height / 2 - 80);
-  const imageData = offCtx.getImageData(0, 0, offCanvas.width, offCanvas.height).data;
-  const points = []; const gap = 5;
+  const imageData = offCtx.getImageData(
+    0,
+    0,
+    offCanvas.width,
+    offCanvas.height,
+  ).data;
+  const points = [];
+  const gap = 5;
   for (let y = 0; y < offCanvas.height; y += gap)
     for (let x = 0; x < offCanvas.width; x += gap) {
       const index = (y * offCanvas.width + x) * 4;
@@ -75,18 +96,32 @@ function scatterParticles() {
 
 function updateTextTargets(text) {
   const cleanText = text.trim();
-  if (cleanText === "") { scatterParticles(); return; }
+  if (cleanText === "") {
+    scatterParticles();
+    return;
+  }
   targetPoints = getTextPoints(cleanText);
   for (let i = 0; i < particles.length; i++) {
-    if (i < targetPoints.length) { particles[i].tx = targetPoints[i].x; particles[i].ty = targetPoints[i].y; }
-    else { particles[i].tx = Math.random() * canvas.width; particles[i].ty = Math.random() * canvas.height; }
+    if (i < targetPoints.length) {
+      particles[i].tx = targetPoints[i].x;
+      particles[i].ty = targetPoints[i].y;
+    } else {
+      particles[i].tx = Math.random() * canvas.width;
+      particles[i].ty = Math.random() * canvas.height;
+    }
   }
 }
 
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const homeIsActive = document.getElementById("homeScreen").classList.contains("active");
-  if (homeIsActive) for (let i = 0; i < particles.length; i++) { particles[i].update(); particles[i].draw(); }
+  const homeIsActive = document
+    .getElementById("homeScreen")
+    .classList.contains("active");
+  if (homeIsActive)
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
   requestAnimationFrame(animate);
 }
 animate();
@@ -96,14 +131,16 @@ searchInput.addEventListener("input", (e) => updateTextTargets(e.target.value));
 function showScreen(screenId) {
   screens.forEach((s) => s.classList.remove("active"));
   document.getElementById(screenId).classList.add("active");
-  if (screenId !== "homeScreen") ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (screenId !== "homeScreen")
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   if (screenId === "homeScreen") updateTextTargets(searchInput.value);
 }
 
 function activeLink() {
   list.forEach((item) => item.classList.remove("active"));
   this.classList.add("active");
-  const leftPosition = this.offsetLeft + this.offsetWidth / 2 - indicator.offsetWidth / 2;
+  const leftPosition =
+    this.offsetLeft + this.offsetWidth / 2 - indicator.offsetWidth / 2;
   indicator.style.left = `${leftPosition}px`;
   showScreen(this.getAttribute("data-screen"));
 }
@@ -128,7 +165,10 @@ chatInput.addEventListener("keydown", (e) => {
 window.addEventListener("load", () => {
   const activeItem = document.querySelector(".list.active");
   if (activeItem) {
-    const leftPosition = activeItem.offsetLeft + activeItem.offsetWidth / 2 - indicator.offsetWidth / 2;
+    const leftPosition =
+      activeItem.offsetLeft +
+      activeItem.offsetWidth / 2 -
+      indicator.offsetWidth / 2;
     indicator.style.left = `${leftPosition}px`;
   }
   scatterParticles();
@@ -140,9 +180,18 @@ const carousel = document.getElementById("carousel");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 let currentAngle = 0;
-function rotateCarousel() { carousel.style.transform = `translateZ(-190px) rotateY(${currentAngle}deg)`; }
-nextBtn.addEventListener("click", () => { currentAngle -= 90; rotateCarousel(); });
-prevBtn.addEventListener("click", () => { currentAngle += 90; rotateCarousel(); });
+function rotateCarousel() {
+  const radius = window.innerWidth < 480 ? 140 : 190;
+  carousel.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
+}
+nextBtn.addEventListener("click", () => {
+  currentAngle -= 90;
+  rotateCarousel();
+});
+prevBtn.addEventListener("click", () => {
+  currentAngle += 90;
+  rotateCarousel();
+});
 
 // Logros
 const achievementCards = document.querySelectorAll(".achievement-card");
@@ -165,29 +214,75 @@ const TILE = 17;
 const SCALE = 3;
 
 const NPCS = [
-  { id: "npc1", name: "🌺 Ana",    color: "#ff6eb4", row: 0, col: 0,
+  {
+    id: "npc1",
+    name: "🌺 Ana",
+    color: "#ff6eb4",
+    row: 0,
+    col: 0,
     msg: "¡Feliz cumpleaños, Nicole! 🎉 Eres una persona increíble que ilumina la vida de todos. ¡Que este año esté lleno de aventuras y momentos mágicos!",
-    mapX: 120, mapY: 110 },
-  { id: "npc2", name: "🐚 Carlos", color: "#7ef2ff", row: 1, col: 0,
+    mapX: 120,
+    mapY: 110,
+  },
+  {
+    id: "npc2",
+    name: "🐚 Carlos",
+    color: "#7ef2ff",
+    row: 1,
+    col: 0,
     msg: "Nicole, gracias por ser tan auténtica y especial. Cada día contigo es una razón más para sonreír. ¡Feliz cumple, te mereces todo lo bueno del mundo! 💙",
-    mapX: 370, mapY: 150 },
-  { id: "npc3", name: "🌊 Sofía",  color: "#ffe066", row: 2, col: 0,
+    mapX: 370,
+    mapY: 150,
+  },
+  {
+    id: "npc3",
+    name: "🌊 Sofía",
+    color: "#ffe066",
+    row: 2,
+    col: 0,
     msg: "¡Hoy celebramos a la persona más bonita que conozco! Nicole, eres fuerte, divertida y llena de luz. ¡Que cumplas muchos años más rodeada de amor! 🌟",
-    mapX: 240, mapY: 240 },
-  { id: "npc4", name: "🦀 Diego",  color: "#ff9f7f", row: 3, col: 0,
+    mapX: 240,
+    mapY: 240,
+  },
+  {
+    id: "npc4",
+    name: "🦀 Diego",
+    color: "#ff9f7f",
+    row: 3,
+    col: 0,
     msg: "Feliz cumpleaños a la mejor Nicole del universo 🎂. Que este nuevo año te traiga todo lo que has soñado y mucho más. ¡Eres única!",
-    mapX: 80, mapY: 250 },
-  { id: "npc5", name: "🌴 Valeria",color: "#a8ff78", row: 4, col: 0,
+    mapX: 80,
+    mapY: 250,
+  },
+  {
+    id: "npc5",
+    name: "🌴 Valeria",
+    color: "#a8ff78",
+    row: 4,
+    col: 0,
     msg: "Nicole, ser tu amiga es uno de los mejores regalos que me ha dado la vida 💚. ¡Feliz cumpleaños! Que este año sea el mejor de todos.",
-    mapX: 420, mapY: 270 }
+    mapX: 420,
+    mapY: 270,
+  },
 ];
 
 let gameRunning = false;
 let gameCanvas, gameCtx;
-let spriteImg = null, spriteLoaded = false;
-let dialogActive = false, dialogNpc = null;
+let spriteImg = null,
+  spriteLoaded = false;
+let dialogActive = false,
+  dialogNpc = null,
+  dialogCooldown = false;
 
-const player = { x: 240, y: 190, speed: 2, dir: 0, frame: 0, frameTimer: 0, moving: false };
+const player = {
+  x: 240,
+  y: 190,
+  speed: 2,
+  dir: 0,
+  frame: 0,
+  frameTimer: 0,
+  moving: false,
+};
 const keys = { up: false, down: false, left: false, right: false };
 const joystick = { active: false, baseX: 0, baseY: 0, dx: 0, dy: 0 };
 
@@ -217,8 +312,16 @@ function buildCalendarGame() {
     </div>
   `;
   document.getElementById("gameStartBtn").addEventListener("click", startGame);
-  document.getElementById("gameStartBtn").addEventListener("mouseover", function() { this.style.transform = "scale(1.05)"; });
-  document.getElementById("gameStartBtn").addEventListener("mouseout", function() { this.style.transform = "scale(1)"; });
+  document
+    .getElementById("gameStartBtn")
+    .addEventListener("mouseover", function () {
+      this.style.transform = "scale(1.05)";
+    });
+  document
+    .getElementById("gameStartBtn")
+    .addEventListener("mouseout", function () {
+      this.style.transform = "scale(1)";
+    });
 }
 
 function startGame() {
@@ -237,15 +340,20 @@ function startGame() {
   if (!spriteLoaded) {
     spriteImg = new Image();
     spriteImg.src = SPRITE_URL;
-    spriteImg.onload = () => { spriteLoaded = true; };
-    spriteImg.onerror = () => { spriteLoaded = false; };
+    spriteImg.onload = () => {
+      spriteLoaded = true;
+    };
+    spriteImg.onerror = () => {
+      spriteLoaded = false;
+    };
   }
 
-  player.x = W / 2; player.y = H / 2;
+  player.x = W / 2;
+  player.y = H / 2;
   gameRunning = true;
 
   document.getElementById("gameBackBtn").addEventListener("click", stopGame);
-  document.getElementById("dialogClose").addEventListener("click", closeDialog);
+  document.getElementById("dialogClose").onclick = closeDialog;
   gameCanvas.addEventListener("click", onCanvasClick);
   gameCanvas.addEventListener("touchstart", onCanvasTouch, { passive: false });
   window.addEventListener("keydown", onKeyDown);
@@ -273,33 +381,57 @@ function gameLoop() {
 
 function update() {
   if (dialogActive) return;
-  let dx = 0, dy = 0;
-  if (keys.up)    dy = -1;
-  if (keys.down)  dy =  1;
-  if (keys.left)  dx = -1;
-  if (keys.right) dx =  1;
-  if (joystick.active && (Math.abs(joystick.dx) > 8 || Math.abs(joystick.dy) > 8)) {
+  let dx = 0,
+    dy = 0;
+  if (keys.up) dy = -1;
+  if (keys.down) dy = 1;
+  if (keys.left) dx = -1;
+  if (keys.right) dx = 1;
+  if (
+    joystick.active &&
+    (Math.abs(joystick.dx) > 8 || Math.abs(joystick.dy) > 8)
+  ) {
     const mag = Math.sqrt(joystick.dx ** 2 + joystick.dy ** 2);
-    dx = joystick.dx / mag; dy = joystick.dy / mag;
+    dx = joystick.dx / mag;
+    dy = joystick.dy / mag;
   }
-  player.moving = (dx !== 0 || dy !== 0);
+  player.moving = dx !== 0 || dy !== 0;
   if (player.moving) {
-    if (Math.abs(dy) >= Math.abs(dx)) { player.dir = dy > 0 ? 0 : 3; }
-    else { player.dir = dx > 0 ? 2 : 1; }
-    player.x = Math.max(16, Math.min(gameCanvas.width - 16, player.x + dx * player.speed));
-    player.y = Math.max(16, Math.min(gameCanvas.height - 16, player.y + dy * player.speed));
+    if (Math.abs(dy) >= Math.abs(dx)) {
+      player.dir = dy > 0 ? 0 : 3;
+    } else {
+      player.dir = dx > 0 ? 2 : 1;
+    }
+    player.x = Math.max(
+      16,
+      Math.min(gameCanvas.width - 16, player.x + dx * player.speed),
+    );
+    player.y = Math.max(
+      16,
+      Math.min(gameCanvas.height - 16, player.y + dy * player.speed),
+    );
     player.frameTimer++;
-    if (player.frameTimer >= 10) { player.frame = (player.frame + 1) % 4; player.frameTimer = 0; }
-  } else { player.frame = 0; }
+    if (player.frameTimer >= 10) {
+      player.frame = (player.frame + 1) % 4;
+      player.frameTimer = 0;
+    }
+  } else {
+    player.frame = 0;
+  }
 
   for (const npc of NPCS) {
-    if (Math.hypot(player.x - npc.mapX, player.y - npc.mapY) < 34) { openDialog(npc); break; }
+    if (Math.hypot(player.x - npc.mapX, player.y - npc.mapY) < 34) {
+      openDialog(npc);
+      break;
+    }
   }
 }
 
 // ---- DIBUJO ----
 function drawBeach() {
-  const g = gameCtx, W = gameCanvas.width, H = gameCanvas.height;
+  const g = gameCtx,
+    W = gameCanvas.width,
+    H = gameCanvas.height;
   const t = Date.now() / 1000;
 
   // Arena
@@ -319,9 +451,11 @@ function drawBeach() {
   // Destellos en el agua
   g.fillStyle = "rgba(255,255,255,0.07)";
   for (let i = 0; i < 8; i++) {
-    const wx = ((i * 67 + t * 30) % W);
+    const wx = (i * 67 + t * 30) % W;
     const wy = 10 + (i % 3) * 20;
-    g.beginPath(); g.ellipse(wx, wy, 18, 3, 0, 0, Math.PI * 2); g.fill();
+    g.beginPath();
+    g.ellipse(wx, wy, 18, 3, 0, 0, Math.PI * 2);
+    g.fill();
   }
 
   // Olas
@@ -330,7 +464,7 @@ function drawBeach() {
     g.lineWidth = 2.5 - wave;
     g.beginPath();
     for (let x = 0; x <= W; x += 6) {
-      const y = H * 0.26 - wave * 6 + Math.sin((x / 55) + t + wave) * 5;
+      const y = H * 0.26 - wave * 6 + Math.sin(x / 55 + t + wave) * 5;
       x === 0 ? g.moveTo(x, y) : g.lineTo(x, y);
     }
     g.stroke();
@@ -339,47 +473,113 @@ function drawBeach() {
   // Textura de arena (puntitos)
   g.fillStyle = "rgba(180,140,60,0.18)";
   for (let i = 0; i < 60; i++) {
-    const sx = (i * 83) % W, sy = H * 0.28 + (i * 47) % (H * 0.72);
-    g.beginPath(); g.arc(sx, sy, 2, 0, Math.PI * 2); g.fill();
+    const sx = (i * 83) % W,
+      sy = H * 0.28 + ((i * 47) % (H * 0.72));
+    g.beginPath();
+    g.arc(sx, sy, 2, 0, Math.PI * 2);
+    g.fill();
   }
 
   // Piedras
-  [[55,65],[W-60,85],[W-50,210],[28,290],[W-80,330]].forEach(([rx,ry]) => {
-    g.fillStyle = "#a09070"; g.beginPath(); g.ellipse(rx, ry, 13, 9, 0.3, 0, Math.PI*2); g.fill();
-    g.fillStyle = "#c0b080"; g.beginPath(); g.ellipse(rx-2, ry-2, 7, 4, 0.3, 0, Math.PI*2); g.fill();
+  [
+    [55, 65],
+    [W - 60, 85],
+    [W - 50, 210],
+    [28, 290],
+    [W - 80, 330],
+  ].forEach(([rx, ry]) => {
+    g.fillStyle = "#a09070";
+    g.beginPath();
+    g.ellipse(rx, ry, 13, 9, 0.3, 0, Math.PI * 2);
+    g.fill();
+    g.fillStyle = "#c0b080";
+    g.beginPath();
+    g.ellipse(rx - 2, ry - 2, 7, 4, 0.3, 0, Math.PI * 2);
+    g.fill();
   });
 
   // Palmeras
-  [[55,130],[W-50,105],[28,H-60],[W-60,H-50]].forEach(([px,py]) => drawPalm(g, px, py));
+  [
+    [55, 130],
+    [W - 50, 105],
+    [28, H - 60],
+    [W - 60, H - 50],
+  ].forEach(([px, py]) => drawPalm(g, px, py));
 
   // Sombrillas
-  drawUmbrella(g, 165, H-90, "#ff4f8b");
+  drawUmbrella(g, 165, H - 90, "#ff4f8b");
   drawUmbrella(g, 310, 210, "#7ef2ff");
 
   // Conchas
-  [[140,H-60],[280,H-70],[360,H-55],[95,190],[W-120,270]].forEach(([sx,sy]) => {
-    g.fillStyle = "#ffb7c5"; g.beginPath(); g.arc(sx, sy, 5, 0, Math.PI*2); g.fill();
-    g.fillStyle = "rgba(255,255,255,0.7)"; g.beginPath(); g.arc(sx-1, sy-1, 2, 0, Math.PI*2); g.fill();
+  [
+    [140, H - 60],
+    [280, H - 70],
+    [360, H - 55],
+    [95, 190],
+    [W - 120, 270],
+  ].forEach(([sx, sy]) => {
+    g.fillStyle = "#ffb7c5";
+    g.beginPath();
+    g.arc(sx, sy, 5, 0, Math.PI * 2);
+    g.fill();
+    g.fillStyle = "rgba(255,255,255,0.7)";
+    g.beginPath();
+    g.arc(sx - 1, sy - 1, 2, 0, Math.PI * 2);
+    g.fill();
   });
 }
 
 function drawPalm(g, x, y) {
-  g.strokeStyle = "#7a4f2a"; g.lineWidth = 5;
-  g.beginPath(); g.moveTo(x, y+45); g.bezierCurveTo(x+6,y+20,x-6,y,x,y-18); g.stroke();
-  [[-1,-0.9],[0,-1.1],[1,-0.9],[-0.8,0.1],[0.8,0.1]].forEach(([lx,ly]) => {
+  g.strokeStyle = "#7a4f2a";
+  g.lineWidth = 5;
+  g.beginPath();
+  g.moveTo(x, y + 45);
+  g.bezierCurveTo(x + 6, y + 20, x - 6, y, x, y - 18);
+  g.stroke();
+  [
+    [-1, -0.9],
+    [0, -1.1],
+    [1, -0.9],
+    [-0.8, 0.1],
+    [0.8, 0.1],
+  ].forEach(([lx, ly]) => {
     g.fillStyle = "#2d7a38";
-    g.beginPath(); g.ellipse(x+lx*26, y-18+ly*16, 17, 5, Math.atan2(ly,lx), 0, Math.PI*2); g.fill();
+    g.beginPath();
+    g.ellipse(
+      x + lx * 26,
+      y - 18 + ly * 16,
+      17,
+      5,
+      Math.atan2(ly, lx),
+      0,
+      Math.PI * 2,
+    );
+    g.fill();
   });
 }
 
 function drawUmbrella(g, x, y, color) {
-  g.strokeStyle = "#7a4f2a"; g.lineWidth = 3;
-  g.beginPath(); g.moveTo(x, y); g.lineTo(x, y-44); g.stroke();
-  g.fillStyle = color; g.globalAlpha = 0.82;
-  g.beginPath(); g.arc(x, y-44, 21, Math.PI, 0); g.closePath(); g.fill();
+  g.strokeStyle = "#7a4f2a";
+  g.lineWidth = 3;
+  g.beginPath();
+  g.moveTo(x, y);
+  g.lineTo(x, y - 44);
+  g.stroke();
+  g.fillStyle = color;
+  g.globalAlpha = 0.82;
+  g.beginPath();
+  g.arc(x, y - 44, 21, Math.PI, 0);
+  g.closePath();
+  g.fill();
   g.globalAlpha = 1;
-  g.strokeStyle = "rgba(255,255,255,0.35)"; g.lineWidth = 1.5;
-  for (let i = -2; i <= 2; i++) { g.beginPath(); g.moveTo(x,y-44); g.lineTo(x+i*8,y-44+(i===0?0:18)); g.stroke(); }
+  g.strokeStyle = "rgba(255,255,255,0.35)";
+  g.lineWidth = 1.5;
+  for (let i = -2; i <= 2; i++) {
+    g.beginPath();
+    g.moveTo(x, y - 44);
+    g.lineTo(x + i * 8, y - 44 + (i === 0 ? 0 : 18));
+    g.stroke();
+  }
 }
 
 // Sprite del jugador: fila 6 del spritesheet de Kenney (personaje femenino castaño)
@@ -387,54 +587,98 @@ function drawUmbrella(g, x, y, color) {
 function drawSprite(g, row, col, x, y, flip) {
   const size = 16 * SCALE;
   if (spriteLoaded && spriteImg) {
-    const sx = col * TILE, sy = row * TILE;
-    if (flip) { g.save(); g.scale(-1,1); g.drawImage(spriteImg, sx, sy, 16, 16, -(x+size/2), y-size/2, size, size); g.restore(); }
-    else { g.drawImage(spriteImg, sx, sy, 16, 16, x-size/2, y-size/2, size, size); }
+    const sx = col * TILE,
+      sy = row * TILE;
+    if (flip) {
+      g.save();
+      g.scale(-1, 1);
+      g.drawImage(
+        spriteImg,
+        sx,
+        sy,
+        16,
+        16,
+        -(x + size / 2),
+        y - size / 2,
+        size,
+        size,
+      );
+      g.restore();
+    } else {
+      g.drawImage(
+        spriteImg,
+        sx,
+        sy,
+        16,
+        16,
+        x - size / 2,
+        y - size / 2,
+        size,
+        size,
+      );
+    }
   } else {
     // Fallback pixel-art si no carga el sprite
     g.fillStyle = "#ff9fbe";
-    g.fillRect(x-8, y-14, 16, 20);
+    g.fillRect(x - 8, y - 14, 16, 20);
     g.fillStyle = "#6b3a2a";
-    g.fillRect(x-8, y-20, 16, 8);
+    g.fillRect(x - 8, y - 20, 16, 8);
   }
 }
 
 function drawPlayerChar(g) {
   const size = 16 * SCALE;
   // Sombra
-  g.fillStyle = "rgba(0,0,0,0.2)"; g.beginPath();
-  g.ellipse(player.x, player.y+size/2-2, 12, 5, 0, 0, Math.PI*2); g.fill();
+  g.fillStyle = "rgba(0,0,0,0.2)";
+  g.beginPath();
+  g.ellipse(player.x, player.y + size / 2 - 2, 12, 5, 0, 0, Math.PI * 2);
+  g.fill();
 
   const col = player.moving ? player.frame : 0;
   const ROW = 6; // Fila del personaje femenino base en Kenney roguelike
   drawSprite(g, ROW, col, player.x, player.y, player.dir === 1);
 
   // Nombre
-  g.fillStyle = "rgba(0,0,0,0.6)"; g.beginPath();
-  g.roundRect(player.x-28, player.y-size/2-20, 56, 15, 4); g.fill();
-  g.fillStyle = "#ffe0f0"; g.font = "bold 9px sans-serif"; g.textAlign = "center";
-  g.fillText("Nicole 💗", player.x, player.y-size/2-8);
+  g.fillStyle = "rgba(0,0,0,0.6)";
+  g.beginPath();
+  g.roundRect(player.x - 28, player.y - size / 2 - 20, 56, 15, 4);
+  g.fill();
+  g.fillStyle = "#ffe0f0";
+  g.font = "bold 9px sans-serif";
+  g.textAlign = "center";
+  g.fillText("Nicole 💗", player.x, player.y - size / 2 - 8);
 }
 
 function drawNpcs(g) {
   const size = 16 * SCALE;
   NPCS.forEach((npc) => {
-    g.fillStyle = "rgba(0,0,0,0.15)"; g.beginPath();
-    g.ellipse(npc.mapX, npc.mapY+size/2-2, 12, 5, 0, 0, Math.PI*2); g.fill();
+    g.fillStyle = "rgba(0,0,0,0.15)";
+    g.beginPath();
+    g.ellipse(npc.mapX, npc.mapY + size / 2 - 2, 12, 5, 0, 0, Math.PI * 2);
+    g.fill();
     drawSprite(g, npc.row, 0, npc.mapX, npc.mapY, false);
-    const dist = Math.hypot(player.x-npc.mapX, player.y-npc.mapY);
+    const dist = Math.hypot(player.x - npc.mapX, player.y - npc.mapY);
     if (dist < 65 && !dialogActive) {
       const pulse = 0.8 + 0.2 * Math.sin(Date.now() / 300);
-      g.fillStyle = npc.color; g.globalAlpha = pulse;
-      g.beginPath(); g.arc(npc.mapX+15, npc.mapY-size/2-12, 9, 0, Math.PI*2); g.fill();
+      g.fillStyle = npc.color;
+      g.globalAlpha = pulse;
+      g.beginPath();
+      g.arc(npc.mapX + 15, npc.mapY - size / 2 - 12, 9, 0, Math.PI * 2);
+      g.fill();
       g.globalAlpha = 1;
-      g.fillStyle = "#1a1a2d"; g.font = "bold 12px sans-serif"; g.textAlign = "center";
-      g.fillText("!", npc.mapX+15, npc.mapY-size/2-7);
+      g.fillStyle = "#1a1a2d";
+      g.font = "bold 12px sans-serif";
+      g.textAlign = "center";
+      g.fillText("!", npc.mapX + 15, npc.mapY - size / 2 - 7);
     }
-    g.fillStyle = "rgba(0,0,0,0.6)"; g.beginPath();
-    g.roundRect(npc.mapX-30, npc.mapY-size/2-20, 60, 15, 4); g.fill();
-    g.fillStyle = npc.color; g.font = "bold 8px sans-serif"; g.textAlign = "center";
-    g.fillText(npc.name, npc.mapX, npc.mapY-size/2-8);
+    g.fillStyle = "rgba(0,0,0,0.6)";
+    g.beginPath();
+    g.roundRect(npc.mapX - 30, npc.mapY - size / 2 - 20, 60, 15, 4);
+    g.fill();
+    g.fillStyle = npc.color;
+    g.font = "bold 8px sans-serif";
+    g.textAlign = "center";
+    g.fillText(npc.name, npc.mapX, npc.mapY - size / 2 - 8);
   });
 }
 
@@ -446,15 +690,24 @@ function draw() {
   drawPlayerChar(gameCtx);
   if (!dialogActive) {
     gameCtx.fillStyle = "rgba(0,0,0,0.5)";
-    gameCtx.beginPath(); gameCtx.roundRect(gameCanvas.width/2-115, 7, 230, 18, 5); gameCtx.fill();
-    gameCtx.fillStyle = "rgba(255,255,255,0.8)"; gameCtx.font = "9px sans-serif"; gameCtx.textAlign = "center";
-    gameCtx.fillText("Acércate a tus amigos para leer su mensaje 💌", gameCanvas.width/2, 18);
+    gameCtx.beginPath();
+    gameCtx.roundRect(gameCanvas.width / 2 - 115, 7, 230, 18, 5);
+    gameCtx.fill();
+    gameCtx.fillStyle = "rgba(255,255,255,0.8)";
+    gameCtx.font = "9px sans-serif";
+    gameCtx.textAlign = "center";
+    gameCtx.fillText(
+      "Acércate a tus amigos para leer su mensaje 💌",
+      gameCanvas.width / 2,
+      18,
+    );
   }
 }
 
 function openDialog(npc) {
-  if (dialogActive && dialogNpc && dialogNpc.id === npc.id) return;
-  dialogActive = true; dialogNpc = npc;
+  if (dialogActive || dialogCooldown) return;
+  dialogActive = true;
+  dialogNpc = npc;
   const dlg = document.getElementById("gameDialog");
   document.getElementById("dialogName").textContent = npc.name;
   document.getElementById("dialogMsg").textContent = npc.msg;
@@ -464,40 +717,59 @@ function openDialog(npc) {
 }
 
 function closeDialog() {
-  dialogActive = false; dialogNpc = null;
+  dialogActive = false;
+  dialogNpc = null;
+  dialogCooldown = true;
+  setTimeout(() => {
+    dialogCooldown = false;
+  }, 1200);
   const dlg = document.getElementById("gameDialog");
   if (dlg) dlg.style.display = "none";
 }
 
 function onKeyDown(e) {
   if (!gameRunning) return;
-  if (e.key==="ArrowUp"   ||e.key==="w"||e.key==="W") keys.up    = true;
-  if (e.key==="ArrowDown" ||e.key==="s"||e.key==="S") keys.down  = true;
-  if (e.key==="ArrowLeft" ||e.key==="a"||e.key==="A") keys.left  = true;
-  if (e.key==="ArrowRight"||e.key==="d"||e.key==="D") keys.right = true;
-  if (e.key==="Escape") closeDialog();
-  if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].includes(e.key)) e.preventDefault();
+  if (e.key === "ArrowUp" || e.key === "w" || e.key === "W") keys.up = true;
+  if (e.key === "ArrowDown" || e.key === "s" || e.key === "S") keys.down = true;
+  if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") keys.left = true;
+  if (e.key === "ArrowRight" || e.key === "d" || e.key === "D")
+    keys.right = true;
+  if (e.key === "Escape") closeDialog();
+  if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key))
+    e.preventDefault();
 }
 function onKeyUp(e) {
-  if (e.key==="ArrowUp"   ||e.key==="w"||e.key==="W") keys.up    = false;
-  if (e.key==="ArrowDown" ||e.key==="s"||e.key==="S") keys.down  = false;
-  if (e.key==="ArrowLeft" ||e.key==="a"||e.key==="A") keys.left  = false;
-  if (e.key==="ArrowRight"||e.key==="d"||e.key==="D") keys.right = false;
+  if (e.key === "ArrowUp" || e.key === "w" || e.key === "W") keys.up = false;
+  if (e.key === "ArrowDown" || e.key === "s" || e.key === "S")
+    keys.down = false;
+  if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A")
+    keys.left = false;
+  if (e.key === "ArrowRight" || e.key === "d" || e.key === "D")
+    keys.right = false;
 }
 
 function onCanvasClick(e) {
-  if (dialogActive) { closeDialog(); return; }
+  if (dialogActive) {
+    closeDialog();
+    return;
+  }
   const rect = gameCanvas.getBoundingClientRect();
   const cx = (e.clientX - rect.left) * (gameCanvas.width / rect.width);
   const cy = (e.clientY - rect.top) * (gameCanvas.height / rect.height);
   for (const npc of NPCS) {
-    if (Math.hypot(cx-npc.mapX, cy-npc.mapY) < 40) { openDialog(npc); return; }
+    if (Math.hypot(cx - npc.mapX, cy - npc.mapY) < 40) {
+      openDialog(npc);
+      return;
+    }
   }
 }
 
 function onCanvasTouch(e) {
   e.preventDefault();
-  if (dialogActive) { closeDialog(); return; }
+  if (dialogActive) {
+    closeDialog();
+    return;
+  }
 }
 
 function setupJoystick() {
@@ -506,34 +778,48 @@ function setupJoystick() {
   const thumb = document.getElementById("joystickThumb");
   if (!zone) return;
 
-  zone.addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    const t = e.changedTouches[0];
-    const rect = zone.getBoundingClientRect();
-    joystick.active = true;
-    joystick.baseX = t.clientX - rect.left;
-    joystick.baseY = t.clientY - rect.top;
-    base.style.left = (joystick.baseX - 35) + "px";
-    base.style.top  = (joystick.baseY - 35) + "px";
-    base.style.opacity = "1";
-    joystick.dx = 0; joystick.dy = 0;
-  }, { passive: false });
+  zone.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      const t = e.changedTouches[0];
+      const rect = zone.getBoundingClientRect();
+      joystick.active = true;
+      joystick.baseX = t.clientX - rect.left;
+      joystick.baseY = t.clientY - rect.top;
+      base.style.left = joystick.baseX - 35 + "px";
+      base.style.top = joystick.baseY - 35 + "px";
+      base.style.opacity = "1";
+      joystick.dx = 0;
+      joystick.dy = 0;
+    },
+    { passive: false },
+  );
 
-  zone.addEventListener("touchmove", (e) => {
-    e.preventDefault();
-    if (!joystick.active) return;
-    const t = e.changedTouches[0];
-    const rect = zone.getBoundingClientRect();
-    joystick.dx = (t.clientX - rect.left) - joystick.baseX;
-    joystick.dy = (t.clientY - rect.top)  - joystick.baseY;
-    const mag = Math.sqrt(joystick.dx**2 + joystick.dy**2);
-    const maxR = 30;
-    if (mag > maxR) { joystick.dx = (joystick.dx/mag)*maxR; joystick.dy = (joystick.dy/mag)*maxR; }
-    thumb.style.transform = `translate(${joystick.dx}px, ${joystick.dy}px)`;
-  }, { passive: false });
+  zone.addEventListener(
+    "touchmove",
+    (e) => {
+      e.preventDefault();
+      if (!joystick.active) return;
+      const t = e.changedTouches[0];
+      const rect = zone.getBoundingClientRect();
+      joystick.dx = t.clientX - rect.left - joystick.baseX;
+      joystick.dy = t.clientY - rect.top - joystick.baseY;
+      const mag = Math.sqrt(joystick.dx ** 2 + joystick.dy ** 2);
+      const maxR = 30;
+      if (mag > maxR) {
+        joystick.dx = (joystick.dx / mag) * maxR;
+        joystick.dy = (joystick.dy / mag) * maxR;
+      }
+      thumb.style.transform = `translate(${joystick.dx}px, ${joystick.dy}px)`;
+    },
+    { passive: false },
+  );
 
   const endJoystick = () => {
-    joystick.active = false; joystick.dx = 0; joystick.dy = 0;
+    joystick.active = false;
+    joystick.dx = 0;
+    joystick.dy = 0;
     thumb.style.transform = "translate(0,0)";
     base.style.opacity = "0.4";
   };

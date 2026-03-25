@@ -3,22 +3,20 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   background: #1f2035;
   font-family: sans-serif;
   overflow: hidden;
   position: relative;
   color: white;
-} /* Fondo general y centrado */
+}
 
 #particleCanvas {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   z-index: 0;
-} /* Canvas de partículas detrás de todo */
+}
 
 .container {
   position: relative;
@@ -26,511 +24,128 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 35px;
   width: 100%;
-} /* Contenedor principal encima del canvas */
+  /* Padding bottom para que el contenido no quede bajo la nav */
+  padding-bottom: 130px;
+}
 
+/* ---- PANTALLAS ---- */
 .screen {
   display: none;
   width: 100%;
-  min-height: 320px;
+  min-height: calc(100vh - 130px);
   justify-content: center;
   align-items: center;
   flex-direction: column;
-} /* Oculta pantallas por defecto */
+  padding: 20px 16px 0;
+}
 
-.screen.active {
-  display: flex;
-} /* Muestra solo la pantalla activa */
+.screen.active { display: flex; }
 
+/* ---- HOME — búsqueda con partículas ---- */
 .search {
-  width: 460px;
-  padding: 16px 24px;
+  width: min(460px, 90vw);
+  padding: clamp(12px, 3vw, 16px) clamp(16px, 4vw, 24px);
   border-radius: 30px;
   border: none;
   outline: none;
-  font-size: 22px;
+  font-size: clamp(16px, 4vw, 22px);
   display: block;
-  margin: 0 auto;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-
-  margin-top: 120px; /* 👈 ESTO la baja hacia abajo */
+  margin: clamp(60px, 15vh, 120px) auto 0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  -webkit-appearance: none;
 }
 
-.timeline {
-  position: relative;
-  width: 460px;
-  padding-left: 35px;
-} /* Contenedor de línea del tiempo ajustado para dar más espacio al contenido */
+/* ---- CALENDARIO / JUEGO ---- */
+#calendarScreen {
+  padding: 10px 8px 0;
+  align-items: stretch;
+}
 
-.timeline-wrapper {
-  max-height: 380px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 20px;
-  width: 500px;
-  display: flex;
-  justify-content: center;
-} /* Contenedor que limita la altura y activa el scroll interno solo para esta pantalla */
-
-.timeline-wrapper::-webkit-scrollbar {
-  width: 6px;
-} /* Define el ancho de la barra de scroll personalizada */
-
-.timeline-wrapper::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-} /* Pista del scroll sutilmente transparente */
-
-.timeline-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(126, 242, 255, 0.3);
-  border-radius: 10px;
-  transition: background 0.3s ease;
-} /* Control del scroll con color cyan semitransparente para mantener el tema neón */
-
-.timeline-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #7ef2ff;
-} /* El control del scroll brilla más cuando pasas el mouse por encima */
-
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(126, 242, 255, 0),
-    #7ef2ff,
-    #ff4f8b,
-    rgba(255, 79, 139, 0)
-  );
-  border-radius: 10px;
-} /* La línea vertical ahora es un haz de luz degradado que usa tus colores cyan y rosa */
-
-.timeline-item {
-  position: relative;
-  margin: 40px 0;
-  cursor: pointer;
-} /* Separa cada evento y cambia el cursor para invitar a la interacción */
-
-.dot {
-  position: absolute;
-  left: -31.5px;
-  top: 15px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  z-index: 2;
-} /* Base del punto de la línea de tiempo re-centrado sobre la nueva línea de luz */
-
-.cyan-glow {
-  background: #7ef2ff;
-  box-shadow:
-    0 0 10px #7ef2ff,
-    0 0 20px rgba(126, 242, 255, 0.6);
-  animation: pulseCyan 2s infinite ease-in-out;
-} /* Punto cyan con luz neón constante y animación de latido */
-
-.pink-glow {
-  background: #ff4f8b;
-  box-shadow:
-    0 0 10px #ff4f8b,
-    0 0 20px rgba(255, 79, 139, 0.6);
-  animation: pulsePink 2s infinite ease-in-out;
-} /* Punto rosa con luz neón constante y animación de latido */
-
-@keyframes pulseCyan {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow:
-      0 0 10px #7ef2ff,
-      0 0 20px rgba(126, 242, 255, 0.4);
-  }
-  50% {
-    transform: scale(1.25);
-    box-shadow:
-      0 0 15px #7ef2ff,
-      0 0 35px #7ef2ff;
-  }
-} /* Animación que hace crecer sutilmente el punto y la luz cyan (efecto latido) */
-
-@keyframes pulsePink {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow:
-      0 0 10px #ff4f8b,
-      0 0 20px rgba(255, 79, 139, 0.4);
-  }
-  50% {
-    transform: scale(1.25);
-    box-shadow:
-      0 0 15px #ff4f8b,
-      0 0 35px #ff4f8b;
-  }
-} /* Animación que hace crecer sutilmente el punto y la luz rosa (efecto latido) */
-
-.content {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  padding: 18px 22px;
-  border-radius: 16px;
-  width: 340px;
-  transition:
-    transform 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-} /* Efecto cristal puro: fondo ultra translúcido, desenfoque, borde sutil y volumen con sombras */
-
-.timeline-item:hover .content {
-  transform: translateY(-5px);
-  border-color: rgba(126, 242, 255, 0.4);
-  box-shadow:
-    0 15px 35px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-} /* Al pasar el mouse, la tarjeta flota, su borde se ilumina levemente y la sombra crece */
-
-.content .date {
-  display: block;
-  font-size: 0.85rem;
-  color: #ff8dad;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
-} /* Estiliza la pequeña fecha en rosa pastel para que destaque del resto del texto */
-
-.content h3 {
-  margin: 0 0 6px 0;
-  font-size: 1.25rem;
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
-} /* Estiliza el título del evento, quitando márgenes extra y dándole un resplandor sutil */
-
-.content p {
-  margin: 0;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.4;
-} /* Estiliza la descripción haciéndola un poco más tenue para dar jerarquía visual */
-
+/* ---- CHAT ---- */
 .chat-box {
-  width: 500px;
-  height: 260px;
-  background: rgba(255, 255, 255, 0.08);
+  width: min(500px, 92vw);
+  height: clamp(200px, 40vh, 280px);
+  background: rgba(255,255,255,0.08);
   border-radius: 18px;
   padding: 16px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-} /* Caja del chat */
+}
 
 .message {
-  max-width: 70%;
-  padding: 10px 14px;
+  max-width: 75%;
+  padding: clamp(8px, 2vw, 10px) clamp(10px, 3vw, 14px);
   border-radius: 14px;
-  font-size: 16px;
-} /* Estilo base de mensaje */
+  font-size: clamp(14px, 3.5vw, 16px);
+}
 
-.message.received {
-  background: #6d5cff;
-  align-self: flex-start;
-} /* Mensaje recibido */
-
-.message.sent {
-  background: #ffffff;
-  color: #222;
-  align-self: flex-end;
-} /* Mensaje enviado */
+.message.received { background: #6d5cff; align-self: flex-start; }
+.message.sent { background: #fff; color: #222; align-self: flex-end; }
 
 .chat-input {
-  width: 500px;
+  width: min(500px, 92vw);
   margin-top: 12px;
-  padding: 14px 18px;
+  padding: clamp(10px, 3vw, 14px) 18px;
   border-radius: 16px;
   border: none;
   outline: none;
-  font-size: 16px;
-} /* Input para escribir mensajes */
-
-.image-viewer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} /* Contenedor de imagen */
-
-.camera-image {
-  max-width: 460px;
-  max-height: 300px;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-} /* Imagen de cámara */
-
-/* --- PANTALLA LOGROS (MEJORADA) --- */
-/* --- PANTALLA LOGROS --- */
-.achievements-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  /* El 130px de abajo es clave: da espacio para que el menú fijo no tape nada al llegar al final */
-  padding: 0 20px 130px 20px;
-  overflow-y: auto; /* Activa el scroll */
-  width: 90%;
-  max-width: 500px;
-  margin-top: 0;
-
-  /* ESTO FUERZA EL SCROLL: Limita la altura al 85% de la pantalla */
-  max-height: 85vh;
+  font-size: clamp(14px, 3.5vw, 16px);
+  -webkit-appearance: none;
 }
 
-/* Opcional: Esto hace que la barrita del scroll se vea súper moderna y combine con tus colores */
-.achievements-list::-webkit-scrollbar {
-  width: 6px;
-}
-.achievements-list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-}
-.achievements-list::-webkit-scrollbar-thumb {
-  background: rgba(140, 123, 255, 0.5);
-  border-radius: 10px;
-}
-
-.achievement-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 18px 22px;
-  border-radius: 16px;
-  border-left: 5px solid #8c7bff;
-  cursor: pointer;
-  /* Animación más suave y elástica */
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-}
-
-.achievement-card:hover {
-  background: rgba(255, 255, 255, 0.09);
-  /* Al pasar el mouse, la tarjeta se mueve un poquito a la derecha */
-  transform: translateX(6px);
-  box-shadow: -2px 6px 20px rgba(140, 123, 255, 0.25);
-}
-
-.achievement-header {
-  font-weight: 600;
-  font-size: 1.05rem;
-  color: #ffffff;
-  letter-spacing: 0.02em;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-  transition:
-    color 0.3s ease,
-    text-shadow 0.3s ease;
-}
-
-.achievement-desc {
-  max-height: 0;
-  opacity: 0;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.95); /* Texto mucho más claro y legible */
-  line-height: 1.5;
-  margin-top: 0;
-  overflow: hidden;
-  transition:
-    max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
-    opacity 0.3s ease,
-    margin-top 0.3s ease;
-}
-
-/* --- ESTADO EXPANDIDO (Cuando le da clic) --- */
-.achievement-card.expanded {
-  background: rgba(126, 242, 255, 0.1);
-  border-left-color: #7ef2ff;
-  box-shadow: 0 8px 25px rgba(126, 242, 255, 0.2);
-}
-
-.achievement-card.expanded .achievement-header {
-  color: #7ef2ff;
-  text-shadow: 0 0 12px rgba(126, 242, 255, 0.6);
-}
-
-.achievement-card.expanded .achievement-desc {
-  max-height: 150px; /* Expande la caja para mostrar el texto */
-  opacity: 1;
-  margin-top: 12px;
-}
-
-/* --- BARRA DE NAVEGACIÓN --- */
-.navigation {
-  width: 560px;
-  height: 95px;
-  background: #fff;
-  position: fixed; /* Ancla el menú a la ventana del navegador */
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%); /* Lo mantiene perfectamente centrado */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 22px;
-  z-index: 100; /* Asegura que los logros pasen por debajo de la barra y no la tapen */
-}
-
-.navigation ul {
-  display: flex;
-  width: 460px;
-  justify-content: space-between;
-  padding: 0;
-  margin: 0;
-} /* Distribución de iconos */
-
-.navigation ul li {
-  position: relative;
-  list-style: none;
-  width: 90px;
-  height: 90px;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} /* Cada botón del menú */
-
-.navigation ul li a {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  text-decoration: none;
-} /* Área clickeable */
-
-.navigation ul li a .icon {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 34px;
-  transition: 0.5s;
-  color: #222;
-  width: 100%;
-  height: 100%;
-} /* Iconos */
-
-.navigation ul li.active a .icon {
-  transform: translateY(-38px);
-} /* Eleva el icono activo */
-
-.indicator {
-  position: absolute;
-  top: -35px; /* Centra perfectamente el recorte verticalmente */
-  left: 55px; /* JS se encarga de mover esto */
-  width: 90px;
-  height: 90px;
-  background: #1f2035; /* AHORA ES BLANCO: Mismo color que la barra de navegación */
-  border-radius: 50%;
-  border: 2px solid #1f2035; /* BORDE OSCURO: Mismo color que el fondo de la pantalla */
-  transition: 0.5s;
-} /* Indicador circular principal */
-
-.indicator::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -30px; /* Empuja el cuadro exactamente fuera del borde izquierdo */
-  height: 22px;
-  background: transparent;
-  border-top-right-radius: 22px;
-  box-shadow: 1px -18px 0 0 #1f2035; /* Dibuja la curva oscura cóncava */
-} /* Curva de transición izquierda */
-
-.indicator::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -30px; /* Empuja el cuadro exactamente fuera del borde derecho */
-  height: 22px;
-  background: transparent;
-  border-top-left-radius: 22px;
-  box-shadow: -1px -18px 0 0 #1f2035; /* Dibuja la curva oscura cóncava */
-} /* Curva de transición derecha */
-
-/* --- ESTILOS DEL CARRUSEL 3D (Cámara) --- */
+/* ---- CARRUSEL 3D ---- */
 .carousel-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: clamp(10px, 3vw, 30px);
   position: relative;
   width: 100%;
   max-width: 600px;
+  padding: 0 8px;
 }
 
 .scene {
-  width: 380px;
-  height: 260px;
-  perspective: 1000px; /* Crea la ilusión de profundidad 3D */
+  width: min(380px, 78vw);
+  height: clamp(160px, 35vw, 260px);
+  perspective: 1000px;
 }
 
 .carousel {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   position: relative;
-  transform-style: preserve-3d; /* Permite que los hijos existan en un espacio 3D */
-  transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animación suave al girar */
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.25,0.8,0.25,1);
   transform: translateZ(-190px) rotateY(0deg);
 }
 
 .carousel__cell {
   position: absolute;
-  width: 380px;
-  height: 260px;
-  left: 0;
-  top: 0;
+  width: 100%; height: 100%;
+  left: 0; top: 0;
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 2px solid rgba(126, 242, 255, 0.3); /* Borde cyan tenue */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 2px solid rgba(126,242,255,0.3);
 }
 
-.carousel__cell img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.carousel__cell img { width: 100%; height: 100%; object-fit: cover; }
 
-/* Colocamos cada imagen a 90 grados de diferencia empujándolas hacia afuera */
-.carousel__cell:nth-child(1) {
-  transform: rotateY(0deg) translateZ(190px);
-}
-.carousel__cell:nth-child(2) {
-  transform: rotateY(90deg) translateZ(190px);
-}
-.carousel__cell:nth-child(3) {
-  transform: rotateY(180deg) translateZ(190px);
-}
-.carousel__cell:nth-child(4) {
-  transform: rotateY(270deg) translateZ(190px);
-}
+.carousel__cell:nth-child(1) { transform: rotateY(0deg)   translateZ(190px); }
+.carousel__cell:nth-child(2) { transform: rotateY(90deg)  translateZ(190px); }
+.carousel__cell:nth-child(3) { transform: rotateY(180deg) translateZ(190px); }
+.carousel__cell:nth-child(4) { transform: rotateY(270deg) translateZ(190px); }
 
 .carousel-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
   color: white;
-  font-size: 20px;
-  width: 45px;
-  height: 45px;
+  font-size: clamp(16px, 4vw, 20px);
+  width: clamp(36px, 8vw, 45px);
+  height: clamp(36px, 8vw, 45px);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -539,12 +154,267 @@ body {
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
   z-index: 10;
+  flex-shrink: 0;
+  touch-action: manipulation;
 }
 
 .carousel-btn:hover {
-  background: rgba(126, 242, 255, 0.2);
+  background: rgba(126,242,255,0.2);
   border-color: #7ef2ff;
   color: #7ef2ff;
-  box-shadow: 0 0 15px rgba(126, 242, 255, 0.5);
+  box-shadow: 0 0 15px rgba(126,242,255,0.5);
   transform: scale(1.1);
+}
+
+/* ---- TIMELINE ---- */
+.timeline-wrapper {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 10px;
+  width: min(500px, 96vw);
+  display: flex;
+  justify-content: center;
+}
+
+.timeline-wrapper::-webkit-scrollbar { width: 6px; }
+.timeline-wrapper::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+.timeline-wrapper::-webkit-scrollbar-thumb { background: rgba(126,242,255,0.3); border-radius: 10px; }
+.timeline-wrapper::-webkit-scrollbar-thumb:hover { background: #7ef2ff; }
+
+.timeline {
+  position: relative;
+  width: min(460px, 88vw);
+  padding-left: 35px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 10px; top: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(to bottom, rgba(126,242,255,0), #7ef2ff, #ff4f8b, rgba(255,79,139,0));
+  border-radius: 10px;
+}
+
+.timeline-item {
+  position: relative;
+  margin: 30px 0;
+  cursor: pointer;
+}
+
+.dot {
+  position: absolute;
+  left: -31.5px; top: 15px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.cyan-glow {
+  background: #7ef2ff;
+  box-shadow: 0 0 10px #7ef2ff, 0 0 20px rgba(126,242,255,0.6);
+  animation: pulseCyan 2s infinite ease-in-out;
+}
+
+.pink-glow {
+  background: #ff4f8b;
+  box-shadow: 0 0 10px #ff4f8b, 0 0 20px rgba(255,79,139,0.6);
+  animation: pulsePink 2s infinite ease-in-out;
+}
+
+@keyframes pulseCyan {
+  0%,100% { transform: scale(1); box-shadow: 0 0 10px #7ef2ff, 0 0 20px rgba(126,242,255,0.4); }
+  50%      { transform: scale(1.25); box-shadow: 0 0 15px #7ef2ff, 0 0 35px #7ef2ff; }
+}
+
+@keyframes pulsePink {
+  0%,100% { transform: scale(1); box-shadow: 0 0 10px #ff4f8b, 0 0 20px rgba(255,79,139,0.4); }
+  50%      { transform: scale(1.25); box-shadow: 0 0 15px #ff4f8b, 0 0 35px #ff4f8b; }
+}
+
+.content {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+  padding: clamp(12px, 3vw, 18px) clamp(14px, 3.5vw, 22px);
+  border-radius: 16px;
+  width: 100%;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline-item:hover .content {
+  transform: translateY(-4px);
+  border-color: rgba(126,242,255,0.4);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.content .date { display: block; font-size: clamp(0.75rem, 2.5vw, 0.85rem); color: #ff8dad; font-weight: 600; letter-spacing: 0.05em; margin-bottom: 4px; }
+.content h3 { margin: 0 0 6px 0; font-size: clamp(1rem, 3.5vw, 1.25rem); color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.3); }
+.content p { margin: 0; font-size: clamp(0.85rem, 2.8vw, 0.95rem); color: rgba(255,255,255,0.75); line-height: 1.4; }
+
+/* ---- LOGROS ---- */
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 130px;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 500px;
+  max-height: calc(100vh - 140px);
+}
+
+.achievements-list::-webkit-scrollbar { width: 6px; }
+.achievements-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+.achievements-list::-webkit-scrollbar-thumb { background: rgba(140,123,255,0.5); border-radius: 10px; }
+
+.achievement-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: clamp(14px, 3vw, 18px) clamp(16px, 4vw, 22px);
+  border-radius: 16px;
+  border-left: 5px solid #8c7bff;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25,0.8,0.25,1);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  touch-action: manipulation;
+}
+
+.achievement-card:hover { background: rgba(255,255,255,0.09); transform: translateX(6px); box-shadow: -2px 6px 20px rgba(140,123,255,0.25); }
+
+.achievement-header {
+  font-weight: 600;
+  font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+  color: #fff;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 8px rgba(255,255,255,0.2);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.achievement-desc {
+  max-height: 0;
+  opacity: 0;
+  font-size: clamp(0.85rem, 3vw, 0.95rem);
+  color: rgba(255,255,255,0.95);
+  line-height: 1.5;
+  margin-top: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.25,0.8,0.25,1), opacity 0.3s ease, margin-top 0.3s ease;
+}
+
+.achievement-card.expanded { background: rgba(126,242,255,0.1); border-left-color: #7ef2ff; box-shadow: 0 8px 25px rgba(126,242,255,0.2); }
+.achievement-card.expanded .achievement-header { color: #7ef2ff; text-shadow: 0 0 12px rgba(126,242,255,0.6); }
+.achievement-card.expanded .achievement-desc { max-height: 200px; opacity: 1; margin-top: 10px; }
+
+/* ---- BARRA DE NAVEGACIÓN ---- */
+.navigation {
+  width: min(560px, 96vw);
+  height: clamp(70px, 14vw, 95px);
+  background: #fff;
+  position: fixed;
+  bottom: clamp(8px, 2vh, 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 22px;
+  z-index: 100;
+}
+
+.navigation ul {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.navigation ul li {
+  position: relative;
+  list-style: none;
+  width: clamp(50px, 16vw, 90px);
+  height: clamp(60px, 12vw, 90px);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navigation ul li a {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%; height: 100%;
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+}
+
+.navigation ul li a .icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: clamp(22px, 6vw, 34px);
+  transition: 0.5s;
+  color: #222;
+  width: 100%; height: 100%;
+}
+
+.navigation ul li.active a .icon { transform: translateY(-32px); }
+
+.indicator {
+  position: absolute;
+  top: clamp(-28px, -6vw, -35px);
+  left: 55px;
+  width: clamp(60px, 14vw, 90px);
+  height: clamp(60px, 14vw, 90px);
+  background: #1f2035;
+  border-radius: 50%;
+  border: 2px solid #1f2035;
+  transition: 0.5s;
+}
+
+.indicator::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: -30px;
+  height: 22px;
+  background: transparent;
+  border-top-right-radius: 22px;
+  box-shadow: 1px -18px 0 0 #1f2035;
+}
+
+.indicator::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: -30px;
+  height: 22px;
+  background: transparent;
+  border-top-left-radius: 22px;
+  box-shadow: -1px -18px 0 0 #1f2035;
+}
+
+/* ---- RESPONSIVE BREAKPOINTS ---- */
+@media (max-width: 480px) {
+  .navigation ul li.active a .icon { transform: translateY(-26px); }
+  .carousel { transform: translateZ(-140px) rotateY(0deg); }
+  .carousel__cell:nth-child(1) { transform: rotateY(0deg)   translateZ(140px); }
+  .carousel__cell:nth-child(2) { transform: rotateY(90deg)  translateZ(140px); }
+  .carousel__cell:nth-child(3) { transform: rotateY(180deg) translateZ(140px); }
+  .carousel__cell:nth-child(4) { transform: rotateY(270deg) translateZ(140px); }
+}
+
+@media (max-height: 600px) {
+  .screen { min-height: auto; padding-top: 10px; }
+  .navigation { bottom: 4px; }
 }

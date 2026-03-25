@@ -1,17 +1,23 @@
-const noBtn = document.getElementById("noBtn"); // Obtiene una referencia al botón NO usando su id
-const yesBtn = document.getElementById("yesBtn"); // Obtiene una referencia al botón SIIIIII usando su id
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
 
-noBtn.addEventListener("mouseover", () => {
-  // Escucha cuando el cursor entra sobre el botón NO
-  const x = Math.random() * (window.innerWidth - 120); // Genera una posición horizontal aleatoria dentro del ancho visible de la ventana dejando un margen para que el botón no se salga completo
-  const y = Math.random() * (window.innerHeight - 60); // Genera una posición vertical aleatoria dentro del alto visible de la ventana dejando un margen para que el botón no se salga completo
+function moveNoBtn() {
+  const margin = 80;
+  const x = Math.random() * (window.innerWidth - margin);
+  const y = Math.random() * (window.innerHeight - margin);
+  noBtn.style.position = "absolute";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
 
-  noBtn.style.position = "absolute"; // Cambia el posicionamiento del botón para poder moverlo libremente por la pantalla
-  noBtn.style.left = x + "px"; // Aplica la nueva posición horizontal en píxeles
-  noBtn.style.top = y + "px"; // Aplica la nueva posición vertical en píxeles
-});
+// Desktop: mouseover
+noBtn.addEventListener("mouseover", moveNoBtn);
+// Móvil: touchstart (antes de que el tap cuente como click)
+noBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  moveNoBtn();
+}, { passive: false });
 
 yesBtn.addEventListener("click", () => {
-  // Escucha cuando el usuario hace clic en el botón SIIIIII
-  window.location.href = "logIn.html"; // Redirige al archivo logIn.html que está en la misma carpeta HTML
+  window.location.href = "logIn.html";
 });
