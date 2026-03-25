@@ -51,90 +51,124 @@
       </div>
 
       <div id="chatScreen" class="screen">
-        <div class="letters-title">💌 Cartas para ti</div>
-        <div class="letters-grid" id="lettersGrid">
-          <div class="envelope" data-index="0">
-            <div class="envelope-front">
-              <div class="envelope-seal">🌸</div>
-              <div class="envelope-label">Carta 1</div>
-            </div>
-            <div class="envelope-letter">
-              <div class="letter-content">
-                <p class="letter-text">
-                  Placeholder carta 1 — reemplaza este texto con tu poema o
-                  frase dedicada.
-                </p>
-                <p class="letter-sign">— Con cariño 💗</p>
+        <p class="letters-title">💌 Cartas para ti</p>
+        <div class="letters-grid">
+          <div
+            class="env-item"
+            data-index="0"
+            data-text="Placeholder carta 1.
+Reemplaza esto con tu poema o frase dedicada."
+            data-seal="🌸"
+            data-label="Carta 1"
+          >
+            <div class="env-visual">
+              <div class="env-body-bg"></div>
+              <div class="env-flap"></div>
+              <div class="env-lines">
+                <div class="env-line-left"></div>
+                <div class="env-line-right"></div>
               </div>
-              <button class="letter-close">Cerrar ✕</button>
+              <div class="env-seal-wrap"><span>🌸</span></div>
+            </div>
+            <p class="env-name">Carta 1</p>
+          </div>
+          <div
+            class="env-item"
+            data-index="1"
+            data-text="Placeholder carta 2.
+Reemplaza esto con tu poema o frase dedicada."
+            data-seal="🌙"
+            data-label="Carta 2"
+          >
+            <div class="env-visual">
+              <div class="env-body-bg"></div>
+              <div class="env-flap"></div>
+              <div class="env-lines">
+                <div class="env-line-left"></div>
+                <div class="env-line-right"></div>
+              </div>
+              <div class="env-seal-wrap"><span>🌙</span></div>
+            </div>
+            <p class="env-name">Carta 2</p>
+          </div>
+          <div
+            class="env-item"
+            data-index="2"
+            data-text="Placeholder carta 3.
+Reemplaza esto con tu poema o frase dedicada."
+            data-seal="⭐"
+            data-label="Carta 3"
+          >
+            <div class="env-visual">
+              <div class="env-body-bg"></div>
+              <div class="env-flap"></div>
+              <div class="env-lines">
+                <div class="env-line-left"></div>
+                <div class="env-line-right"></div>
+              </div>
+              <div class="env-seal-wrap"><span>⭐</span></div>
+            </div>
+            <p class="env-name">Carta 3</p>
+          </div>
+          <div
+            class="env-item"
+            data-index="3"
+            data-text="Placeholder carta 4.
+Reemplaza esto con tu poema o frase dedicada."
+            data-seal="🎂"
+            data-label="Carta 4"
+          >
+            <div class="env-visual">
+              <div class="env-body-bg"></div>
+              <div class="env-flap"></div>
+              <div class="env-lines">
+                <div class="env-line-left"></div>
+                <div class="env-line-right"></div>
+              </div>
+              <div class="env-seal-wrap"><span>🎂</span></div>
+            </div>
+            <p class="env-name">Carta 4</p>
+          </div>
+          <div
+            class="env-item"
+            data-index="4"
+            data-text="Placeholder carta 5.
+Reemplaza esto con tu poema o frase dedicada."
+            data-seal="🦋"
+            data-label="Carta 5"
+          >
+            <div class="env-visual">
+              <div class="env-body-bg"></div>
+              <div class="env-flap"></div>
+              <div class="env-lines">
+                <div class="env-line-left"></div>
+                <div class="env-line-right"></div>
+              </div>
+              <div class="env-seal-wrap"><span>🦋</span></div>
+            </div>
+            <p class="env-name">Carta 5</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal del sobre abierto — fuera de cualquier contenedor con transform -->
+      <div id="envModal" style="display: none">
+        <div id="envModalBg"></div>
+        <div id="envModalInner">
+          <div id="envOpenVisual">
+            <div id="envOpenBody"></div>
+            <div id="envOpenFlapBack"></div>
+            <div id="envOpenFlapFront"></div>
+            <div id="envOpenLines">
+              <div class="env-line-left"></div>
+              <div class="env-line-right"></div>
             </div>
           </div>
-
-          <div class="envelope" data-index="1">
-            <div class="envelope-front">
-              <div class="envelope-seal">🌙</div>
-              <div class="envelope-label">Carta 2</div>
-            </div>
-            <div class="envelope-letter">
-              <div class="letter-content">
-                <p class="letter-text">
-                  Placeholder carta 2 — reemplaza este texto con tu poema o
-                  frase dedicada.
-                </p>
-                <p class="letter-sign">— Con cariño 💗</p>
-              </div>
-              <button class="letter-close">Cerrar ✕</button>
-            </div>
-          </div>
-
-          <div class="envelope" data-index="2">
-            <div class="envelope-front">
-              <div class="envelope-seal">⭐</div>
-              <div class="envelope-label">Carta 3</div>
-            </div>
-            <div class="envelope-letter">
-              <div class="letter-content">
-                <p class="letter-text">
-                  Placeholder carta 3 — reemplaza este texto con tu poema o
-                  frase dedicada.
-                </p>
-                <p class="letter-sign">— Con cariño 💗</p>
-              </div>
-              <button class="letter-close">Cerrar ✕</button>
-            </div>
-          </div>
-
-          <div class="envelope" data-index="3">
-            <div class="envelope-front">
-              <div class="envelope-seal">🎂</div>
-              <div class="envelope-label">Carta 4</div>
-            </div>
-            <div class="envelope-letter">
-              <div class="letter-content">
-                <p class="letter-text">
-                  Placeholder carta 4 — reemplaza este texto con tu poema o
-                  frase dedicada.
-                </p>
-                <p class="letter-sign">— Con cariño 💗</p>
-              </div>
-              <button class="letter-close">Cerrar ✕</button>
-            </div>
-          </div>
-
-          <div class="envelope" data-index="4">
-            <div class="envelope-front">
-              <div class="envelope-seal">🦋</div>
-              <div class="envelope-label">Carta 5</div>
-            </div>
-            <div class="envelope-letter">
-              <div class="letter-content">
-                <p class="letter-text">
-                  Placeholder carta 5 — reemplaza este texto con tu poema o
-                  frase dedicada.
-                </p>
-                <p class="letter-sign">— Con cariño 💗</p>
-              </div>
-              <button class="letter-close">Cerrar ✕</button>
+          <div id="envPaper">
+            <div id="envPaperInner">
+              <p id="envPaperSeal"></p>
+              <p id="envPaperText"></p>
+              <p id="envPaperSign">— Con cariño 💗</p>
             </div>
           </div>
         </div>

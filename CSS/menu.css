@@ -555,8 +555,74 @@ body {
 }
 
 /* ============================================================
-   CARTAS SELLADAS
+   CARTAS SELLADAS v3
    ============================================================ */
+
+.env-item[data-index="0"] {
+  --cl: #e05070;
+  --cd: #c0375a;
+  --cm: #d04060;
+}
+#envModal[data-index="0"] #envOpenBody,
+#envModal[data-index="0"] #envOpenFlapBack,
+#envModal[data-index="0"] #envOpenFlapFront {
+  --cl: #e05070;
+  --cd: #c0375a;
+  --cm: #d04060;
+}
+
+.env-item[data-index="1"] {
+  --cl: #2aaace;
+  --cd: #1a7a9a;
+  --cm: #1e8eb0;
+}
+#envModal[data-index="1"] #envOpenBody,
+#envModal[data-index="1"] #envOpenFlapBack,
+#envModal[data-index="1"] #envOpenFlapFront {
+  --cl: #2aaace;
+  --cd: #1a7a9a;
+  --cm: #1e8eb0;
+}
+
+.env-item[data-index="2"] {
+  --cl: #d0a020;
+  --cd: #a07010;
+  --cm: #b88015;
+}
+#envModal[data-index="2"] #envOpenBody,
+#envModal[data-index="2"] #envOpenFlapBack,
+#envModal[data-index="2"] #envOpenFlapFront {
+  --cl: #d0a020;
+  --cd: #a07010;
+  --cm: #b88015;
+}
+
+.env-item[data-index="3"] {
+  --cl: #40b030;
+  --cd: #2a7a20;
+  --cm: #359028;
+}
+#envModal[data-index="3"] #envOpenBody,
+#envModal[data-index="3"] #envOpenFlapBack,
+#envModal[data-index="3"] #envOpenFlapFront {
+  --cl: #40b030;
+  --cd: #2a7a20;
+  --cm: #359028;
+}
+
+.env-item[data-index="4"] {
+  --cl: #9050e0;
+  --cd: #6030a0;
+  --cm: #7040c0;
+}
+#envModal[data-index="4"] #envOpenBody,
+#envModal[data-index="4"] #envOpenFlapBack,
+#envModal[data-index="4"] #envOpenFlapFront {
+  --cl: #9050e0;
+  --cd: #6030a0;
+  --cm: #7040c0;
+}
+
 #chatScreen {
   padding-top: 16px;
   justify-content: flex-start;
@@ -577,218 +643,265 @@ body {
 .letters-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 24px;
   justify-content: center;
   width: 100%;
   max-width: 560px;
-  padding: 0 12px;
+  padding: 0 16px;
 }
 
-/* ── Sobre base ── */
-.envelope {
-  position: relative;
-  width: clamp(130px, 38vw, 160px);
-  height: clamp(100px, 28vw, 120px);
-  cursor: pointer;
-  perspective: 800px;
-}
-
-.envelope-front {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
+/* ── Sobre miniatura en grid ── */
+.env-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.env-item:hover {
+  transform: translateY(-4px) scale(1.04);
+}
+
+.env-visual {
   position: relative;
-  overflow: hidden;
+  width: clamp(120px, 33vw, 150px);
+  height: clamp(82px, 22vw, 102px);
 }
 
-/* Colores únicos por carta */
-.envelope[data-index="0"] .envelope-front {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 79, 139, 0.2),
-    rgba(255, 79, 139, 0.05)
-  );
-  box-shadow: 0 4px 20px rgba(255, 79, 139, 0.2);
-}
-.envelope[data-index="1"] .envelope-front {
-  background: linear-gradient(
-    135deg,
-    rgba(126, 242, 255, 0.2),
-    rgba(126, 242, 255, 0.05)
-  );
-  box-shadow: 0 4px 20px rgba(126, 242, 255, 0.2);
-}
-.envelope[data-index="2"] .envelope-front {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 224, 102, 0.2),
-    rgba(255, 224, 102, 0.05)
-  );
-  box-shadow: 0 4px 20px rgba(255, 224, 102, 0.15);
-}
-.envelope[data-index="3"] .envelope-front {
-  background: linear-gradient(
-    135deg,
-    rgba(168, 255, 120, 0.2),
-    rgba(168, 255, 120, 0.05)
-  );
-  box-shadow: 0 4px 20px rgba(168, 255, 120, 0.15);
-}
-.envelope[data-index="4"] .envelope-front {
-  background: linear-gradient(
-    135deg,
-    rgba(200, 150, 255, 0.2),
-    rgba(200, 150, 255, 0.05)
-  );
-  box-shadow: 0 4px 20px rgba(200, 150, 255, 0.2);
+/* Cuerpo del sobre */
+.env-body-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--cl, #e05070);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-.envelope-front::before {
-  content: "";
+/* Líneas diagonales del cuerpo */
+.env-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.env-line-left {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 clamp(82px, 22vw, 102px) clamp(60px, 16.5vw, 75px);
+  border-color: transparent transparent var(--cd, #c0375a) transparent;
+}
+.env-line-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 clamp(60px, 16.5vw, 75px) clamp(82px, 22vw, 102px) 0;
+  border-color: transparent var(--cd, #c0375a) transparent transparent;
+}
+
+/* Solapa delantera cerrada */
+.env-flap {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 50%;
-  background: rgba(255, 255, 255, 0.03);
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  height: 0;
+  border-left: calc(clamp(120px, 33vw, 150px) / 2) solid transparent;
+  border-right: calc(clamp(120px, 33vw, 150px) / 2) solid transparent;
+  border-top: calc(clamp(82px, 22vw, 102px) * 0.52) solid var(--cm, #d04060);
+  z-index: 3;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-.envelope:hover .envelope-front {
-  transform: translateY(-4px) scale(1.03);
-}
-
-.envelope-seal {
-  font-size: clamp(1.6rem, 5vw, 2rem);
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
+.env-seal-wrap {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
   animation: sealPulse 3s ease-in-out infinite;
+  pointer-events: none;
 }
-
 @keyframes sealPulse {
   0%,
   100% {
-    transform: scale(1);
+    transform: translateX(-50%) scale(1);
   }
   50% {
-    transform: scale(1.12);
+    transform: translateX(-50%) scale(1.2);
   }
 }
 
-.envelope-label {
-  font-size: clamp(0.65rem, 2.5vw, 0.75rem);
-  color: rgba(255, 255, 255, 0.6);
+.env-name {
+  font-size: clamp(0.6rem, 2vw, 0.72rem);
+  color: rgba(255, 255, 255, 0.5);
   letter-spacing: 1px;
   text-transform: uppercase;
+  margin: 0;
 }
 
-/* ── Carta (overlay) ── */
-.envelope-letter {
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.85);
-  width: min(420px, 92vw);
-  max-height: 75vh;
-  background: linear-gradient(160deg, #1e1b3a, #16132c);
-  border-radius: 20px;
-  padding: 28px 24px 20px;
-  z-index: 200;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow:
-    0 0 60px rgba(255, 79, 139, 0.25),
-    0 20px 60px rgba(0, 0, 0, 0.6);
-  opacity: 0;
-  transition:
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    opacity 0.3s ease;
-  overflow-y: auto;
-}
-
-.envelope-letter.open {
-  display: flex;
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* Borde de color por carta */
-.envelope[data-index="0"] .envelope-letter {
-  border: 2px solid rgba(255, 79, 139, 0.5);
-}
-.envelope[data-index="1"] .envelope-letter {
-  border: 2px solid rgba(126, 242, 255, 0.5);
-}
-.envelope[data-index="2"] .envelope-letter {
-  border: 2px solid rgba(255, 224, 102, 0.5);
-}
-.envelope[data-index="3"] .envelope-letter {
-  border: 2px solid rgba(168, 255, 120, 0.5);
-}
-.envelope[data-index="4"] .envelope-letter {
-  border: 2px solid rgba(200, 150, 255, 0.5);
-}
-
-/* Overlay oscuro de fondo */
-.letter-overlay {
-  display: none;
+/* ══════════════════════════════════════════
+   MODAL DEL SOBRE ABIERTO
+   ══════════════════════════════════════════ */
+#envModal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  z-index: 199;
-  backdrop-filter: blur(3px);
-}
-.letter-overlay.active {
-  display: block;
-}
-
-.letter-content {
-  flex: 1;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
 }
 
-.letter-text {
-  font-size: clamp(0.9rem, 3.5vw, 1.05rem);
-  color: rgba(255, 255, 255, 0.92);
-  line-height: 1.8;
+#envModalBg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+#envModalInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: min(300px, 85vw);
+}
+
+/* Sobre grande abierto */
+#envOpenVisual {
+  position: relative;
+  width: 100%;
+  height: calc(min(300px, 85vw) * 0.65);
+  flex-shrink: 0;
+}
+
+#envOpenBody {
+  position: absolute;
+  inset: 0;
+  background: var(--cl, #e05070);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 4; /* tapa la carta mientras está dentro */
+}
+
+#envOpenLines {
+  position: absolute;
+  inset: 0;
+  z-index: 5; /* encima del cuerpo */
+  pointer-events: none;
+}
+#envOpenLines .env-line-left {
+  border-width: 0 0 calc(min(300px, 85vw) * 0.65) calc(min(300px, 85vw) * 0.5);
+}
+#envOpenLines .env-line-right {
+  border-width: 0 calc(min(300px, 85vw) * 0.5) calc(min(300px, 85vw) * 0.65) 0;
+}
+
+/* Solapa trasera (visible, fija) */
+#envOpenFlapBack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-left: calc(min(300px, 85vw) / 2) solid transparent;
+  border-right: calc(min(300px, 85vw) / 2) solid transparent;
+  border-top: calc(min(300px, 85vw) * 0.34) solid var(--cd, #c0375a);
+  z-index: 1;
+}
+
+/* Solapa delantera (abierta = girada) */
+#envOpenFlapFront {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-left: calc(min(300px, 85vw) / 2) solid transparent;
+  border-right: calc(min(300px, 85vw) / 2) solid transparent;
+  border-top: calc(min(300px, 85vw) * 0.34) solid var(--cm, #d04060);
+  z-index: 5;
+  transform-origin: top center;
+  transform: rotateX(180deg);
+  transition: transform 0.5s ease;
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* Carta de papel */
+#envPaper {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 8%;
+  height: 90%;
+  background: linear-gradient(160deg, #fdf6ff, #f0e8ff);
+  border-radius: 6px 6px 4px 4px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 6;
+  overflow: hidden;
+  transform: translateY(0%);
+  animation: paperReveal 0.45s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+}
+
+@keyframes paperReveal {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+#envPaperInner {
+  padding: 14px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#envPaperSeal {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+#envPaperText {
+  font-size: clamp(0.75rem, 3vw, 0.92rem);
+  color: #2a1a3a;
+  line-height: 1.7;
   white-space: pre-line;
-  margin: 0 0 16px;
+  margin: 0;
   font-style: italic;
 }
 
-.letter-sign {
-  font-size: clamp(0.85rem, 3vw, 0.95rem);
-  color: #ff8dad;
-  text-align: right;
-  margin: 0;
+#envPaperSign {
+  font-size: clamp(0.7rem, 2.5vw, 0.82rem);
+  color: #8a3a6a;
   font-weight: 600;
-}
-
-.letter-close {
+  margin: 0;
   align-self: flex-end;
-  padding: 7px 20px;
-  border: none;
-  border-radius: 50px;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-  touch-action: manipulation;
 }
 
-.letter-close:hover {
-  background: rgba(255, 79, 139, 0.2);
-  color: #ff8dad;
+/* Cuando la carta está sacada — visible encima del sobre */
+#envModal.pulled #envPaper {
+  z-index: 10;
+  opacity: 1;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+#envModal.pulled #envDragHint {
+  display: none;
 }
