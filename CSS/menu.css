@@ -55,6 +55,8 @@ body.home-active #particleCanvas {
 
 .screen.active {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Home screen usa todo el espacio para las partículas */
@@ -273,8 +275,11 @@ body.home-active #particleCanvas {
   gap: 12px;
   padding: 0 16px calc(130px + env(safe-area-inset-bottom, 0px));
   overflow-y: auto;
-  width: 100%;
+  width: min(500px, 92vw);
   max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
   /* 100dvh = viewport real sin barra de navegador (iOS Safari fix) */
   max-height: calc(100dvh - 140px);
   max-height: calc(100vh - 140px); /* fallback para navegadores viejos */
