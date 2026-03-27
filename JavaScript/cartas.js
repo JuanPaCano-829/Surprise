@@ -1,5 +1,5 @@
 // ============================================================
-//  CARRUSEL 3D DE SOBRES
+//  CARRUSEL 3D DE SOBRES + Animación de apertura
 // ============================================================
 function initLetters() {
   const carousel = document.getElementById("envCarousel");
@@ -7,36 +7,33 @@ function initLetters() {
   const nextBtn = document.getElementById("envNext");
   const modal = document.getElementById("envModal");
   const modalBg = document.getElementById("envModalBg");
-  const paper = document.getElementById("envPaper");
+  const envelope = document.getElementById("envEnvelope");
   const txtEl = document.getElementById("envPaperText");
   const sealEl = document.getElementById("envPaperSeal");
+  const closeBtn = document.getElementById("envCloseBtn");
   const items = document.querySelectorAll(".env-carousel-item");
   if (!carousel || !items.length) return;
 
   const TOTAL = items.length;
-  const STEP = 360 / TOTAL; // 72° entre sobres
+  const STEP = 360 / TOTAL;
   let rotation = 0;
   let autoTimer = null;
 
-  // ── Rotación ────────────────────────────────────────────
+  // ── Rotación del carrusel ────────────────────────────────
   function rotateTo(deg) {
     rotation = deg;
     carousel.style.transform = `perspective(1000px) rotateY(${rotation}deg)`;
   }
-
   function goNext() {
     clearTimeout(autoTimer);
     rotateTo(rotation - STEP);
     scheduleAuto();
   }
-
   function goPrev() {
     clearTimeout(autoTimer);
     rotateTo(rotation + STEP);
     scheduleAuto();
   }
-
-  // Auto-rotate cada 3s
   function scheduleAuto() {
     autoTimer = setTimeout(() => {
       rotateTo(rotation - STEP);
@@ -47,39 +44,30 @@ function initLetters() {
   prevBtn.addEventListener("click", goPrev);
   nextBtn.addEventListener("click", goNext);
 
-  // ── Detectar cuál sobre está al frente ──────────────────
   function getFrontIndex() {
-    // El sobre al frente es el que tiene el ángulo más cercano a 0° (mod 360)
     const normalized = ((rotation % 360) + 360) % 360;
     const front = Math.round(normalized / STEP) % TOTAL;
     return (TOTAL - front) % TOTAL;
   }
 
-  // ── Abrir sobre al hacer clic ───────────────────────────
+  // ── Clic en sobre del carrusel ───────────────────────────
   items.forEach((item) => {
     item.addEventListener("click", () => {
       const front = getFrontIndex();
       const itemIdx = parseInt(item.getAttribute("data-index"));
-      // Solo abrir si es el que está al frente
       if (itemIdx !== front) {
-        // Rotar hacia ese sobre
+        // Girar hacia él
         clearTimeout(autoTimer);
         const diff = itemIdx - front;
         rotateTo(rotation - diff * STEP);
         scheduleAuto();
         return;
       }
-      // Abrir modal
-      txtEl.textContent = item.getAttribute("data-text");
-      sealEl.textContent = item.getAttribute("data-seal");
-      modal.setAttribute("data-index", item.getAttribute("data-index"));
-      paper.style.transform = "translateY(0%)";
-      modal.style.display = "flex";
-      clearTimeout(autoTimer);
+      openModal(item);
     });
   });
 
-  // ── Swipe táctil ────────────────────────────────────────
+  // Swipe
   let touchStartX = 0;
   carousel.addEventListener(
     "touchstart",
@@ -97,11 +85,38 @@ function initLetters() {
     { passive: true },
   );
 
-  // ── Cerrar modal ────────────────────────────────────────
-  function closeModal() {
-    modal.style.display = "none";
-    scheduleAuto();
+  // ── Abrir modal con animación ────────────────────────────
+  function openModal(item) {
+    clearTimeout(autoTimer);
+    txtEl.textContent = item.getAttribute("data-text");
+    sealEl.textContent = item.getAttribute("data-seal");
+    modal.setAttribute("data-index", item.getAttribute("data-index"));
+
+    // Resetear a cerrado
+    envelope.className = "env-closed";
+    modal.style.display = "flex";
+
+    // Disparar apertura con un pequeño delay para que el CSS se aplique
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        envelope.classList.remove("env-closed");
+        envelope.classList.add("env-open");
+      });
+    });
   }
+
+  // ── Cerrar modal ─────────────────────────────────────────
+  function closeModal() {
+    // Cerrar con animación
+    envelope.classList.remove("env-open");
+    envelope.classList.add("env-closed");
+    setTimeout(() => {
+      modal.style.display = "none";
+      scheduleAuto();
+    }, 500);
+  }
+
+  closeBtn.addEventListener("click", closeModal);
   modalBg.addEventListener("click", closeModal);
 
   // Arrancar

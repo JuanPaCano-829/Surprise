@@ -130,26 +130,42 @@ Reemplaza esto con tu poema o frase dedicada." data-seal="🦋">
         <p class="env-carousel-hint">Toca el sobre del frente para abrirlo</p>
       </div>
 
-      <!-- Modal del sobre abierto — fuera de cualquier contenedor con transform -->
-      <div id="envModal" style="display: none">
+      <!-- Modal del sobre — animación de apertura -->
+      <div id="envModal" style="display:none">
         <div id="envModalBg"></div>
         <div id="envModalInner">
-          <div id="envOpenVisual">
-            <div id="envOpenBody"></div>
-            <div id="envOpenFlapBack"></div>
-            <div id="envOpenFlapFront"></div>
-            <div id="envOpenLines">
-              <div class="env-line-left"></div>
-              <div class="env-line-right"></div>
+
+          <!-- Sobre con animación referencia -->
+          <div id="envEnvelope" class="env-closed">
+
+            <!-- Solapa trasera (se dobla hacia atrás) -->
+            <div id="envFlapBack"></div>
+
+            <!-- Carta (sube al abrirse) -->
+            <div id="envLetter">
+              <div id="envLetterInner">
+                <p id="envPaperSeal"></p>
+                <p id="envPaperText"></p>
+                <p id="envPaperSign">— Con cariño 💗</p>
+              </div>
             </div>
-          </div>
-          <div id="envPaper">
-            <div id="envPaperInner">
-              <p id="envPaperSeal"></p>
-              <p id="envPaperText"></p>
-              <p id="envPaperSign">— Con cariño 💗</p>
+
+            <!-- Cuerpo del sobre (bolsillo izquierdo/derecho/base) -->
+            <div id="envPocket"></div>
+
+            <!-- Solapa delantera (tapa cuando está cerrado) -->
+            <div id="envFlapFront"></div>
+
+            <!-- Corazones flotantes -->
+            <div id="envHearts">
+              <div class="env-heart env-heart-1"></div>
+              <div class="env-heart env-heart-2"></div>
+              <div class="env-heart env-heart-3"></div>
             </div>
+
           </div>
+
+          <button id="envCloseBtn">Cerrar 💗</button>
         </div>
       </div>
 
