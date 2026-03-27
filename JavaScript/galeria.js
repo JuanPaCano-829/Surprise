@@ -1,40 +1,63 @@
 // ============================================================
-//  GALERÍA POLAROID
+//  PINTURA INTERACTIVA — Encuentra los números escondidos
 // ============================================================
 function initGallery() {
-  const polaroids = document.querySelectorAll(".polaroid");
-  const prevBtn   = document.getElementById("prevBtn");
-  const nextBtn   = document.getElementById("nextBtn");
-  const dotsEl    = document.getElementById("galleryDots");
-  const track     = document.getElementById("polaroidTrack");
-  if (!polaroids.length) return;
+  const nums = document.querySelectorAll(".hidden-number");
+  const modal = document.getElementById("paintingModal");
+  const modalBg = document.getElementById("paintingModalBg");
+  const modalImg = document.getElementById("paintingModalImg");
+  const closeBtn = document.getElementById("paintingModalClose");
+  const counter = document.getElementById("paintingFound");
+  if (!nums.length) return;
 
-  let current = 0;
-  const total = polaroids.length;
+  // Imágenes que se abren — reemplaza estas rutas con tus fotos reales
+  const PHOTOS = {
+    1: "../Assets/pintura.webp",
+    2: "../Assets/pintura.webp",
+    3: "../Assets/pintura.webp",
+    4: "../Assets/pintura.webp",
+  };
 
-  polaroids.forEach((_, i) => {
-    const dot = document.createElement("div");
-    dot.className = "gallery-dot" + (i === 0 ? " active" : "");
-    dot.addEventListener("click", () => goTo(i));
-    dotsEl.appendChild(dot);
+  let found = new Set();
+
+  nums.forEach((el) => {
+    // Efecto hover sutil — el número brilla un poco
+    el.addEventListener("mouseenter", () => {
+      el.style.opacity = "0.9";
+      el.style.fontSize = parseFloat(el.getAttribute("font-size")) + 2 + "px";
+    });
+    el.addEventListener("mouseleave", () => {
+      if (!found.has(el.dataset.num)) {
+        el.style.opacity = "";
+        el.style.fontSize = "";
+      }
+    });
+
+    el.addEventListener("click", () => {
+      const num = el.dataset.num;
+      const src = PHOTOS[num];
+      if (!src) return;
+
+      // Marcar como encontrado
+      if (!found.has(num)) {
+        found.add(num);
+        counter.textContent = found.size;
+        // El número queda ligeramente visible como "encontrado"
+        el.style.opacity = "0.85";
+        el.style.fill = "#7ef2ff";
+      }
+
+      // Abrir modal con la foto
+      modalImg.src = src;
+      modal.style.display = "flex";
+    });
   });
 
-  function goTo(idx) {
-    polaroids[current].classList.remove("active");
-    dotsEl.children[current].classList.remove("active");
-    current = (idx + total) % total;
-    polaroids[current].classList.add("active");
-    dotsEl.children[current].classList.add("active");
+  function closeModal() {
+    modal.style.display = "none";
+    modalImg.src = "";
   }
 
-  polaroids[0].classList.add("active");
-  prevBtn.addEventListener("click", () => goTo(current - 1));
-  nextBtn.addEventListener("click", () => goTo(current + 1));
-
-  let touchStartX = 0;
-  track.addEventListener("touchstart", (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener("touchend",   (e) => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
-  }, { passive: true });
+  closeBtn.addEventListener("click", closeModal);
+  modalBg.addEventListener("click", closeModal);
 }

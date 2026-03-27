@@ -161,50 +161,183 @@ Reemplaza esto con tu poema o frase dedicada."
       </div>
 
       <div id="cameraScreen" class="screen">
-        <div class="gallery-header">
+        <div class="painting-header">
           <div class="gallery-title-line"></div>
-          <span class="gallery-title">Nuestros Momentos</span>
+          <span class="gallery-title">🎨 Encuentra los secretos</span>
           <div class="gallery-title-line"></div>
         </div>
+        <p class="painting-hint">Hay 4 números escondidos en la ilustración. ¡Encuéntralos!</p>
 
-        <div class="polaroid-stage">
-          <button class="gallery-arrow gallery-prev" id="prevBtn">
-            &#8592;
-          </button>
+        <div class="painting-frame">
+          <svg id="paintingSvg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
 
-          <div class="polaroid-track" id="polaroidTrack">
-            <div class="polaroid" data-index="0">
-              <div class="polaroid-img-wrap">
-                <img src="../Assets/pintura.webp" alt="Foto 1" />
-              </div>
-              <p class="polaroid-caption">Pie de foto 1</p>
-            </div>
-            <div class="polaroid" data-index="1">
-              <div class="polaroid-img-wrap">
-                <img src="../Assets/pintura.webp" alt="Foto 2" />
-              </div>
-              <p class="polaroid-caption">Pie de foto 2</p>
-            </div>
-            <div class="polaroid" data-index="2">
-              <div class="polaroid-img-wrap">
-                <img src="../Assets/pintura.webp" alt="Foto 3" />
-              </div>
-              <p class="polaroid-caption">Pie de foto 3</p>
-            </div>
-            <div class="polaroid" data-index="3">
-              <div class="polaroid-img-wrap">
-                <img src="../Assets/pintura.webp" alt="Foto 4" />
-              </div>
-              <p class="polaroid-caption">Pie de foto 4</p>
-            </div>
+            <!-- Fondo — salón de fiesta -->
+            <defs>
+              <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#2d1b4e"/>
+                <stop offset="100%" stop-color="#1a0f2e"/>
+              </linearGradient>
+              <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3d2a0a"/>
+                <stop offset="100%" stop-color="#1a1005"/>
+              </linearGradient>
+              <radialGradient id="cakeGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffcc44" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#ffcc44" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Pared y piso -->
+            <rect width="400" height="300" fill="url(#wallGrad)"/>
+            <rect y="220" width="400" height="80" fill="url(#floorGrad)"/>
+            <line x1="0" y1="220" x2="400" y2="220" stroke="#5a3d10" stroke-width="2"/>
+
+            <!-- Guirnaldas de colores -->
+            <path d="M0,40 Q50,60 100,40 Q150,20 200,40 Q250,60 300,40 Q350,20 400,40" fill="none" stroke="#ff4f8b" stroke-width="2.5"/>
+            <!-- Triángulos de guirnalda -->
+            <polygon points="30,40 50,40 40,55" fill="#ff4f8b"/>
+            <polygon points="80,32 100,32 90,47" fill="#7ef2ff"/>
+            <polygon points="130,40 150,40 140,55" fill="#ffe066"/>
+            <polygon points="180,32 200,32 190,47" fill="#a8ff78"/>
+            <polygon points="230,40 250,40 240,55" fill="#ff9fbe"/>
+            <polygon points="280,32 300,32 290,47" fill="#ff4f8b"/>
+            <polygon points="330,40 350,40 340,55" fill="#7ef2ff"/>
+
+            <!-- Globos -->
+            <!-- Globo rosa izquierda -->
+            <ellipse cx="60" cy="100" rx="22" ry="26" fill="#ff4f8b" opacity="0.9"/>
+            <ellipse cx="54" cy="92" rx="7" ry="5" fill="rgba(255,255,255,0.3)"/>
+            <path d="M60,126 Q58,140 55,160" stroke="#ff4f8b" stroke-width="1.2" fill="none"/>
+            <!-- Globo cyan -->
+            <ellipse cx="105" cy="90" rx="19" ry="23" fill="#7ef2ff" opacity="0.9"/>
+            <ellipse cx="99" cy="83" rx="6" ry="4" fill="rgba(255,255,255,0.3)"/>
+            <path d="M105,113 Q103,128 100,155" stroke="#7ef2ff" stroke-width="1.2" fill="none"/>
+            <!-- Globo amarillo derecha -->
+            <ellipse cx="340" cy="95" rx="21" ry="25" fill="#ffe066" opacity="0.9"/>
+            <ellipse cx="334" cy="87" rx="7" ry="5" fill="rgba(255,255,255,0.3)"/>
+            <path d="M340,120 Q338,135 335,158" stroke="#ffe066" stroke-width="1.2" fill="none"/>
+            <!-- Globo verde -->
+            <ellipse cx="380" cy="105" rx="17" ry="21" fill="#a8ff78" opacity="0.9"/>
+            <ellipse cx="375" cy="98" rx="5" ry="4" fill="rgba(255,255,255,0.3)"/>
+            <path d="M380,126 Q378,140 375,158" stroke="#a8ff78" stroke-width="1.2" fill="none"/>
+
+            <!-- Mesa -->
+            <rect x="110" y="200" width="180" height="12" rx="4" fill="#6b3f10"/>
+            <rect x="120" y="212" width="8" height="30" rx="2" fill="#5a3408"/>
+            <rect x="272" y="212" width="8" height="30" rx="2" fill="#5a3408"/>
+
+            <!-- Mantel -->
+            <rect x="100" y="196" width="200" height="16" rx="5" fill="#ff9fbe" opacity="0.7"/>
+
+            <!-- Pastel — 3 capas -->
+            <!-- Base -->
+            <rect x="165" y="165" width="70" height="32" rx="4" fill="#f4a261"/>
+            <rect x="163" y="163" width="74" height="6" rx="3" fill="#e76f51"/>
+            <!-- Crema base -->
+            <path d="M163,163 Q175,155 187,163 Q199,155 211,163 Q223,155 235,163 L237,163 L163,163Z" fill="#fdf4e7"/>
+            <!-- Capa media -->
+            <rect x="175" y="138" width="50" height="28" rx="3" fill="#e9c46a"/>
+            <rect x="173" y="136" width="54" height="6" rx="3" fill="#f4a261"/>
+            <path d="M173,136 Q183,129 193,136 Q203,129 213,136 Q220,132 227,136 L227,136 L173,136Z" fill="#fdf4e7"/>
+            <!-- Capa top -->
+            <rect x="183" y="115" width="34" height="24" rx="3" fill="#ff4f8b"/>
+            <rect x="181" y="113" width="38" height="6" rx="3" fill="#e63070"/>
+            <path d="M181,113 Q188,107 195,113 Q202,107 209,113 Q215,110 219,113 L219,113 L181,113Z" fill="#fdf4e7"/>
+
+            <!-- Velas del pastel -->
+            <rect x="191" y="98" width="4" height="16" rx="1" fill="#7ef2ff"/>
+            <rect x="201" y="95" width="4" height="19" rx="1" fill="#ff4f8b"/>
+            <rect x="211" y="100" width="4" height="14" rx="1" fill="#ffe066"/>
+            <!-- Llamas -->
+            <ellipse cx="193" cy="96" rx="3" ry="5" fill="#ffcc44" filter="url(#glow)"/>
+            <ellipse cx="203" cy="93" rx="3" ry="5" fill="#ff9966" filter="url(#glow)"/>
+            <ellipse cx="213" cy="98" rx="3" ry="5" fill="#ffcc44" filter="url(#glow)"/>
+            <!-- Glow de velas -->
+            <ellipse cx="200" cy="100" rx="30" ry="20" fill="url(#cakeGlow)"/>
+
+            <!-- Decoraciones del pastel -->
+            <circle cx="175" cy="178" r="3" fill="#ff4f8b"/>
+            <circle cx="185" cy="174" r="2.5" fill="#7ef2ff"/>
+            <circle cx="215" cy="178" r="3" fill="#ffe066"/>
+            <circle cx="225" cy="174" r="2.5" fill="#a8ff78"/>
+
+            <!-- Regalos -->
+            <!-- Regalo izquierdo -->
+            <rect x="120" y="175" width="35" height="25" rx="2" fill="#7ef2ff" opacity="0.9"/>
+            <rect x="120" y="172" width="35" height="5" rx="1" fill="#00b4cc"/>
+            <rect x="135" y="172" width="5" height="28" fill="#00b4cc"/>
+            <!-- Moño -->
+            <path d="M137,172 Q130,164 125,168 Q128,172 137,172" fill="#ff4f8b"/>
+            <path d="M137,172 Q144,164 149,168 Q146,172 137,172" fill="#ff4f8b"/>
+            <circle cx="137" cy="172" r="3" fill="#ff9fbe"/>
+
+            <!-- Regalo derecho -->
+            <rect x="250" y="180" width="30" height="20" rx="2" fill="#ffe066" opacity="0.9"/>
+            <rect x="250" y="177" width="30" height="5" rx="1" fill="#e6a800"/>
+            <rect x="263" y="177" width="4" height="23" fill="#e6a800"/>
+            <!-- Moño -->
+            <path d="M265,177 Q259,170 254,174 Q257,177 265,177" fill="#ff4f8b"/>
+            <path d="M265,177 Q271,170 276,174 Q273,177 265,177" fill="#ff4f8b"/>
+            <circle cx="265" cy="177" r="2.5" fill="#ff9fbe"/>
+
+            <!-- Confeti decorativo -->
+            <rect x="30" y="140" width="6" height="4" rx="1" fill="#ff4f8b" transform="rotate(25,30,140)" opacity="0.8"/>
+            <rect x="370" y="150" width="5" height="3" rx="1" fill="#7ef2ff" transform="rotate(-15,370,150)" opacity="0.8"/>
+            <rect x="80" y="170" width="5" height="3" rx="1" fill="#ffe066" transform="rotate(40,80,170)" opacity="0.8"/>
+            <rect x="310" y="165" width="6" height="4" rx="1" fill="#a8ff78" transform="rotate(-30,310,165)" opacity="0.8"/>
+            <circle cx="45" cy="165" r="3" fill="#ffe066" opacity="0.6"/>
+            <circle cx="355" cy="175" r="2.5" fill="#ff9fbe" opacity="0.6"/>
+
+            <!-- Estrellitas de fondo -->
+            <circle cx="20" cy="70" r="1.5" fill="white" opacity="0.5"/>
+            <circle cx="380" cy="60" r="1" fill="white" opacity="0.4"/>
+            <circle cx="320" cy="130" r="1" fill="white" opacity="0.3"/>
+            <circle cx="15" cy="180" r="1.5" fill="white" opacity="0.4"/>
+            <circle cx="390" cy="190" r="1" fill="white" opacity="0.5"/>
+
+            <!-- ══ NÚMEROS ESCONDIDOS ══ -->
+            <!-- Número 1: en el fondo de la pared, casi invisible -->
+            <text x="28" y="195" font-size="11" fill="#3d2060" font-family="Georgia,serif"
+              font-style="italic" opacity="0.55" class="hidden-number" data-num="1"
+              style="cursor:pointer">1</text>
+
+            <!-- Número 2: dentro del globo amarillo, muy tenue -->
+            <text x="334" y="99" font-size="10" fill="#c8a000" font-family="Georgia,serif"
+              font-style="italic" opacity="0.45" class="hidden-number" data-num="2"
+              style="cursor:pointer">2</text>
+
+            <!-- Número 3: en el mantel de la mesa, integrado en el patrón -->
+            <text x="147" y="207" font-size="9" fill="#cc7799" font-family="Georgia,serif"
+              font-style="italic" opacity="0.5" class="hidden-number" data-num="3"
+              style="cursor:pointer">3</text>
+
+            <!-- Número 4: en la sombra debajo del pastel -->
+            <text x="233" y="215" font-size="10" fill="#4a2a00" font-family="Georgia,serif"
+              font-style="italic" opacity="0.5" class="hidden-number" data-num="4"
+              style="cursor:pointer">4</text>
+
+          </svg>
+
+          <!-- Contador de encontrados -->
+          <div class="painting-counter">
+            <span id="paintingFound">0</span>/4 secretos encontrados
           </div>
-
-          <button class="gallery-arrow gallery-next" id="nextBtn">
-            &#8594;
-          </button>
         </div>
 
-        <div class="gallery-dots" id="galleryDots"></div>
+        <!-- Modal al encontrar un número -->
+        <div id="paintingModal" style="display:none">
+          <div id="paintingModalBg"></div>
+          <div id="paintingModalBox">
+            <img id="paintingModalImg" src="" alt="Foto secreta"/>
+            <button id="paintingModalClose">✕</button>
+          </div>
+        </div>
+      </div>
+
       </div>
 
       <div id="achievementsScreen" class="screen">
