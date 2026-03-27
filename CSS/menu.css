@@ -563,18 +563,18 @@ body.home-active #particleCanvas {
 }
 
 #chatScreen {
-  padding-top: 16px;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   overflow-y: auto;
   padding-bottom: calc(130px + env(safe-area-inset-bottom, 0px));
+  gap: 8px;
 }
 
 .letters-title {
   font-size: clamp(1rem, 4vw, 1.3rem);
   color: #ff8dad;
   letter-spacing: 2px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   text-align: center;
   text-shadow: 0 0 12px rgba(255, 141, 173, 0.5);
 }
@@ -1227,7 +1227,7 @@ body.home-active #particleCanvas {
   justify-content: center;
   gap: 16px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 /* ── Botones ── */
@@ -1257,7 +1257,7 @@ body.home-active #particleCanvas {
 /* ── Escena 3D ── */
 .env-carousel-scene {
   width: clamp(160px, 42vw, 220px);
-  height: clamp(200px, 52vw, 280px);
+  height: clamp(110px, 30vw, 145px);
   perspective: 1000px;
   flex-shrink: 0;
 }
@@ -1285,7 +1285,8 @@ body.home-active #particleCanvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 6px;
   transition: transform 0.1s;
 }
 
