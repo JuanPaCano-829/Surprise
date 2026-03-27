@@ -1607,11 +1607,11 @@ body.home-active #particleCanvas {
    PINTURA INTERACTIVA
    ============================================================ */
 #cameraScreen {
-  padding-top: 16px;
+  padding-top: 8px;
   padding-bottom: 130px;
   justify-content: flex-start;
   align-items: center;
-  gap: 14px;
+  gap: 8px;
   overflow-y: auto;
 }
 
@@ -1623,7 +1623,7 @@ body.home-active #particleCanvas {
 }
 
 .painting-hint {
-  font-size: clamp(0.72rem, 2.5vw, 0.85rem);
+  font-size: clamp(0.68rem, 2.2vw, 0.78rem);
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.5px;
   text-align: center;
@@ -1633,7 +1633,7 @@ body.home-active #particleCanvas {
 
 .painting-frame {
   position: relative;
-  width: min(420px, 92vw);
+  width: min(560px, 97vw);
   border-radius: 12px;
   overflow: visible;
   box-shadow:
