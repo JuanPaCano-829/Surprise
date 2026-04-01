@@ -12,28 +12,11 @@ function initGallery() {
   const counter = document.getElementById("paintingFound");
   if (!nums.length) return;
 
-  // Rutas de los archivos en Assets/images/
   const MEDIA = {
-    1: {
-      src: "../Assets/images/FirstBirthday.jpeg",
-      type: "image",
-      label: "Primer cumpleaños 🎂",
-    },
-    2: {
-      src: "../Assets/images/FirstAnniversary.jpeg",
-      type: "image",
-      label: "Primer aniversario 💕",
-    },
-    3: {
-      src: "../Assets/images/FirstChristmas.jpeg",
-      type: "image",
-      label: "Primera navidad 🎄",
-    },
-    4: {
-      src: "../Assets/images/LastBirthday.mp4",
-      type: "video",
-      label: "Último cumpleaños 🎉",
-    },
+    1: { src: "../Assets/images/FirstBirthday.jpeg", type: "image" },
+    2: { src: "../Assets/images/FirstAnniversary.jpeg", type: "image" },
+    3: { src: "../Assets/images/FirstChristmas.jpeg", type: "image" },
+    4: { src: "../Assets/images/LastBirthday.mp4", type: "video" },
   };
 
   let found = new Set();
@@ -63,30 +46,45 @@ function initGallery() {
         el.style.fill = "#7ef2ff";
       }
 
-      // Mostrar imagen o video según el tipo
       if (media.type === "video") {
+        // Ocultar imagen, mostrar video
         modalImg.style.display = "none";
-        modalSrc.src = media.src;
-        modalVid.load();
         modalVid.style.display = "block";
+
+        // Cambiar fuente solo si es diferente
+        if (modalSrc.src !== media.src) {
+          modalSrc.src = media.src;
+          modalVid.load();
+        }
+
+        modal.style.display = "flex";
+
+        // Reproducir cuando el video esté listo
+        modalVid.oncanplay = () => {
+          modalVid.play().catch(() => {
+            // Si falla autoplay, el usuario puede tocar play manualmente
+          });
+          modalVid.oncanplay = null;
+        };
       } else {
+        // Pausar y ocultar video si estaba activo
         modalVid.pause();
         modalVid.style.display = "none";
         modalImg.src = media.src;
         modalImg.style.display = "block";
+        modal.style.display = "flex";
       }
-
-      modal.style.display = "flex";
     });
   });
 
   function closeModal() {
     modal.style.display = "none";
-    modalImg.src = "";
-    modalImg.style.display = "none";
     modalVid.pause();
+    modalVid.oncanplay = null;
     modalSrc.src = "";
     modalVid.style.display = "none";
+    modalImg.src = "";
+    modalImg.style.display = "none";
   }
 
   closeBtn.addEventListener("click", closeModal);
