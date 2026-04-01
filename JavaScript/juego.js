@@ -64,53 +64,59 @@ const joystick = { active: false, baseX: 0, baseY: 0, dx: 0, dy: 0 };
 const NPCS = [
   {
     id: "npc1",
-    name: "🌺 Ana",
+    name: "❓ Personaje [E]",
     color: "#ff6eb4",
     row: 0,
     col: 0,
-    msg: "¡Feliz cumpleaños, Nicole! 🎉 Eres una persona increíble que ilumina la vida de todos. ¡Que este año esté lleno de aventuras y momentos mágicos!",
+    msg: `NIÑA, tú sabes quién soy.
+Pues… un placer convivir contigo un año más. Aunque, lamentablemente, tenga que verte todos los días entre semana 😒 (ntc).
+Siempre es un gusto platicar contigo y ver cómo vas consiguiendo todo lo que quieres, paso a paso. Y aunque a veces parezca que es poco a poco… no lo es, el tiempo vuela.
+Sigue así, no te desesperes, incluso cuando toque hacer las cosas con la jetota que acostumbras 😝
+Vas a lograr todo lo que te propongas. Yo feliz de acompañarte en el proceso, y si no, al menos de apoyarte y escuchar tanto tus aciertos como tus desgracias (que también son parte del camino).
+A por muchos años más, a festejar la vida yyyyy… como dice la canción: "felicità a momenti e futuro incerto".`,
     mapX: 120,
     mapY: 110,
   },
   {
     id: "npc2",
-    name: "🐚 Carlos",
-    color: "#7ef2ff",
+    name: "❓ Personaje [A]",
+    color: "#ff9fce",
     row: 1,
     col: 0,
-    msg: "Nicole, gracias por ser tan auténtica y especial. Cada día contigo es una razón más para sonreír. ¡Feliz cumple, te mereces todo lo bueno del mundo! 💙",
+    msg: `hoy cumple años una de las personas más importantes de mi vida, una parte de mi corazón que camina fuera de mí. 🤍🐰
+Desde que llegaste cambiaste todo sin siquiera saberlo. Crecimos juntas entre risas, peleas tontas, secretos y momentos que solo tú y yo entendemos. Y aunque el tiempo pase y la vida nos lleve por caminos distintos, siempre voy a sentir que una parte de mí te pertenece, porque ser tu hermana es uno de los regalos más grandes que la vida me dio. 🥹🤍
+A veces quisiera detener el tiempo y volver a cuando éramos más pequeñas, solo para abrazarte y decirte que siempre voy a cuidarte, que nunca vas a estar sola mientras yo exista. Me llena de orgullo la persona en la que te estás convirtiendo: fuerte, hermosa por dentro y con un corazón enorme.
+Deseo que la vida te trate con la misma ternura que tú le das al mundo, que nunca olvides cuánto vales y que, incluso en tus días más difíciles, recuerdes que tienes un hogar en mí. Pase lo que pase, donde sea y cuando sea, yo siempre voy a estar para ti.
+Te amo más de lo que las palabras pueden explicar.
+Feliz cumpleaños, mi Little Sis 🐰🤍 Noah y yo te amamos demasiado 🤍🧁`,
     mapX: 370,
     mapY: 150,
   },
   {
     id: "npc3",
-    name: "🌊 Sofía",
+    name: "❓ Personaje [A]",
     color: "#ffe066",
     row: 2,
     col: 0,
-    msg: "¡Hoy celebramos a la persona más bonita que conozco! Nicole, eres fuerte, divertida y llena de luz. ¡Que cumplas muchos años más rodeada de amor! 🌟",
+    msg: `Feliz cumpleaños nicki nicole!
+Hay tantas cosas que quiero decirte que no encuentro las palabras para hacerlo.
+Te admiro por esa luz con la que brillas, tu inteligencia, tu valentía, el coraje que tienes para enfrentar las dificultades.
+Serás una mujer muy exitosa y espero que esta amistad perdure para poder verte cumplir tus metas.
+Gracias por guiarme en todo momento, eres de las mejores personas que he conocido y siempre estaré para apoyarte.
+Te amo mucho nicki nicole, nunca dejes de creer en ti. <3`,
     mapX: 240,
     mapY: 240,
   },
   {
     id: "npc4",
-    name: "🦀 Diego",
-    color: "#ff9f7f",
+    name: "❓ Personaje [A]",
+    color: "#a8ff78",
     row: 3,
     col: 0,
-    msg: "Feliz cumpleaños a la mejor Nicole del universo 🎂. Que este nuevo año te traiga todo lo has soñado y mucho más. ¡Eres única!",
+    msg: `Amigaaaaaaq!!! Chavaaaaaa! Yakiiiiii yaki-Chan!
+Que te puedo decir que no te haya demostrado antes, sabes que me caes increíble y que eres de mis personas favoritas para platicar y trabajar, amo nuestros caminos de vuelta de la oficina con rolitas en la moto, espero que sepas lo importante que te haz vuelto en mi vida, gracias por todas las veces que me haz escuchado y jamás juzgado, por hacer mis tardes más felices y apoyarme en mis locuras, espero que este cumpleaños sea uno más de millones, que la pases increibleeeee y que lo disfrutes demasiado, que te sigas dando cuenta el día a día de la gran persona que eres y lo mucho que puedes lograr, claroooo hermosaaaaa, que todo lo bueno de la vida te llegue y te llene por te lo mereces, te quiero mucho perringuita ❤️`,
     mapX: 80,
     mapY: 250,
-  },
-  {
-    id: "npc5",
-    name: "🌴 Valeria",
-    color: "#a8ff78",
-    row: 4,
-    col: 0,
-    msg: "Nicole, ser tu amiga es uno de los mejores regalos que me ha dado la vida 💚. ¡Feliz cumpleaños! Que este año sea el mejor de todos.",
-    mapX: 420,
-    mapY: 270,
   },
 ];
 
