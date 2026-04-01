@@ -341,7 +341,10 @@ Reemplaza esto con tu poema o frase dedicada." data-seal="🦋">
         <div id="paintingModal" style="display:none">
           <div id="paintingModalBg"></div>
           <div id="paintingModalBox">
-            <img id="paintingModalImg" src="" alt="Foto secreta"/>
+            <img id="paintingModalImg" src="" alt="Foto secreta" style="display:none"/>
+            <video id="paintingModalVideo" controls playsinline style="display:none;width:100%;border-radius:12px;">
+              <source id="paintingModalVideoSrc" src="" type="video/mp4"/>
+            </video>
             <button id="paintingModalClose">✕</button>
           </div>
         </div>
