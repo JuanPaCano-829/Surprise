@@ -1,3 +1,3 @@
 export function validarLogin(username, password) {
-  return username === "test" && password === "test";
+  return username === "Nicole" && password === "EsHermosa";
 }
