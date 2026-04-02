@@ -118,6 +118,16 @@ Que te puedo decir que no te haya demostrado antes, sabes que me caes increíble
     mapX: 80,
     mapY: 250,
   },
+  {
+    id: "npc5",
+    name: "❓ Personaje [R]",
+    color: "#c084fc",
+    row: 4,
+    col: 0,
+    msg: `Feliz cumpleañossss Nicole!\nEspero estés disfrutando tu día como se debe, rodeada de todo lo que te hace feliz y que todo esté saliendo bien.\nTe mando un abrazo inmenso, disfruta al máximo y que sea un año lleno de cosas buenas para ti`,
+    mapX: 300,
+    mapY: 100,
+  },
 ];
 
 // ── Letreros de salida (mapa central) ────────────────────────
